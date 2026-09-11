@@ -1,0 +1,43 @@
+/* Theme-dependent tokens: light values by default, dark when <html data-theme="dark">. */
+
+:root {
+    --body: var(--body-light);
+    --widget: var(--widget-light);
+    --widget-shadow: 0 1px 8px rgba(110, 110, 110, .1);
+    --widget-inner-shadow: linear-gradient(270deg, rgba(255, 255, 255, 0.0001) 0%, #FFFFFF 100%);
+    --text: var(--text-light);
+    --border: var(--border-light);
+    --header: var(--header-light);
+    --header-invert: var(--header-dark);
+    --label: var(--btn-text-light);
+    --btn-text: var(--btn-text-light);
+    --highlight: var(--olive);
+    --highlight-invert: var(--accent);
+    --tooltip-bg: var(--widget);
+    --nav-arrow-color: var(--header);
+    --nav-arrow-hover-color: var(--blue);
+    --divider: #ccc;
+    --placeholder: #8C9876;
+    --score-alt: var(--border);
+}
+
+[data-theme="dark"] {
+    --body: var(--body-dark);
+    --widget: var(--widget-dark);
+    --widget-shadow: 0 1px 8px rgba(33, 33, 33, .1);
+    --widget-inner-shadow: linear-gradient(270deg, rgba(17, 19, 18, 0.0001) 0%, #111312 100%);
+    --text: var(--text-dark);
+    --border: var(--border-dark);
+    --header: var(--header-dark);
+    --header-invert: var(--header-light);
+    --label: var(--text-dark);
+    --btn-text: var(--widget-light);
+    --highlight: var(--accent);
+    --highlight-invert: var(--olive);
+    --tooltip-bg: var(--border);
+    --nav-arrow-color: #8EA2AB;
+    --nav-arrow-hover-color: var(--accent);
+    --divider: #3e3e3e;
+    --placeholder: #999999;
+    --score-alt: var(--black-3);
+}

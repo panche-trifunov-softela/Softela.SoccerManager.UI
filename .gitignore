@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Per-machine runtime config: the dev server prefers it, a build never ships it
+public/config.development.js

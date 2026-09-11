@@ -1,0 +1,23 @@
+@use 'sass:map';
+
+/* Viewport widths the template's layout is designed around. */
+$breakpoints: (
+  sm: 414px,
+  md: 768px,
+  lg: 1280px,
+  xl: 1500px,
+  xxl: 1920px,
+);
+
+/* Wraps the block in a min-width media query for the named breakpoint. */
+@mixin bp-up($name) {
+  $width: map.get($breakpoints, $name);
+
+  @if $width == null {
+    @error 'Unknown breakpoint `#{$name}`, expected one of #{map.keys($breakpoints)}.';
+  }
+
+  @media screen and (min-width: $width) {
+    @content;
+  }
+}

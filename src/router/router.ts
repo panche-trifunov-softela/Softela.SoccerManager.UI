@@ -1,22 +1,28 @@
 import { createBrowserRouter } from 'react-router'
 
+import { AuthorizeRoute } from '@/components/AuthorizeRoute'
 import { ROUTES } from '@/constants/routes'
 import { MainLayout } from '@/layouts/MainLayout'
 import { Home } from '@/pages/Home'
 import { NotFound } from '@/pages/NotFound'
 
 /**
- * The application's route tree. `MainLayout` is the root layout route, so
- * every page renders inside it through its outlet; the catch-all child keeps
- * an unknown URL inside the same shell instead of a blank screen.
+ * The application's route tree. `AuthorizeRoute` is a pathless root that
+ * admits only a signed-in user; `MainLayout` renders every page below it
+ * through its outlet, and the catch-all keeps an unknown URL inside the shell.
  */
 export const router = createBrowserRouter([
   {
-    path: ROUTES.home,
-    Component: MainLayout,
+    Component: AuthorizeRoute,
     children: [
-      { index: true, Component: Home },
-      { path: '*', Component: NotFound },
+      {
+        path: ROUTES.home,
+        Component: MainLayout,
+        children: [
+          { index: true, Component: Home },
+          { path: '*', Component: NotFound },
+        ],
+      },
     ],
   },
 ])

@@ -1,0 +1,32 @@
+@use '@/styles/breakpoints' as *;
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--heading-font);
+    font-weight: 700;
+    color: var(--header);
+
+    &_image {
+        height: 1.6em;
+        width: auto;
+    }
+
+    &.sm {
+        font-size: 19px;
+        gap: 4px;
+    }
+
+    &.md {
+        font-size: 28px;
+    }
+
+    &.xl {
+        font-size: 48px;
+
+        @include bp-up(xxl) {
+            font-size: 64px;
+        }
+    }
+}

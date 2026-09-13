@@ -5,6 +5,12 @@
 export const ROUTES = {
   /** The landing page. */
   home: '/',
+
+  /** The signed-in user's profile. */
+  profile: '/profile',
+
+  /** Application settings. */
+  settings: '/settings',
 } as const
 
 /** A path the router knows about — one of the values of `ROUTES`. */

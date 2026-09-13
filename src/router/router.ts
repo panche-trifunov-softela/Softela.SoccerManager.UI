@@ -5,6 +5,8 @@ import { ROUTES } from '@/constants/routes'
 import { MainLayout } from '@/layouts/MainLayout'
 import { Home } from '@/pages/Home'
 import { NotFound } from '@/pages/NotFound'
+import { Profile } from '@/pages/Profile'
+import { Settings } from '@/pages/Settings'
 
 /**
  * The application's route tree. `AuthorizeRoute` is a pathless root that
@@ -20,6 +22,8 @@ export const router = createBrowserRouter([
         Component: MainLayout,
         children: [
           { index: true, Component: Home },
+          { path: ROUTES.profile, Component: Profile },
+          { path: ROUTES.settings, Component: Settings },
           { path: '*', Component: NotFound },
         ],
       },

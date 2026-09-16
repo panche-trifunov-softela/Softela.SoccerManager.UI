@@ -1,14 +1,14 @@
 import { HeaderDropdown } from '../HeaderDropdown'
 
-import { useGameworldSelect } from './useGameworldSelect'
+import { useLeagueSelect } from './useLeagueSelect'
 
 /**
- * Lets the user switch which gameworld the app plays in.
+ * Lets the user switch which league the app plays in.
  *
  * @returns The rendered selector.
  */
-export function GameworldSelect() {
-  const { selected, items, select } = useGameworldSelect()
+export function LeagueSelect() {
+  const { selected, items, select } = useLeagueSelect()
 
   return (
     <HeaderDropdown

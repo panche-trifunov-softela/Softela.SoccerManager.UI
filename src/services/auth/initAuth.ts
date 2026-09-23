@@ -1,7 +1,5 @@
+import { ensureFreshToken } from './ensureFreshToken'
 import { keycloak } from './keycloak'
-
-/** Remaining validity, in seconds, below which an expiring token is renewed. */
-const MIN_TOKEN_VALIDITY_SECONDS = 30
 
 /**
  * Initialises the Keycloak adapter; must complete before the app renders.
@@ -17,7 +15,9 @@ const MIN_TOKEN_VALIDITY_SECONDS = 30
  */
 export function initAuth(): Promise<boolean> {
   keycloak.onTokenExpired = () => {
-    void keycloak.updateToken(MIN_TOKEN_VALIDITY_SECONDS).catch(() => keycloak.login())
+    // `ensureFreshToken` already starts login when renewal fails; the rejection
+    // is swallowed here only to keep it from surfacing as unhandled.
+    void ensureFreshToken().catch(() => undefined)
   }
 
   return keycloak.init({

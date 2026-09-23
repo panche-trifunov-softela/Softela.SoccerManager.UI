@@ -1,4 +1,5 @@
 export { keycloak } from './keycloak'
+export { ensureFreshToken } from './ensureFreshToken'
 export { initAuth } from './initAuth'
 export { toAuthUser } from './utils'
 export type * from './types'

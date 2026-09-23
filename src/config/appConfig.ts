@@ -13,7 +13,7 @@ export function readAppConfig(): AppConfig {
 
   if (!isAppConfig(value)) {
     throw new Error(
-      'Runtime configuration is missing or malformed: public/config.js must set window.APP_CONFIG with a keycloak section holding url, realm and clientId.',
+      'Runtime configuration is missing or malformed: public/config.js must set window.APP_CONFIG with a keycloak section holding url, realm and clientId, and an api section holding baseUrl.',
     )
   }
 

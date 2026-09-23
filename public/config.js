@@ -9,4 +9,11 @@ window.APP_CONFIG = {
     realm: 'soccermanager',
     clientId: 'soccermanager-spa',
   },
+
+  api: {
+    // The API is not deployed yet — only Keycloak is. This is the local https
+    // profile from its launchSettings, and it is the value to change once the
+    // API gains a deployment of its own.
+    baseUrl: 'https://localhost:7265',
+  },
 }

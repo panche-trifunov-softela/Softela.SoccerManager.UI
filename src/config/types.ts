@@ -2,6 +2,9 @@
 export interface AppConfig {
   /** Coordinates the Keycloak adapter is created with. */
   keycloak: KeycloakConfig
+
+  /** Where the backend API is reached. */
+  api: ApiConfig
 }
 
 /** Where the realm lives and which client the app signs in through. */
@@ -14,6 +17,15 @@ export interface KeycloakConfig {
 
   /** The public client the app authenticates as. */
   clientId: string
+}
+
+/** Where the backend API is reached. */
+export interface ApiConfig {
+  /**
+   * Origin of the API, without a trailing slash. Route constants supply the
+   * path, so this is the scheme, host and port only.
+   */
+  baseUrl: string
 }
 
 declare global {

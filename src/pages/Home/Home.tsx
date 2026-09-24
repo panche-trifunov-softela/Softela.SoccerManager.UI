@@ -1,8 +1,15 @@
+import { MyTeams } from './components/MyTeams'
+
 /**
- * Landing page. A placeholder until the club dashboard replaces it.
+ * Landing page: the teams the signed-in manager runs.
  *
  * @returns The rendered page.
  */
 export function Home() {
-  return <h1>Home</h1>
+  return (
+    <div className="d-flex flex-column g-20">
+      <h1 className="h3">My teams</h1>
+      <MyTeams />
+    </div>
+  )
 }

@@ -1,0 +1,20 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * The template has no responsive multi-card grid to reuse: its only repeated
+ * card list is tuned to a dashboard cell's width rather than the viewport, so
+ * this one is written against the project's own breakpoints instead.
+ */
+.grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+
+    @include bp-up(md) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include bp-up(xl) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

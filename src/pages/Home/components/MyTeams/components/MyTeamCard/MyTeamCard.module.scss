@@ -1,0 +1,16 @@
+/* The crest box keeps its square while a club has no logo to put in it. */
+.crest {
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background: var(--body);
+    color: var(--label);
+    font-size: 1.75rem;
+}
+
+/* Lets the club name ellipsize instead of stretching the flex row. */
+.names {
+    min-width: 0;
+}

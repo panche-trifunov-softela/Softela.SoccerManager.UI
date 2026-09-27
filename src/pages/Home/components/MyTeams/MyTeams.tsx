@@ -10,7 +10,7 @@ import styles from './MyTeams.module.scss'
  * flight, failed, or came back empty.
  */
 export function MyTeams() {
-  const { appointments, isLoading, error, isEmpty } = useMyTeams()
+  const { teams, isLoading, error, isEmpty } = useMyTeams()
 
   if (isLoading) return <p className="label">Loading your clubs…</p>
 
@@ -20,8 +20,8 @@ export function MyTeams() {
 
   return (
     <div className={styles.grid}>
-      {appointments.map((appointment) => (
-        <MyTeamCard key={appointment.id} appointment={appointment} />
+      {teams.map((team) => (
+        <MyTeamCard key={team.id} team={team} />
       ))}
     </div>
   )

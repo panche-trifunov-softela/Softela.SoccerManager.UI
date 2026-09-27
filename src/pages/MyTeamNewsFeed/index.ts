@@ -1,0 +1,1 @@
+export { MyTeamNewsFeed } from './MyTeamNewsFeed'

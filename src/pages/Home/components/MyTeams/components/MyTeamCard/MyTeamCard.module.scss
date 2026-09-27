@@ -14,3 +14,25 @@
 .names {
     min-width: 0;
 }
+
+/* The team name is the card's link; its ::after stretches the click target
+   over the whole card, which .card already positions. */
+.link {
+    display: block;
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 4px;
+    }
+
+    &:focus-visible {
+        outline: none;
+
+        &::after {
+            outline: 2px solid var(--highlight);
+            outline-offset: -2px;
+        }
+    }
+}

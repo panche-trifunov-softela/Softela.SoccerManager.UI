@@ -1,3 +1,5 @@
+import { Link } from 'react-router'
+
 import { useMyTeamCard } from './useMyTeamCard'
 
 import styles from './MyTeamCard.module.scss'
@@ -6,13 +8,13 @@ import type { MyTeamCardProps } from './types'
 
 /**
  * One team: the club managed, the league it plays in, and the span the
- * tenure covers.
+ * tenure covers. The whole card links to the team's news feed.
  *
  * @param props The team the card describes.
  * @returns The rendered card.
  */
 export function MyTeamCard({ team }: MyTeamCardProps) {
-  const { accent, tenure } = useMyTeamCard(team)
+  const { accent, tenure, newsFeedPath } = useMyTeamCard(team)
 
   return (
     <article className="card border-color-bottom" style={{ borderBottomColor: accent }}>
@@ -26,7 +28,9 @@ export function MyTeamCard({ team }: MyTeamCardProps) {
         </span>
 
         <div className={styles.names}>
-          <p className="h4 text-overflow">{team.teamName}</p>
+          <Link to={newsFeedPath} className={`h4 text-overflow ${styles.link}`}>
+            {team.teamName}
+          </Link>
           <p className="label text-10">{team.leagueName}</p>
         </div>
       </div>

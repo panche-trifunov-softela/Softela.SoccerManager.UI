@@ -4,6 +4,7 @@ import { AuthorizeRoute } from '@/components/AuthorizeRoute'
 import { ROUTES } from '@/constants/routes'
 import { MainLayout } from '@/layouts/MainLayout'
 import { Home } from '@/pages/Home'
+import { MyTeamNewsFeed } from '@/pages/MyTeamNewsFeed'
 import { NotFound } from '@/pages/NotFound'
 import { Profile } from '@/pages/Profile'
 import { Settings } from '@/pages/Settings'
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
           { index: true, Component: Home },
           { path: ROUTES.profile, Component: Profile },
           { path: ROUTES.settings, Component: Settings },
+          { path: ROUTES.myTeamNewsFeed, Component: MyTeamNewsFeed },
           { path: '*', Component: NotFound },
         ],
       },

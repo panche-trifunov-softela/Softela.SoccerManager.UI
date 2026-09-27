@@ -1,4 +1,4 @@
-import { useMyLeagueTeamManagers } from '@/hooks/useMyLeagueTeamManagers'
+import { useMyLeagueTeamManagers } from '@/hooks/api/useMyLeagueTeamManagers'
 
 import type { MyTeamsState } from './types'
 

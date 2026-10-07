@@ -48,10 +48,18 @@
     --sidebar-width: 250px;
     --header-active: 0px;
     --card-padding: 20px;
+    --page-gutter: 15px;
+    --backdrop: rgba(0, 0, 0, 0.5);
 }
 
 @include bp-up(sm) {
     :root {
         --card-padding: 30px;
+    }
+}
+
+@include bp-up(xxl) {
+    :root {
+        --page-gutter: 40px;
     }
 }

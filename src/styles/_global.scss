@@ -72,6 +72,18 @@ body {
     }
 }
 
+.page_container {
+    padding: 15px var(--page-gutter);
+
+    @include bp-up(md) {
+        padding-block-end: 40px;
+    }
+
+    @include bp-up(xxl) {
+        padding-block-start: 30px;
+    }
+}
+
 .lazy-image {
     display: block;
     width: 100%;

@@ -29,6 +29,12 @@ export interface HeaderDropdownProps {
   /** `listbox` for a selection, `menu` for actions. */
   role: HeaderDropdownRole
 
+  /**
+   * Caption shown above the list when it renders as inline rows below the md
+   * breakpoint; it also names the list for assistive technology.
+   */
+  heading?: string
+
   /** Receives the chosen entry's id; the list closes afterwards. */
   onSelect: (id: string) => void
 }
@@ -40,6 +46,9 @@ export interface HeaderDropdownState {
 
   /** The element outside of which a pointer press closes the list. */
   containerRef: RefObject<HTMLDivElement | null>
+
+  /** Id of the heading element, which the list references as its label. */
+  headingId: string
 
   /** Opens the list when closed and closes it when open. */
   toggle: () => void

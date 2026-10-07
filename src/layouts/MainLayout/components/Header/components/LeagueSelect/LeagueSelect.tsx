@@ -13,6 +13,7 @@ export function LeagueSelect() {
   return (
     <HeaderDropdown
       role="listbox"
+      heading="League"
       trigger={
         <>
           <span>{selected.name}</span>

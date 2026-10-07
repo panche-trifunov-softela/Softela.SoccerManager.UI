@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router'
 import { AuthorizeRoute } from '@/components/AuthorizeRoute'
 import { ROUTES } from '@/constants/routes'
 import { MainLayout } from '@/layouts/MainLayout'
+import { AddTeam } from '@/pages/AddTeam'
 import { Home } from '@/pages/Home'
 import { MyTeamNewsFeed } from '@/pages/MyTeamNewsFeed'
 import { NotFound } from '@/pages/NotFound'
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
           { path: ROUTES.profile, Component: Profile },
           { path: ROUTES.settings, Component: Settings },
           { path: ROUTES.myTeamNewsFeed, Component: MyTeamNewsFeed },
+          { path: ROUTES.addTeam, Component: AddTeam },
           { path: '*', Component: NotFound },
         ],
       },

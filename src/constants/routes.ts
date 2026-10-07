@@ -14,6 +14,9 @@ export const ROUTES = {
 
   /** The news feed of one team the signed-in user manages, in one league. */
   myTeamNewsFeed: '/leagues/:leagueId/teams/:teamId/news',
+
+  /** Adding a team for the signed-in user to manage. */
+  addTeam: '/add-team',
 } as const
 
 /** A path the router knows about — one of the values of `ROUTES`. */

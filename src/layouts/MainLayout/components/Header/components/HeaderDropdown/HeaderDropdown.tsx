@@ -7,17 +7,30 @@ import type { HeaderDropdownProps } from './types'
 
 /**
  * List of entries that is a popover behind a trigger button from the md
- * breakpoint, and plain inline rows below it; a press outside the component or
- * `Escape` dismisses the popover.
+ * breakpoint; below it the rows are either always shown inline, or, when
+ * collapsible, expand under the trigger when pressed. A press outside the
+ * component or `Escape` dismisses the list.
  *
  * @param props The component's props.
  * @returns The rendered heading, trigger and list.
  */
-export function HeaderDropdown({ trigger, ariaLabel, items, selectedId, role, heading, onSelect }: HeaderDropdownProps) {
-  const { isOpen, containerRef, headingId, toggle, select } = useHeaderDropdown(onSelect)
+export function HeaderDropdown({
+  trigger,
+  ariaLabel,
+  items,
+  selectedId,
+  role,
+  heading,
+  collapsible,
+  onSelect,
+}: HeaderDropdownProps) {
+  const { isOpen, containerRef, triggerRef, headingId, toggle, select } = useHeaderDropdown(onSelect)
 
   return (
-    <div ref={containerRef} className={styles.dropdown}>
+    <div
+      ref={containerRef}
+      className={collapsible ? `${styles.dropdown} ${styles['dropdown--collapsible']}` : styles.dropdown}
+    >
       {heading && (
         <span id={headingId} className={`label ${styles.heading}`}>
           {heading}
@@ -25,8 +38,9 @@ export function HeaderDropdown({ trigger, ariaLabel, items, selectedId, role, he
       )}
 
       <button
+        ref={triggerRef}
         type="button"
-        className={styles.trigger}
+        className={`focus-ring ${styles.trigger}`}
         aria-haspopup={role}
         aria-expanded={isOpen}
         aria-label={ariaLabel}
@@ -47,7 +61,11 @@ export function HeaderDropdown({ trigger, ariaLabel, items, selectedId, role, he
               type="button"
               role={ITEM_ROLE[role]}
               aria-selected={role === 'listbox' ? item.id === selectedId : undefined}
-              className={item.id === selectedId ? `${styles.item} ${styles['item--active']}` : styles.item}
+              className={
+                item.id === selectedId
+                  ? `focus-ring ${styles.item} ${styles['item--active']}`
+                  : `focus-ring ${styles.item}`
+              }
               onClick={() => select(item.id)}
             >
               {item.label}

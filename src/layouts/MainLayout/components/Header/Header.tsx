@@ -39,7 +39,7 @@ export function Header() {
           <button
             ref={closeButtonRef}
             type="button"
-            className={styles.close}
+            className={`focus-ring ${styles.close}`}
             aria-label="Close menu"
             onClick={closeMenu}
           >
@@ -49,7 +49,7 @@ export function Header() {
 
         <LeagueSelect />
 
-        <button type="button" className={`btn ${styles.sign_out}`} onClick={signOut}>
+        <button type="button" className={`btn focus-ring ${styles.sign_out}`} onClick={signOut}>
           Sign out
         </button>
 

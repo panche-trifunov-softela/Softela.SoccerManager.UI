@@ -13,7 +13,7 @@ export function MenuToggle({ isOpen, controls, onToggle, ref }: MenuToggleProps)
     <button
       ref={ref}
       type="button"
-      className={isOpen ? `${styles.burger} ${styles.active}` : styles.burger}
+      className={isOpen ? `focus-ring ${styles.burger} ${styles.active}` : `focus-ring ${styles.burger}`}
       aria-expanded={isOpen}
       aria-controls={controls}
       aria-label={isOpen ? 'Close menu' : 'Open menu'}

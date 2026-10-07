@@ -4,7 +4,8 @@ import type { HeaderDropdownProps, HeaderDropdownState } from './types'
 
 /**
  * Owns a `HeaderDropdown`'s open state, closing it on an outside pointer press or
- * `Escape`, and the id that links its list to the heading.
+ * `Escape`, and the id that links its list to the heading. After a selection it
+ * returns focus to the trigger.
  *
  * @param onSelect Receives the chosen entry's id.
  * @returns The state and handlers the view renders from.
@@ -12,6 +13,7 @@ import type { HeaderDropdownProps, HeaderDropdownState } from './types'
 export function useHeaderDropdown(onSelect: HeaderDropdownProps['onSelect']): HeaderDropdownState {
   const [isOpen, setIsOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
   const headingId = useId()
 
   const close = useCallback(() => setIsOpen(false), [])
@@ -21,6 +23,7 @@ export function useHeaderDropdown(onSelect: HeaderDropdownProps['onSelect']): He
     (id: string) => {
       onSelect(id)
       close()
+      triggerRef.current?.focus()
     },
     [onSelect, close],
   )
@@ -45,5 +48,5 @@ export function useHeaderDropdown(onSelect: HeaderDropdownProps['onSelect']): He
     }
   }, [isOpen, close])
 
-  return { isOpen, containerRef, headingId, toggle, select }
+  return { isOpen, containerRef, triggerRef, headingId, toggle, select }
 }

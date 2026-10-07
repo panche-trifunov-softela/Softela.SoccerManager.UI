@@ -37,11 +37,6 @@
         color: var(--highlight);
     }
 
-    &:focus-visible {
-        outline: 2px solid var(--highlight);
-        outline-offset: -2px;
-    }
-
     @include bp-up(md) {
         display: inline-flex;
         justify-content: center;
@@ -74,6 +69,57 @@
     }
 }
 
+// Two-class selectors outrank the single-class md rules above, so every
+// property the modifier changes below md is reset again inside its own md block.
+.dropdown--collapsible {
+    .trigger {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        min-height: 40px;
+        padding: 0 12px;
+        border-radius: 4px;
+
+        &[aria-expanded="true"] {
+            background: var(--border);
+        }
+
+        i {
+            transition: transform var(--transition);
+        }
+
+        &[aria-expanded="true"] i {
+            transform: rotate(180deg);
+        }
+
+        @include bp-up(md) {
+            display: inline-flex;
+            justify-content: center;
+            width: auto;
+            padding: 0;
+            border-radius: 0;
+
+            &[aria-expanded="true"] {
+                background: none;
+            }
+
+            &[aria-expanded="true"] i {
+                transform: none;
+            }
+        }
+    }
+
+    // Identical at every width: the popover from md is also display none until
+    // open, so no md reset is needed.
+    .menu {
+        display: none;
+
+        &--open {
+            display: block;
+        }
+    }
+}
+
 .item {
     display: flex;
     align-items: center;
@@ -88,11 +134,6 @@
     &:hover, &:focus-visible {
         color: var(--highlight);
         background: var(--body);
-    }
-
-    &:focus-visible {
-        outline: 2px solid var(--highlight);
-        outline-offset: -2px;
     }
 
     &--active {

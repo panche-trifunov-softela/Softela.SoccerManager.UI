@@ -13,7 +13,7 @@ export function MainLayout() {
     <>
       <Header />
 
-      <main>
+      <main className="page_container">
         <Outlet />
       </main>
     </>

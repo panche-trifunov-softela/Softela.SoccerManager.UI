@@ -1,15 +1,125 @@
+@use '@/styles/breakpoints' as *;
+
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    padding: 15px;
+    padding: 15px var(--page-gutter);
     background: var(--widget);
     border-bottom: 1px solid var(--border);
 }
 
+.backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background: var(--backdrop);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition), visibility var(--transition);
+
+    &--open {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    @include bp-up(md) {
+        display: none;
+    }
+}
+
+.menu {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: calc(-1 * var(--sidebar-width));
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: var(--sidebar-width);
+    padding: 30px;
+    overflow-y: auto;
+    background: var(--widget);
+    box-shadow: var(--widget-shadow);
+    visibility: hidden;
+    transition: inset-inline-start var(--transition), visibility var(--transition);
+
+    // Opening shows the drawer at once so the effect's focus() call finds it
+    // focusable; closing keeps the base rule's delayed hide for the slide-out.
+    &--open {
+        inset-inline-start: 0;
+        visibility: visible;
+        transition: inset-inline-start var(--transition), visibility 0s;
+    }
+
+    @include bp-up(md) {
+        position: static;
+        z-index: auto;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+        width: auto;
+        padding: 0;
+        overflow: visible;
+        background: none;
+        box-shadow: none;
+        visibility: visible;
+        transition: none;
+    }
+}
+
+.menu_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    @include bp-up(md) {
+        display: contents;
+    }
+}
+
 .username {
+    flex: 1;
+    min-width: 0;
     color: var(--header);
     font-family: var(--heading-font);
     font-weight: 600;
+
+    @include bp-up(md) {
+        flex: none;
+        max-width: 160px;
+    }
+}
+
+.close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    font-size: 1.125rem;
+    color: var(--header);
+    transition: color var(--transition);
+
+    &:hover {
+        color: var(--highlight);
+    }
+
+    @include bp-up(md) {
+        display: none;
+    }
+}
+
+.sign_out {
+    justify-content: center;
+    width: 100%;
+    margin-block-end: auto;
+
+    @include bp-up(md) {
+        width: auto;
+        margin-block-end: 0;
+    }
 }

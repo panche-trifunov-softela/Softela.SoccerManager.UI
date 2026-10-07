@@ -1,10 +1,20 @@
+@use '@/styles/breakpoints' as *;
+
 .dropdown {
-    position: relative;
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    @include bp-up(md) {
+        position: relative;
+        display: inline-flex;
+        flex-direction: row;
+        gap: 0;
+    }
 }
 
 .trigger {
-    display: inline-flex;
+    display: none;
     align-items: center;
     gap: 6px;
     color: var(--header);
@@ -16,26 +26,97 @@
     &:hover, &[aria-expanded="true"] {
         color: var(--highlight);
     }
+
+    @include bp-up(md) {
+        display: inline-flex;
+        justify-content: center;
+        min-width: 40px;
+        min-height: 40px;
+    }
 }
 
 .menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    inset-inline-end: 0;
-    z-index: 10;
-    min-width: 160px;
-    padding: 6px 0;
+    min-width: 0;
+    padding: 0;
     list-style: none;
-    background: var(--widget);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    box-shadow: var(--widget-shadow);
+
+    @include bp-up(md) {
+        display: none;
+        position: absolute;
+        top: calc(100% + 8px);
+        inset-inline-end: 0;
+        z-index: 10;
+        min-width: 160px;
+        padding: 6px 0;
+        background: var(--widget);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        box-shadow: var(--widget-shadow);
+
+        &--open {
+            display: block;
+        }
+    }
+}
+
+// Two-class selectors outrank the single-class md rules above, so every
+// property the modifier changes below md is reset again inside its own md block.
+.dropdown--collapsible {
+    .trigger {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        min-height: 40px;
+        padding: 0 12px;
+        border-radius: 4px;
+
+        &[aria-expanded="true"] {
+            background: var(--border);
+        }
+
+        i {
+            transition: transform var(--transition);
+        }
+
+        &[aria-expanded="true"] i {
+            transform: rotate(180deg);
+        }
+
+        @include bp-up(md) {
+            display: inline-flex;
+            justify-content: center;
+            width: auto;
+            padding: 0;
+            border-radius: 0;
+
+            &[aria-expanded="true"] {
+                background: none;
+            }
+
+            &[aria-expanded="true"] i {
+                transform: none;
+            }
+        }
+    }
+
+    // Identical at every width: the popover from md is also display none until
+    // open, so no md reset is needed.
+    .menu {
+        display: none;
+
+        &--open {
+            display: block;
+        }
+    }
 }
 
 .item {
-    display: block;
+    display: flex;
+    align-items: center;
     width: 100%;
-    padding: 8px 16px;
+    min-height: 40px;
+    padding: 0 12px;
+    border-radius: 4px;
     text-align: start;
     color: var(--text);
     transition: color var(--transition), background var(--transition);
@@ -48,5 +129,15 @@
     &--active {
         color: var(--header);
         font-weight: 600;
+        background: var(--border);
+    }
+
+    @include bp-up(md) {
+        padding: 8px 16px;
+        border-radius: 0;
+
+        &--active {
+            background: none;
+        }
     }
 }

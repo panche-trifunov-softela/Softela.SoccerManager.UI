@@ -12,13 +12,13 @@ export function Forbidden() {
   const { logout } = useAuth()
 
   return (
-    <>
+    <div className="page_container d-flex flex-column align-items-start g-20">
       <h1>Access denied</h1>
       <p>Your account does not have access to this page.</p>
       <Link to={ROUTES.home}>Back to home</Link>
-      <button type="button" onClick={() => void logout()}>
+      <button type="button" className="btn" onClick={() => void logout()}>
         Sign out
       </button>
-    </>
+    </div>
   )
 }

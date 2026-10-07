@@ -13,6 +13,7 @@ export function LeagueSelect() {
   return (
     <HeaderDropdown
       role="listbox"
+      collapsible
       trigger={
         <>
           <span>{selected.name}</span>

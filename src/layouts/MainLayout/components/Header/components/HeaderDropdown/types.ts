@@ -29,6 +29,12 @@ export interface HeaderDropdownProps {
   /** `listbox` for a selection, `menu` for actions. */
   role: HeaderDropdownRole
 
+  /**
+   * Below the md breakpoint the list stays behind the trigger and expands
+   * inline under it when pressed, instead of always showing its rows.
+   */
+  collapsible?: boolean
+
   /** Receives the chosen entry's id; the list closes afterwards. */
   onSelect: (id: string) => void
 }
@@ -40,6 +46,9 @@ export interface HeaderDropdownState {
 
   /** The element outside of which a pointer press closes the list. */
   containerRef: RefObject<HTMLDivElement | null>
+
+  /** The trigger button, which gets focus back after a selection. */
+  triggerRef: RefObject<HTMLButtonElement | null>
 
   /** Opens the list when closed and closes it when open. */
   toggle: () => void

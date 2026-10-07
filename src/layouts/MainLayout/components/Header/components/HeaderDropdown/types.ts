@@ -30,12 +30,6 @@ export interface HeaderDropdownProps {
   role: HeaderDropdownRole
 
   /**
-   * Caption shown above the list when it renders as inline rows below the md
-   * breakpoint; it also names the list for assistive technology.
-   */
-  heading?: string
-
-  /**
    * Below the md breakpoint the list stays behind the trigger and expands
    * inline under it when pressed, instead of always showing its rows.
    */
@@ -55,9 +49,6 @@ export interface HeaderDropdownState {
 
   /** The trigger button, which gets focus back after a selection. */
   triggerRef: RefObject<HTMLButtonElement | null>
-
-  /** Id of the heading element, which the list references as its label. */
-  headingId: string
 
   /** Opens the list when closed and closes it when open. */
   toggle: () => void

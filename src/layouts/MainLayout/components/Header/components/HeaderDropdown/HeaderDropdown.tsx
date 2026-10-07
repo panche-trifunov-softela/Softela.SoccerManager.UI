@@ -12,7 +12,7 @@ import type { HeaderDropdownProps } from './types'
  * component or `Escape` dismisses the list.
  *
  * @param props The component's props.
- * @returns The rendered heading, trigger and list.
+ * @returns The rendered trigger and list.
  */
 export function HeaderDropdown({
   trigger,
@@ -20,23 +20,16 @@ export function HeaderDropdown({
   items,
   selectedId,
   role,
-  heading,
   collapsible,
   onSelect,
 }: HeaderDropdownProps) {
-  const { isOpen, containerRef, triggerRef, headingId, toggle, select } = useHeaderDropdown(onSelect)
+  const { isOpen, containerRef, triggerRef, toggle, select } = useHeaderDropdown(onSelect)
 
   return (
     <div
       ref={containerRef}
       className={collapsible ? `${styles.dropdown} ${styles['dropdown--collapsible']}` : styles.dropdown}
     >
-      {heading && (
-        <span id={headingId} className={`label ${styles.heading}`}>
-          {heading}
-        </span>
-      )}
-
       <button
         ref={triggerRef}
         type="button"
@@ -51,8 +44,7 @@ export function HeaderDropdown({
 
       <ul
         role={role}
-        aria-labelledby={heading ? headingId : undefined}
-        aria-label={heading ? undefined : ariaLabel}
+        aria-label={ariaLabel}
         className={isOpen ? `${styles.menu} ${styles['menu--open']}` : styles.menu}
       >
         {items.map((item) => (

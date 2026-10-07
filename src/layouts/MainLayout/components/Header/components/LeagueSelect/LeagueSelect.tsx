@@ -13,7 +13,6 @@ export function LeagueSelect() {
   return (
     <HeaderDropdown
       role="listbox"
-      heading="League"
       collapsible
       trigger={
         <>

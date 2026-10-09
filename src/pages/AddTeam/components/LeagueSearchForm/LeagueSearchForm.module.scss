@@ -1,0 +1,46 @@
+@use '@/styles/breakpoints' as *;
+
+/* The form and its hint stack on narrow screens and sit side by side from lg. */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    @include bp-up(lg) {
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+    }
+}
+
+.form {
+    @include bp-up(lg) {
+        flex: 1;
+    }
+}
+
+/* An input's intrinsic width would otherwise push the button out of a narrow card. */
+.input {
+    flex: 1;
+    min-width: 0;
+}
+
+/* A square icon button, as tall as the field beside it. */
+.submit {
+    flex-shrink: 0;
+    width: 40px;
+    padding: 0;
+    font-size: 1rem;
+}
+
+/* The template has no callout; this one borrows its accent-border idiom. */
+.hint {
+    padding: 10px 12px;
+    border-inline-start: 4px solid var(--azure);
+    border-radius: 4px;
+    background: var(--body);
+
+    @include bp-up(lg) {
+        flex: 1;
+    }
+}

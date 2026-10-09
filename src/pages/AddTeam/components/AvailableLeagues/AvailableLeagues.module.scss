@@ -1,0 +1,54 @@
+/*
+ * The template has no <table>: its standings are styled-components rows. This
+ * keeps their look in plain SCSS: a label header bar on --body, then body rows
+ * divided by --border lines.
+ */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+
+    th,
+    td {
+        padding-block: 0;
+        padding-inline: 12px;
+        text-align: start;
+        vertical-align: middle;
+
+        &:first-child {
+            padding-inline-start: var(--card-padding);
+        }
+
+        &:last-child {
+            padding-inline-end: var(--card-padding);
+        }
+    }
+
+    th {
+        height: 40px;
+        background: var(--body);
+    }
+
+    td {
+        height: 60px;
+    }
+
+    tbody tr:not(:first-child) td {
+        border-top: 1px solid var(--border);
+    }
+
+    /* Fixed layout sizes the columns from the header row: the date column
+       gets 96px of content, and the name column takes the rest. Cells are
+       border-box, so the width adds this column's 12px start padding and the
+       card padding. A locale whose date runs longer wraps onto a second line. */
+    .created {
+        width: calc(108px + var(--card-padding));
+        text-align: end;
+    }
+}
+
+/* Keeps the icon tile square when the name runs long. */
+.tile {
+    flex-shrink: 0;
+    font-size: 1.25rem;
+}

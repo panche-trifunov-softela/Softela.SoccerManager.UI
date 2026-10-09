@@ -1,0 +1,7 @@
+/*
+ * The global focus ring is drawn inside a control, where olive on this blue
+ * gradient is barely visible; drawn outside, it sits on the page body instead.
+ */
+.back:focus-visible {
+    outline-offset: 2px;
+}

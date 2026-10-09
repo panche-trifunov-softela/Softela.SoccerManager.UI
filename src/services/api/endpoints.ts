@@ -8,4 +8,8 @@ export const API_ROUTES = {
     /** The signed-in caller's own appointments. */
     mine: '/api/league-team-managers/mine',
   },
+  leagues: {
+    /** The leagues the signed-in caller does not manage a club in; `?searchTerm=` narrows them by name. */
+    list: '/api/leagues',
+  },
 } as const

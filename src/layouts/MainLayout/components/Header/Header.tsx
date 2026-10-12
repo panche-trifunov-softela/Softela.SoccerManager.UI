@@ -1,3 +1,7 @@
+import { NavLink } from 'react-router'
+
+import { ROUTES } from '@/constants/routes'
+
 import { LeagueSelect } from './components/LeagueSelect'
 import { Logo } from './components/Logo'
 import { MenuToggle } from './components/MenuToggle'
@@ -48,6 +52,10 @@ export function Header() {
         </div>
 
         <LeagueSelect />
+
+        <NavLink to={ROUTES.ratings} className={`focus-ring ${styles.link}`}>
+          Ratings
+        </NavLink>
 
         <button type="button" className={`btn focus-ring ${styles.sign_out}`} onClick={signOut}>
           Sign out

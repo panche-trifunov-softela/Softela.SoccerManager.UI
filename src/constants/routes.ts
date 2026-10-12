@@ -17,6 +17,9 @@ export const ROUTES = {
 
   /** Adding a team for the signed-in user to manage. */
   addTeam: '/add-team',
+
+  /** The ratings page. */
+  ratings: '/ratings',
 } as const
 
 /** A path the router knows about — one of the values of `ROUTES`. */

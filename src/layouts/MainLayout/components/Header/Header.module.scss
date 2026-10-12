@@ -113,6 +113,43 @@
     }
 }
 
+/* A page link, styled like the League trigger: a full-width row in the drawer
+   below md and plain text in the row from md. The current page is marked the
+   way an open League is. */
+.link {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 12px;
+    border-radius: 4px;
+    color: var(--header);
+    font-family: var(--heading-font);
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: color var(--transition), background var(--transition);
+
+    &:hover {
+        color: var(--highlight);
+    }
+
+    &[aria-current="page"] {
+        background: var(--border);
+    }
+
+    @include bp-up(md) {
+        display: inline-flex;
+        justify-content: center;
+        min-width: 40px;
+        padding: 0;
+        border-radius: 0;
+
+        &[aria-current="page"] {
+            background: none;
+            color: var(--highlight);
+        }
+    }
+}
+
 .sign_out {
     justify-content: center;
     width: 100%;

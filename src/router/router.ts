@@ -8,6 +8,7 @@ import { Home } from '@/pages/Home'
 import { MyTeamNewsFeed } from '@/pages/MyTeamNewsFeed'
 import { NotFound } from '@/pages/NotFound'
 import { Profile } from '@/pages/Profile'
+import { Ratings } from '@/pages/Ratings'
 import { Settings } from '@/pages/Settings'
 
 /**
@@ -28,6 +29,7 @@ export const router = createBrowserRouter([
           { path: ROUTES.settings, Component: Settings },
           { path: ROUTES.myTeamNewsFeed, Component: MyTeamNewsFeed },
           { path: ROUTES.addTeam, Component: AddTeam },
+          { path: ROUTES.ratings, Component: Ratings },
           { path: '*', Component: NotFound },
         ],
       },

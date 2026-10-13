@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
+import { generatePath } from 'react-router'
 
+import { ROUTES } from '@/constants/routes'
 import { getLeagues } from '@/services/api'
 
 import { formatCreatedAt } from './utils'
@@ -60,6 +62,7 @@ export function useAvailableLeagues(
         (league): AvailableLeagueRow => ({
           id: league.id,
           name: league.name,
+          path: generatePath(ROUTES.availableTeams, { leagueId: String(league.id) }),
           created: formatCreatedAt(league.createdAt),
         }),
       ),

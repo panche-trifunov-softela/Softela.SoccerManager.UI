@@ -18,6 +18,9 @@ export const ROUTES = {
   /** Adding a team for the signed-in user to manage. */
   addTeam: '/add-team',
 
+  /** The clubs of one league: the second step of adding a team. */
+  availableTeams: '/add-team/:leagueId',
+
   /** The ratings page. */
   ratings: '/ratings',
 } as const

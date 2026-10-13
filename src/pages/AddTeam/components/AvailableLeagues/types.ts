@@ -14,6 +14,9 @@ export interface AvailableLeagueRow {
   /** The league's name. */
   name: string
 
+  /** Where the league's clubs are listed. */
+  path: string
+
   /** The day the league was created, written in the reader's locale. */
   created: string
 }

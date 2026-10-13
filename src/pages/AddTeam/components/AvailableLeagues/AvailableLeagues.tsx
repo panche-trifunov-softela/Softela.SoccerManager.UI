@@ -1,3 +1,5 @@
+import { Link } from 'react-router'
+
 import { useAvailableLeagues } from './useAvailableLeagues'
 
 import styles from './AvailableLeagues.module.scss'
@@ -6,7 +8,7 @@ import type { AvailableLeaguesProps } from './types'
 
 /**
  * The leagues the signed-in user could add a team in: one row per league,
- * with the day it was created.
+ * with the day it was created. Each row links to the league's clubs.
  *
  * @param props The search the leagues are narrowed by.
  * @returns The rendered table, or what stands in for it while the read is in
@@ -46,13 +48,15 @@ export function AvailableLeagues({ searchTerm }: AvailableLeaguesProps) {
         <tbody>
           {rows.map((row) => (
             <tr key={row.id}>
-              <td>
+              <td className={styles.name}>
                 <div className="d-flex align-items-center g-12">
-                  <span className={`square ${styles.tile}`} aria-hidden="true">
+                  <span className="square square--icon" aria-hidden="true">
                     <i className="icon-ball" />
                   </span>
 
-                  <span className="h4 text-overflow">{row.name}</span>
+                  <Link to={row.path} className={`h4 text-overflow ${styles.link}`}>
+                    {row.name}
+                  </Link>
                 </div>
               </td>
 

@@ -8,6 +8,13 @@ export const API_ROUTES = {
     /** The signed-in caller's own appointments. */
     mine: '/api/league-team-managers/mine',
   },
+  leagueTeams: {
+    /**
+     * Every club on one league's roster, with whether each has a current manager; `?leagueId=`
+     * picks the league.
+     */
+    available: '/api/league-teams/available',
+  },
   leagues: {
     /** The leagues the signed-in caller does not manage a club in; `?searchTerm=` narrows them by name. */
     list: '/api/leagues',

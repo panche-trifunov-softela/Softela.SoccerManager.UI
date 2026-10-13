@@ -1,0 +1,53 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * The generic table look lives in _elements.scss as .table. This keeps only what
+ * is particular to this table: its column widths and the Managed tag.
+ *
+ * Widths are border-box, so each includes the cell's padding: 12px a side, except
+ * the first column's start and the last column's end, which take the card
+ * padding. The club column has no width and takes whatever is left. Below md the
+ * finances column is hidden, so the club name keeps room on a phone.
+ */
+.table {
+    .finances {
+        display: none;
+        text-align: end;
+    }
+
+    /* 88px of content: the Apply button or the Managed tag, then the card padding. */
+    .status {
+        width: calc(100px + var(--card-padding));
+        text-align: end;
+    }
+
+    @include bp-up(md) {
+        /* 72px of content, between the club and status columns. */
+        .finances {
+            display: table-cell;
+            width: 96px;
+        }
+    }
+}
+
+/* Every crest takes the same 40px box, so the names line up; a logo keeps its
+   proportions inside it. */
+.logo {
+    width: 40px;
+
+    img {
+        width: 100%;
+        object-fit: contain;
+    }
+}
+
+/* A muted, outlined tag for a club that already has a manager. .label gives it
+   the uppercase label colour, which reads in both themes. */
+.managed {
+    display: inline-flex;
+    align-items: center;
+    height: 25px;
+    padding-inline: 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}

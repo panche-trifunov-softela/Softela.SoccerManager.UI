@@ -1,6 +1,7 @@
 export { ApiError } from './apiError'
 export { request } from './http'
-export { getLeagues } from './leagueApi'
+export { getLeague, getLeagues } from './leagueApi'
+export { getAvailableLeagueTeams } from './leagueTeamApi'
 export { getMyLeagueTeamManagers } from './leagueTeamManagerApi'
 export { getNationalTeams } from './nationalTeamApi'
 export { searchPlayers } from './playerApi'

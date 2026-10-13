@@ -24,3 +24,17 @@ export function getLeagues(searchTerm: string | null, signal?: AbortSignal): Pro
 
   return request<LeagueDto[]>(path, { signal })
 }
+
+/**
+ * Reads one league.
+ *
+ * @param id The league's id.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The league.
+ * @throws {ApiError} When the API answers with an error status; a status of
+ * 404 means there is no such league.
+ */
+export function getLeague(id: number, signal?: AbortSignal): Promise<LeagueDto> {
+  // A league's own address is the list's address followed by its id.
+  return request<LeagueDto>(`${API_ROUTES.leagues.list}/${id}`, { signal })
+}

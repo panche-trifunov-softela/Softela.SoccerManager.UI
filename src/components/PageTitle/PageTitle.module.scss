@@ -1,7 +1,17 @@
+/* Keeps the arrow square when the line under the heading runs long. */
+.back {
+    flex-shrink: 0;
+}
+
 /*
  * The global focus ring is drawn inside a control, where olive on this blue
  * gradient is barely visible; drawn outside, it sits on the page body instead.
  */
 .back:focus-visible {
     outline-offset: 2px;
+}
+
+/* Lets the line under the heading ellipsize instead of stretching the row. */
+.titles {
+    min-width: 0;
 }

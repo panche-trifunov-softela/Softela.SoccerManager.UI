@@ -290,6 +290,12 @@ select.field {
     border: 1px solid var(--border);
     border-radius: 4px;
     color: var(--header);
+
+    // A square holding one icon glyph. It keeps its size when the text beside it runs long.
+    &--icon {
+        flex-shrink: 0;
+        font-size: 1.25rem;
+    }
 }
 
 .avatar {

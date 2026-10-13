@@ -12,10 +12,31 @@
         width: calc(108px + var(--card-padding));
         text-align: end;
     }
+
+    /* The name cell anchors the link's overlay. The row cannot: Safari ignores
+       position: relative on table rows, so the overlay would escape to the card
+       and every row would open the last league. */
+    .name {
+        position: relative;
+    }
 }
 
-/* Keeps the icon tile square when the name runs long. */
-.tile {
-    flex-shrink: 0;
-    font-size: 1.25rem;
+/* The league's name is the row's link; the global a.h4 rule colours it on
+   hover and focus, and its ::after stretches the click target over the whole
+   name cell. */
+.link {
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+    }
+
+    &:focus-visible {
+        outline: none;
+
+        &::after {
+            outline: 2px solid var(--highlight);
+            outline-offset: -2px;
+        }
+    }
 }

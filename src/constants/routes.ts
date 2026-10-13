@@ -13,10 +13,13 @@ export const ROUTES = {
   settings: '/settings',
 
   /** The news feed of one team the signed-in user manages, in one league. */
-  myTeamNewsFeed: '/leagues/:leagueId/teams/:teamId/news',
+  myTeamNewsFeed: '/league-teams/:leagueTeamId/news',
 
   /** Adding a team for the signed-in user to manage. */
   addTeam: '/add-team',
+
+  /** The clubs of one league: the second step of adding a team. */
+  availableTeams: '/add-team/:leagueId',
 
   /** The ratings page. */
   ratings: '/ratings',

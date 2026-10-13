@@ -9,16 +9,13 @@ export interface MyLeagueTeamManagerDto {
   /** The identifier of the appointment. */
   id: number
 
-  /** The identifier of the league the appointment belongs to. */
-  leagueId: number
+  /** The identifier of the club's entry on the league's roster: its league team id. */
+  leagueTeamId: number
 
-  /** The name of that league. */
+  /** The name of the league the appointment belongs to. */
   leagueName: string
 
-  /** The identifier of the team the manager is appointed to. */
-  teamId: number
-
-  /** The name of that team. */
+  /** The name of the team the manager is appointed to. */
   teamName: string
 
   /** The team's logo, or `null` when it has none. */

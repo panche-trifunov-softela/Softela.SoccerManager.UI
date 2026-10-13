@@ -12,4 +12,20 @@ export const API_ROUTES = {
     /** The leagues the signed-in caller does not manage a club in; `?searchTerm=` narrows them by name. */
     list: '/api/leagues',
   },
+  players: {
+    /** Searches the players; every query parameter narrows, sorts or pages the result. */
+    search: '/api/players/search',
+  },
+  positions: {
+    /** Every position, ordered by name. */
+    list: '/api/positions',
+  },
+  teams: {
+    /** Every team, ordered by name. */
+    list: '/api/teams',
+  },
+  nationalTeams: {
+    /** Every national team, ordered by name. */
+    list: '/api/national-teams',
+  },
 } as const

@@ -1,0 +1,21 @@
+/* The heading's text and its direction arrow, set in the heading's own type. */
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font: inherit;
+    color: inherit;
+    text-transform: inherit;
+    letter-spacing: inherit;
+
+    i {
+        font-size: 0.625rem;
+        color: var(--highlight);
+    }
+}
+
+/* The global ring is drawn inside the control, over the heading's letters;
+   drawn outside, it sits in the cell's padding. */
+.button:focus-visible {
+    outline-offset: 2px;
+}

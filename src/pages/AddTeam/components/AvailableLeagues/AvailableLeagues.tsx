@@ -31,7 +31,7 @@ export function AvailableLeagues({ searchTerm }: AvailableLeaguesProps) {
 
   return (
     <div className="card">
-      <table className={styles.table} aria-label="Game worlds">
+      <table className={`table ${styles.table}`} aria-label="Game worlds">
         <thead>
           <tr>
             <th scope="col" className="label h6">

@@ -1,27 +1,14 @@
-import { useId, useState } from 'react'
+import { useId } from 'react'
 
-import type { LeagueSearchFormProps, LeagueSearchFormState } from './types'
+import type { LeagueSearchFormState } from './types'
 
 /**
- * Holds what is typed into the search until it is submitted.
+ * Makes the id that ties the hint to the search input it describes.
  *
- * @param onSearch Called with the typed value on each submit.
- * @returns The typed value, the hint's id, and the input and form handlers.
+ * @returns The hint's id.
  */
-export function useLeagueSearchForm(
-  onSearch: LeagueSearchFormProps['onSearch'],
-): LeagueSearchFormState {
-  const [draft, setDraft] = useState('')
+export function useLeagueSearchForm(): LeagueSearchFormState {
   const hintId = useId()
 
-  const onDraftChange: LeagueSearchFormState['onDraftChange'] = (event) => {
-    setDraft(event.target.value)
-  }
-
-  const onSubmit: LeagueSearchFormState['onSubmit'] = (event) => {
-    event.preventDefault()
-    onSearch(draft)
-  }
-
-  return { draft, hintId, onDraftChange, onSubmit }
+  return { hintId }
 }

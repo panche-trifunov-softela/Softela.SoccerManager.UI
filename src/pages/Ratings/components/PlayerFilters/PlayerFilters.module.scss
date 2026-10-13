@@ -1,0 +1,16 @@
+@use '@/styles/breakpoints' as *;
+
+/* The selects stack on narrow screens, pair up from sm and sit in one row from lg. */
+.selects {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+
+    @include bp-up(sm) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include bp-up(lg) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}

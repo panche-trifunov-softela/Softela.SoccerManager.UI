@@ -8,9 +8,6 @@ export interface MyTeamCardProps {
 
 /** What `useMyTeamCard` exposes to the view. */
 export interface MyTeamCardState {
-  /** The colour the card's bottom border is drawn in. */
-  accent: string
-
   /** The span the tenure covers, ready to render. */
   tenure: string
 

@@ -14,10 +14,10 @@ import type { MyTeamCardProps } from './types'
  * @returns The rendered card.
  */
 export function MyTeamCard({ team }: MyTeamCardProps) {
-  const { accent, tenure, newsFeedPath } = useMyTeamCard(team)
+  const { tenure, newsFeedPath } = useMyTeamCard(team)
 
   return (
-    <article className="card border-color-bottom" style={{ borderBottomColor: accent }}>
+    <article className="card border-color-bottom">
       <div className="card_header d-flex align-items-center g-16">
         <span className={`club-logo club-logo--lg ${styles.crest}`}>
           {team.teamLogoUrl === null ? (

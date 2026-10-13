@@ -1,0 +1,107 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * Column rules for the players table. Everything here nests under the module's
+ * own .table so it outranks the global .table th / .table td rules. Widths are
+ * border-box, so each one includes the cell's padding: 12px a side, except the
+ * first column's start and the last visible column's end, which take the card
+ * padding. The player column has no width and takes whatever is left.
+ *
+ * Below md only Player and Rating show, with the position under the name; md
+ * adds Position, Age, Club and Value; lg adds Nationality and Wage.
+ */
+.table {
+    .position,
+    .age,
+    .club,
+    .nationality,
+    .value,
+    .wage {
+        display: none;
+    }
+
+    .age,
+    .rating,
+    .value,
+    .wage {
+        text-align: end;
+    }
+
+    /* 56px of content, enough for the heading with its arrow, with the card padding after it. */
+    .rating {
+        width: calc(68px + var(--card-padding));
+        padding-inline-end: var(--card-padding);
+    }
+
+    .position_inline {
+        display: block;
+    }
+
+    /* .tag is a block-level flex box; this lets the cell's text-align place it. */
+    .badge {
+        display: inline-flex;
+    }
+
+    @include bp-up(md) {
+        .position,
+        .age,
+        .club,
+        .value {
+            display: table-cell;
+        }
+
+        .position_inline {
+            display: none;
+        }
+
+        .position {
+            width: 140px;
+        }
+
+        .age {
+            width: 64px;
+        }
+
+        .club {
+            width: 160px;
+        }
+
+        .rating {
+            width: 80px;
+            padding-inline-end: 12px;
+        }
+
+        /* The last visible column here, so it takes the card padding after its content. */
+        .value {
+            width: calc(84px + var(--card-padding));
+            padding-inline-end: var(--card-padding);
+        }
+    }
+
+    @include bp-up(lg) {
+        .nationality,
+        .wage {
+            display: table-cell;
+        }
+
+        .nationality {
+            width: 150px;
+        }
+
+        .value {
+            width: 96px;
+            padding-inline-end: 12px;
+        }
+
+        /* The DOM's last child, which the global .table already pads at its end. */
+        .wage {
+            width: calc(96px + 12px + var(--card-padding));
+        }
+    }
+}
+
+/* While a new read is in flight, the previous rows stay but are dimmed. */
+.stale {
+    opacity: 0.5;
+    transition: opacity var(--transition);
+}

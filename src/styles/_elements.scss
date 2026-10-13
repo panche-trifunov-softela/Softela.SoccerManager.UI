@@ -63,6 +63,7 @@
     border: 1px solid var(--border);
     padding: 0 12px;
     border-radius: 4px;
+    min-width: 0;
     transition: border-color var(--transition);
 
     &::placeholder {
@@ -92,6 +93,16 @@
 textarea.field {
     height: 140px;
     padding: 10px 12px;
+}
+
+// A native select dressed as a field keeps the platform's arrow; the reset only
+// covers a, input, button and textarea, so the font and colours are set here.
+select.field {
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--text);
+    background: var(--widget);
+    cursor: pointer;
 }
 
 .cover {
@@ -188,6 +199,13 @@ textarea.field {
     &--outlined {
         background: transparent;
         border: 1px solid var(--border);
+
+        // An aria-disabled button keeps its focus; it must not take the focus fill.
+        &[aria-disabled="true"]:focus {
+            background: transparent;
+            color: var(--btn-text);
+            border-color: var(--border);
+        }
     }
 
     &--icon {
@@ -219,7 +237,8 @@ textarea.field {
         border-color: var(--accent);
     }
 
-    &[disabled] {
+    // An aria-disabled button looks disabled but keeps focus.
+    &[disabled], &[aria-disabled="true"] {
         pointer-events: none;
         cursor: default;
         opacity: .5;
@@ -243,6 +262,14 @@ textarea.field {
 
     &--sm {
         height: 32px;
+    }
+
+    // A square icon button, as tall as a field.
+    &--square {
+        width: 40px;
+        flex-shrink: 0;
+        padding: 0;
+        font-size: 1rem;
     }
 }
 
@@ -639,6 +666,43 @@ a {
                 padding: 0 10px;
             }
         }
+    }
+}
+
+// A data table: a label header bar on --body, with rows divided by --border
+// lines. The layout is fixed, so each consumer sizes its own columns.
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+
+    th,
+    td {
+        padding-block: 0;
+        padding-inline: 12px;
+        text-align: start;
+        vertical-align: middle;
+
+        &:first-child {
+            padding-inline-start: var(--card-padding);
+        }
+
+        &:last-child {
+            padding-inline-end: var(--card-padding);
+        }
+    }
+
+    th {
+        height: 40px;
+        background: var(--body);
+    }
+
+    td {
+        height: 60px;
+    }
+
+    tbody tr:not(:first-child) td {
+        border-top: 1px solid var(--border);
     }
 }
 

@@ -1,3 +1,5 @@
+import { SearchForm } from '@/components/SearchForm'
+
 import { SEARCH_TERM_MAX_LENGTH } from './constants'
 import { useLeagueSearchForm } from './useLeagueSearchForm'
 
@@ -12,30 +14,18 @@ import type { LeagueSearchFormProps } from './types'
  * @returns The rendered search card.
  */
 export function LeagueSearchForm({ onSearch }: LeagueSearchFormProps) {
-  const { draft, hintId, onDraftChange, onSubmit } = useLeagueSearchForm(onSearch)
+  const { hintId } = useLeagueSearchForm()
 
   return (
     <div className={`card card-padded ${styles.container}`}>
-      <form role="search" className={`d-flex g-8 ${styles.form}`} onSubmit={onSubmit}>
-        <input
-          type="search"
-          className={`field ${styles.input}`}
-          value={draft}
-          onChange={onDraftChange}
-          maxLength={SEARCH_TERM_MAX_LENGTH}
-          placeholder="Search game worlds by name"
-          aria-label="Search game worlds by name"
-          aria-describedby={hintId}
-        />
-
-        <button
-          type="submit"
-          className={`btn focus-ring ${styles.submit}`}
-          aria-label="Search game worlds"
-        >
-          <i className="icon-search" aria-hidden="true" />
-        </button>
-      </form>
+      <SearchForm
+        className={styles.form}
+        placeholder="Search game worlds by name"
+        buttonLabel="Search game worlds"
+        maxLength={SEARCH_TERM_MAX_LENGTH}
+        describedBy={hintId}
+        onSearch={onSearch}
+      />
 
       <p id={hintId} className={`text-12 ${styles.hint}`}>
         Search game worlds by name. Up to 10 are listed, newest first. Game worlds

@@ -14,3 +14,15 @@ export interface MyTeamsState {
   /** Whether the read succeeded and found nothing. */
   isEmpty: boolean
 }
+
+/** One read of the caller's clubs, as `useMyTeams` holds it. */
+export interface MyTeamsRead {
+  /** The teams read, empty until the read resolves and when it failed. */
+  teams: readonly MyLeagueTeamManagerDto[]
+
+  /** Whether the read is still in flight. */
+  isLoading: boolean
+
+  /** Why the read failed, or `null` when it did not. */
+  error: string | null
+}

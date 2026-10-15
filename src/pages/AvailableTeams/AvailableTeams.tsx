@@ -6,7 +6,7 @@ import { useAvailableTeams } from './useAvailableTeams'
 
 /**
  * The clubs of one game world: the second step of adding a team. A free club shows an Apply
- * button, and a managed one a Managed tag.
+ * button, a managed one a Managed tag, and one the reader has applied for an Applied tag.
  *
  * @returns The rendered page.
  */

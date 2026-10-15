@@ -17,5 +17,6 @@ export function toAvailableTeamRow(team: AvailableLeagueTeamDto): AvailableTeamR
     logoUrl: team.teamLogoUrl,
     finances: FINANCIAL_STATE_LABELS[team.teamFinancialState],
     isManaged: team.isManaged,
+    hasPendingApplication: team.hasPendingApplication,
   }
 }

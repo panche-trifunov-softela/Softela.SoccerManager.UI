@@ -20,4 +20,19 @@ export interface AvailableTeamRow {
 
   /** Whether the club has a current manager, so it cannot be applied for. */
   isManaged: boolean
+
+  /** Whether the signed-in caller has a pending application for the club. */
+  hasPendingApplication: boolean
+}
+
+/** What `useAvailableTeamsTable` exposes to the table. */
+export interface AvailableTeamsTableState {
+  /** The league team id of the club being applied for, or `null` when none is in flight. */
+  applyingId: number | null
+
+  /** Why the last application failed, or `null` when none has. */
+  error: string | null
+
+  /** Applies for one club, unless an application is already in flight. */
+  apply: (row: AvailableTeamRow) => void
 }

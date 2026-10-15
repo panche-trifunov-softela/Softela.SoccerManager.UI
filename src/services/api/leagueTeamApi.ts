@@ -5,7 +5,8 @@ import { toQueryString } from './utils'
 import type { AvailableLeagueTeamDto } from '@/types/availableLeagueTeamDto'
 
 /**
- * Reads every club on one league's roster, with whether each has a current manager.
+ * Reads every club on one league's roster, with whether each has a current manager and whether
+ * the signed-in caller has applied for it.
  *
  * @param leagueId The league's id.
  * @param signal Aborts the request, normally from the calling hook's cleanup.

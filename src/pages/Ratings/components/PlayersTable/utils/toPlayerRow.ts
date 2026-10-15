@@ -8,7 +8,8 @@ import type { PlayerSearchItemDto } from '@/types/playerSearchItemDto'
 import type { PlayerRow } from '../types'
 
 /**
- * Writes a player the API found as a row the table can show.
+ * Writes a player the API found as a row the table can show. A blank photo address counts as
+ * none.
  *
  * @param item The player, as the API returned it.
  * @param today The day the age is counted to.
@@ -18,6 +19,7 @@ export function toPlayerRow(item: PlayerSearchItemDto, today: Date): PlayerRow {
   return {
     id: item.id,
     name: item.name,
+    imageUrl: item.imageUrl?.trim() ? item.imageUrl : null,
     position: item.positionName ?? MISSING,
     age: ageOn(item.dateOfBirth, today),
     club: item.teamName ?? MISSING,

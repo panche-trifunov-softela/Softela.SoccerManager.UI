@@ -222,3 +222,17 @@
 .card-padded {
     padding: var(--card-padding);
 }
+
+/* Text for screen readers only: it stays in the accessibility tree but takes no
+   space and shows nothing on screen. */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}

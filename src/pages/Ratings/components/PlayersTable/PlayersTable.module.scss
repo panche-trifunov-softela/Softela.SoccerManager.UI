@@ -7,10 +7,26 @@
  * first column's start and the last visible column's end, which take the card
  * padding. The player column has no width and takes whatever is left.
  *
- * Below md only Player and Rating show, with the position under the name; md
- * adds Position, Age, Club and Value; lg adds Nationality and Wage.
+ * Below md only the photo, Player and Rating show, with the position under the
+ * name; md adds Position, Age, Club and Value; lg adds Nationality and Wage.
  */
 .table {
+    /* The photo is the first column, so the card padding is its start. Its end
+       padding is dropped: the player cell's own 12px start is the gap to the name. */
+    .photo {
+        width: calc(var(--card-padding) + 40px);
+        padding-inline-end: 0;
+    }
+
+    /* A photo is not square: it fills the 40px square, cut to fit from the top so
+       the head stays in view. --body shows until it loads. */
+    .portrait {
+        display: block;
+        object-fit: cover;
+        object-position: center top;
+        background: var(--body);
+    }
+
     .position,
     .age,
     .club,

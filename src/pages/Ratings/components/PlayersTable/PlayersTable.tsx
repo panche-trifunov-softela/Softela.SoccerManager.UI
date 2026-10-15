@@ -7,8 +7,8 @@ import styles from './PlayersTable.module.scss'
 import type { PlayersTableProps } from './types'
 
 /**
- * The players the query finds: one row per player, with the headings that
- * sort and a pager under them.
+ * The players the query finds: one row per player, starting with their photo,
+ * with the headings that sort and a pager under them.
  *
  * @param props The query being shown, and what to call when the reader sorts
  * or changes page.
@@ -35,6 +35,10 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
       <table className={`table ${styles.table}`} aria-label="Players" aria-busy={isLoading}>
         <thead>
           <tr>
+            <th scope="col" className={styles.photo}>
+              <span className="visually-hidden">Photo</span>
+            </th>
+
             <SortableHeader
               label="Player"
               sortBy="name"
@@ -96,6 +100,21 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
         <tbody className={isLoading ? styles.stale : undefined}>
           {rows.map((row) => (
             <tr key={row.id}>
+              <td className={styles.photo}>
+                {row.imageUrl === null ? (
+                  <span className="square square--icon" aria-hidden="true">
+                    <i className="icon-user" />
+                  </span>
+                ) : (
+                  <img
+                    className={`square-avatar ${styles.portrait}`}
+                    src={row.imageUrl}
+                    alt=""
+                    loading="lazy"
+                  />
+                )}
+              </td>
+
               <td>
                 <span className="h4 text-overflow d-block">{row.name}</span>
 

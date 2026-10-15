@@ -1,8 +1,8 @@
 import type { FinancialState } from './financialState'
 
 /**
- * A club on one league's roster, with whether it currently has a manager, as
- * `GET /api/league-teams/available` returns it.
+ * A club on one league's roster, with whether it currently has a manager and whether the
+ * signed-in caller has applied for it, as `GET /api/league-teams/available` returns it.
  */
 export interface AvailableLeagueTeamDto {
   /** The identifier of the club's entry on the league's roster: its league team id. */
@@ -19,4 +19,7 @@ export interface AvailableLeagueTeamDto {
 
   /** Whether the club has a current manager in the league, so it cannot be applied for. */
   isManaged: boolean
+
+  /** Whether the signed-in caller has a pending application for the club. */
+  hasPendingApplication: boolean
 }

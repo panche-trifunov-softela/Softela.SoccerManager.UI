@@ -2,7 +2,7 @@
 
 /*
  * The generic table look lives in _elements.scss as .table. This keeps only what
- * is particular to this table: its column widths and the Managed tag.
+ * is particular to this table: its column widths and the status tag.
  *
  * Widths are border-box, so each includes the cell's padding: 12px a side, except
  * the first column's start and the last column's end, which take the card
@@ -41,9 +41,10 @@
     }
 }
 
-/* A muted, outlined tag for a club that already has a manager. .label gives it
-   the uppercase label colour, which reads in both themes. */
-.managed {
+/* A muted, outlined tag in the status column: Managed for a club that already
+   has a manager, Applied for one the reader has applied for. .label gives it the
+   uppercase label colour, which reads in both themes. */
+.status_tag {
     display: inline-flex;
     align-items: center;
     height: 25px;

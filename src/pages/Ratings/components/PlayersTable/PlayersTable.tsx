@@ -17,7 +17,7 @@ import type { PlayersTableProps } from './types'
  * or changes page.
  * @returns The rendered table and pager. The table, its headings and the pager
  * always render: a loading, error or empty state shows as a message under the
- * headings, in a live region. How the last vote went shows in a second one.
+ * headings, in a live region. Why a vote failed shows in a second one.
  */
 export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps) {
   const {
@@ -33,7 +33,7 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
     goToNext,
   } = usePlayersTable(query, onPageChange)
 
-  const { voteButtonsFor, message: voteMessage } = usePlayerVotes()
+  const { voteButtonsFor, error: voteError } = usePlayerVotes()
 
   return (
     <div className="card">
@@ -165,7 +165,7 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
       <div role="status">{message !== null && <p className="label card-padded">{message}</p>}</div>
 
       <div role="status">
-        {voteMessage !== null && <p className="label card-padded">{voteMessage}</p>}
+        {voteError !== null && <p className="label card-padded">{voteError}</p>}
       </div>
 
       <Pager

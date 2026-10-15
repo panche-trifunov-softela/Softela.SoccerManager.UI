@@ -117,6 +117,6 @@ export interface PlayerVotesState {
   /** The props of one row's vote buttons: the player, the reader's vote, and what voting does. */
   voteButtonsFor: (row: PlayerRow) => VoteButtonsProps
 
-  /** How the last vote went, or `null` until one settles. */
-  message: string | null
+  /** Why the last vote failed, or `null` when none has. */
+  error: string | null
 }

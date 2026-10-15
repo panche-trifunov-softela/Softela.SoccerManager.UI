@@ -8,7 +8,8 @@ import type { VoteButtonsProps, VoteDirection } from '../components/VoteButtons'
 import type { CastVote, PlayerRow, PlayerVotesState } from '../types'
 
 /**
- * Casts the reader's votes on the players' current ratings, and says how each went.
+ * Casts the reader's votes on the players' current ratings. A vote that goes through shows as
+ * its pressed button, and only a failed one is put into words.
  *
  * - Players are voted on independently. A player's buttons take no click while their vote is
  *   being sent, or once the reader has voted on the player's current rating.
@@ -16,12 +17,12 @@ import type { CastVote, PlayerRow, PlayerVotesState } from '../types'
  *   changes. Otherwise a row shows the vote the API read.
  * - A failed vote leaves the buttons as they were, and says which player and why.
  *
- * @returns The props of each row's vote buttons, and how the last vote went.
+ * @returns The props of each row's vote buttons, and why the last vote failed.
  */
 export function usePlayerVotes(): PlayerVotesState {
   const [castVotes, setCastVotes] = useState<Readonly<Partial<Record<number, CastVote>>>>({})
   const [sendingIds, setSendingIds] = useState<readonly number[]>([])
-  const [message, setMessage] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   const voteOf = (row: PlayerRow): VoteDirection | null => {
     const cast = castVotes[row.id]
@@ -35,15 +36,14 @@ export function usePlayerVotes(): PlayerVotesState {
     if (isLocked(row)) return
 
     setSendingIds((ids) => [...ids, row.id])
-    setMessage(null)
+    setError(null)
 
     createManagerPlayerRatingVote({ playerId: row.id, upOrDown: direction === 'up' })
       .then(() => {
         setCastVotes((votes) => ({ ...votes, [row.id]: { direction, rating: row.rating } }))
-        setMessage(`You voted ${row.name} ${direction}.`)
       })
       .catch((cause: unknown) => {
-        setMessage(`${row.name}: ${toErrorMessage(cause, VOTE_FAILED_MESSAGE)}`)
+        setError(`${row.name}: ${toErrorMessage(cause, VOTE_FAILED_MESSAGE)}`)
       })
       .finally(() => {
         setSendingIds((ids) => ids.filter((id) => id !== row.id))
@@ -59,5 +59,5 @@ export function usePlayerVotes(): PlayerVotesState {
     },
   })
 
-  return { voteButtonsFor, message }
+  return { voteButtonsFor, error }
 }

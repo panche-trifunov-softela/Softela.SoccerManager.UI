@@ -2,6 +2,8 @@ import type { PlayerSearchQuery } from '@/types/playerSearchQuery'
 import type { PlayerSearchResultDto } from '@/types/playerSearchResultDto'
 import type { PlayerSortBy } from '@/types/playerSortBy'
 
+import type { VoteButtonsProps, VoteDirection } from './components/VoteButtons'
+
 /** What `PlayersTable` is handed. */
 export interface PlayersTableProps {
   /** The search the table shows: its name, filters, sort and page. */
@@ -45,6 +47,9 @@ export interface PlayerRow {
 
   /** The player's wage, written in euros in the reader's locale. */
   wage: string
+
+  /** The reader's vote on the player's current rating, as the API read it, or `null` when none. */
+  myVote: VoteDirection | null
 }
 
 /** One finished read, kept with the query it was made for. */
@@ -96,4 +101,22 @@ export interface PlayersTableState {
 
   /** Moves to the page after this one. */
   goToNext: () => void
+}
+
+/** A vote the reader cast in this visit, kept with the rating it was cast on. */
+export interface CastVote {
+  /** Which way the reader voted. */
+  direction: VoteDirection
+
+  /** The player's rating when the vote was cast. */
+  rating: number
+}
+
+/** What `usePlayerVotes` exposes to the table. */
+export interface PlayerVotesState {
+  /** The props of one row's vote buttons: the player, the reader's vote, and what voting does. */
+  voteButtonsFor: (row: PlayerRow) => VoteButtonsProps
+
+  /** Why the last vote failed, or `null` when none has. */
+  error: string | null
 }

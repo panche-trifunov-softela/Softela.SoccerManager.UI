@@ -244,20 +244,19 @@ select.field {
         opacity: .5;
     }
 
+    // White on --grass is 1.9:1, so an accept button is dark on green (7.7:1).
     &.accept {
         background: var(--grass);
+        color: var(--header-light);
     }
 
     &.decline {
         background: var(--red);
+        color: var(--header-dark);
 
         &:hover {
             background: var(--red);
         }
-    }
-
-    &.accept, &.decline {
-        color: var(--header-dark);
     }
 
     &--sm {

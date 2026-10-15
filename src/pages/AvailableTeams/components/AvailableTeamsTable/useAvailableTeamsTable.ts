@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import { ROUTES } from '@/constants/routes'
-import { createLeagueTeamManagerApplication } from '@/services/api'
+import { createLeagueTeamManagerApplication, toErrorMessage } from '@/services/api'
 
-import { applyErrorMessage } from './utils'
+import { APPLY_FAILED_MESSAGE } from './constants'
 
 import type { AvailableTeamRow, AvailableTeamsTableState } from './types'
 
@@ -49,7 +49,7 @@ export function useAvailableTeamsTable(): AvailableTeamsTableState {
         if (!isMounted.current) return
 
         setApplyingId(null)
-        setError(applyErrorMessage(cause))
+        setError(toErrorMessage(cause, APPLY_FAILED_MESSAGE))
       })
   }
 

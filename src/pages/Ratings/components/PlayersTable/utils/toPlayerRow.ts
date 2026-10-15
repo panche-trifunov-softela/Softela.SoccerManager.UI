@@ -2,6 +2,7 @@ import { MISSING } from '../constants'
 
 import { ageOn } from './ageOn'
 import { formatEuros } from './formatEuros'
+import { toVoteDirection } from './toVoteDirection'
 
 import type { PlayerSearchItemDto } from '@/types/playerSearchItemDto'
 
@@ -27,5 +28,6 @@ export function toPlayerRow(item: PlayerSearchItemDto, today: Date): PlayerRow {
     rating: item.rating,
     value: formatEuros(item.value),
     wage: formatEuros(item.wage),
+    myVote: toVoteDirection(item.myVote),
   }
 }

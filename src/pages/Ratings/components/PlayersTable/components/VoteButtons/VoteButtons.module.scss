@@ -1,0 +1,21 @@
+/* The two buttons side by side, 8px apart. */
+.buttons {
+    display: flex;
+    gap: 8px;
+}
+
+/* .btn--sm and .btn--square give a 40x32 icon button; this makes it a 32px square. */
+.button {
+    width: 32px;
+}
+
+/* The reader's own vote stays at full strength, though it takes no click. */
+.button[aria-pressed="true"] {
+    opacity: 1;
+}
+
+/* The global ring is drawn inside the button, over its colour; drawn outside, it
+   sits on the row behind it. */
+.button:focus-visible {
+    outline-offset: 2px;
+}

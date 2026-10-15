@@ -1,5 +1,7 @@
 import { Pager } from './components/Pager'
 import { SortableHeader } from './components/SortableHeader'
+import { VoteButtons } from './components/VoteButtons'
+import { usePlayerVotes } from './hooks'
 import { usePlayersTable } from './usePlayersTable'
 
 import styles from './PlayersTable.module.scss'
@@ -7,14 +9,15 @@ import styles from './PlayersTable.module.scss'
 import type { PlayersTableProps } from './types'
 
 /**
- * The players the query finds: one row per player, starting with their photo,
- * with the headings that sort and a pager under them.
+ * The players the query finds: one row per player, from their photo to the
+ * buttons that vote on their rating, with the headings that sort and a pager
+ * under them.
  *
  * @param props The query being shown, and what to call when the reader sorts
  * or changes page.
  * @returns The rendered table and pager. The table, its headings and the pager
  * always render: a loading, error or empty state shows as a message under the
- * headings, in a live region.
+ * headings, in a live region. How the last vote went shows in a second one.
  */
 export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps) {
   const {
@@ -29,6 +32,8 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
     goToPrevious,
     goToNext,
   } = usePlayersTable(query, onPageChange)
+
+  const { voteButtonsFor, message: voteMessage } = usePlayerVotes()
 
   return (
     <div className="card">
@@ -94,6 +99,10 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
               sortDescending={sortDescending}
               onSort={onSort}
             />
+
+            <th scope="col" className={styles.vote}>
+              <span className="visually-hidden">Vote</span>
+            </th>
           </tr>
         </thead>
 
@@ -118,9 +127,15 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
               <td>
                 <span className="h4 text-overflow d-block">{row.name}</span>
 
-                <span className={`label text-10 text-overflow ${styles.position_inline}`}>
-                  {row.position}
-                </span>
+                <div className={styles.details}>
+                  <span className={`label text-10 text-overflow ${styles.position_inline}`}>
+                    {row.position}
+                  </span>
+
+                  <div className={styles.vote_inline}>
+                    <VoteButtons {...voteButtonsFor(row)} />
+                  </div>
+                </div>
               </td>
 
               <td className={`text-12 text-overflow ${styles.position}`}>{row.position}</td>
@@ -138,12 +153,20 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
               <td className={`text-12 ${styles.value}`}>{row.value}</td>
 
               <td className={`text-12 ${styles.wage}`}>{row.wage}</td>
+
+              <td className={styles.vote}>
+                <VoteButtons {...voteButtonsFor(row)} />
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
 
       <div role="status">{message !== null && <p className="label card-padded">{message}</p>}</div>
+
+      <div role="status">
+        {voteMessage !== null && <p className="label card-padded">{voteMessage}</p>}
+      </div>
 
       <Pager
         summary={summary}

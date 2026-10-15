@@ -1,6 +1,6 @@
 /**
  * One player of a search result, with the team, national team and position
- * names for display.
+ * names for display, and the caller's vote on the player's current rating.
  *
  * Mirrors an item of `GET /api/players/search`. The date of birth arrives as
  * `yyyy-MM-dd`.
@@ -44,4 +44,10 @@ export interface PlayerSearchItemDto {
 
   /** The name of that position, or `null` when the player has none. */
   positionName: string | null
+
+  /**
+   * The signed-in caller's vote on the player's current rating: `true` up, `false` down, or
+   * `null` when they have not voted on it.
+   */
+  myVote: boolean | null
 }

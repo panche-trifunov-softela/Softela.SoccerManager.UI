@@ -23,6 +23,10 @@ export const API_ROUTES = {
     /** The leagues the signed-in caller does not manage a club in; `?searchTerm=` narrows them by name. */
     list: '/api/leagues',
   },
+  managerPlayerRatingVotes: {
+    /** Votes, as the signed-in caller, on one player's current rating; takes a `POST`. */
+    create: '/api/manager-player-rating-votes',
+  },
   players: {
     /** Searches the players; every query parameter narrows, sorts or pages the result. */
     search: '/api/players/search',

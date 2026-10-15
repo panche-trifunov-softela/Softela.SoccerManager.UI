@@ -7,8 +7,10 @@
  * first column's start and the last visible column's end, which take the card
  * padding. The player column has no width and takes whatever is left.
  *
- * Below md only the photo, Player and Rating show, with the position under the
- * name; md adds Position, Age, Club and Value; lg adds Nationality and Wage.
+ * Below md only the photo, Player and Rating show, with a second line under the
+ * name holding the position and the vote buttons. md adds Age, Club, Value and
+ * the vote column, and the buttons leave the second line; lg adds Position,
+ * Nationality and Wage, and the position leaves it too.
  */
 .table {
     /* The photo is the first column, so the card padding is its start. Its end
@@ -32,7 +34,8 @@
     .club,
     .nationality,
     .value,
-    .wage {
+    .wage,
+    .vote {
         display: none;
     }
 
@@ -49,8 +52,27 @@
         padding-inline-end: var(--card-padding);
     }
 
+    /* The two 32px vote buttons and the 8px between them. The DOM's last child, so
+       the global .table gives it the card padding at its end. */
+    .vote {
+        width: calc(12px + 72px + var(--card-padding));
+    }
+
+    /* The player cell's second line: the position, then the vote buttons at its end,
+       which keep their size while a long position is cut short. */
+    .details {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
     .position_inline {
         display: block;
+    }
+
+    .vote_inline {
+        flex-shrink: 0;
     }
 
     /* .tag is a block-level flex box; this lets the cell's text-align place it. */
@@ -59,19 +81,15 @@
     }
 
     @include bp-up(md) {
-        .position,
         .age,
         .club,
-        .value {
+        .value,
+        .vote {
             display: table-cell;
         }
 
-        .position_inline {
+        .vote_inline {
             display: none;
-        }
-
-        .position {
-            width: 140px;
         }
 
         .age {
@@ -87,31 +105,32 @@
             padding-inline-end: 12px;
         }
 
-        /* The last visible column here, so it takes the card padding after its content. */
         .value {
-            width: calc(84px + var(--card-padding));
-            padding-inline-end: var(--card-padding);
+            width: 96px;
         }
     }
 
     @include bp-up(lg) {
+        .position,
         .nationality,
         .wage {
             display: table-cell;
+        }
+
+        .position_inline {
+            display: none;
+        }
+
+        .position {
+            width: 140px;
         }
 
         .nationality {
             width: 150px;
         }
 
-        .value {
-            width: 96px;
-            padding-inline-end: 12px;
-        }
-
-        /* The DOM's last child, which the global .table already pads at its end. */
         .wage {
-            width: calc(96px + 12px + var(--card-padding));
+            width: 120px;
         }
     }
 }

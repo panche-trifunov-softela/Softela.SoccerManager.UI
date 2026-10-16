@@ -1,3 +1,6 @@
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { useSearchForm } from './useSearchForm'
 
 import type { SearchFormProps } from './types'
@@ -37,7 +40,7 @@ export function SearchForm({
       />
 
       <button type="submit" className="btn btn--square focus-ring" aria-label={buttonLabel}>
-        <i className="icon-search" aria-hidden="true" />
+        <FontAwesomeIcon icon={faMagnifyingGlass} />
       </button>
     </form>
   )

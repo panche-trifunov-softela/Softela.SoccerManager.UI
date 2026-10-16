@@ -1,3 +1,5 @@
+import { faFutbol } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router'
 
 import { useAvailableLeagues } from './useAvailableLeagues'
@@ -51,7 +53,7 @@ export function AvailableLeagues({ searchTerm }: AvailableLeaguesProps) {
               <td className={styles.name}>
                 <div className="d-flex align-items-center g-12">
                   <span className="square square--icon" aria-hidden="true">
-                    <i className="icon-ball" />
+                    <FontAwesomeIcon icon={faFutbol} />
                   </span>
 
                   <Link to={row.path} className={`h4 text-overflow ${styles.link}`}>

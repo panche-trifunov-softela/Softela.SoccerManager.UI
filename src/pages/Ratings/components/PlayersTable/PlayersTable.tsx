@@ -1,3 +1,6 @@
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { Pager } from './components/Pager'
 import { SortableHeader } from './components/SortableHeader'
 import { VoteButtons } from './components/VoteButtons'
@@ -74,15 +77,6 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
             </th>
 
             <SortableHeader
-              label="Rating"
-              sortBy="rating"
-              className={styles.rating}
-              activeSortBy={sortBy}
-              sortDescending={sortDescending}
-              onSort={onSort}
-            />
-
-            <SortableHeader
               label="Value"
               sortBy="value"
               className={styles.value}
@@ -100,6 +94,15 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
               onSort={onSort}
             />
 
+            <SortableHeader
+              label="Rating"
+              sortBy="rating"
+              className={styles.rating}
+              activeSortBy={sortBy}
+              sortDescending={sortDescending}
+              onSort={onSort}
+            />
+
             <th scope="col" className={styles.vote}>
               <span className="visually-hidden">Vote</span>
             </th>
@@ -112,7 +115,7 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
               <td className={styles.photo}>
                 {row.imageUrl === null ? (
                   <span className="square square--icon" aria-hidden="true">
-                    <i className="icon-user" />
+                    <FontAwesomeIcon icon={faUser} />
                   </span>
                 ) : (
                   <img
@@ -127,15 +130,9 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
               <td>
                 <span className="h4 text-overflow d-block">{row.name}</span>
 
-                <div className={styles.details}>
-                  <span className={`label text-10 text-overflow ${styles.position_inline}`}>
-                    {row.position}
-                  </span>
-
-                  <div className={styles.vote_inline}>
-                    <VoteButtons {...voteButtonsFor(row)} />
-                  </div>
-                </div>
+                <span className={`label text-10 text-overflow ${styles.position_inline}`}>
+                  {row.position}
+                </span>
               </td>
 
               <td className={`text-12 text-overflow ${styles.position}`}>{row.position}</td>
@@ -146,13 +143,13 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
 
               <td className={`text-12 text-overflow ${styles.nationality}`}>{row.nationality}</td>
 
-              <td className={styles.rating}>
-                <span className={`tag tag--accent ${styles.badge}`}>{row.rating}</span>
-              </td>
-
               <td className={`text-12 ${styles.value}`}>{row.value}</td>
 
               <td className={`text-12 ${styles.wage}`}>{row.wage}</td>
+
+              <td className={styles.rating}>
+                <span className={`tag tag--accent ${styles.badge}`}>{row.rating}</span>
+              </td>
 
               <td className={styles.vote}>
                 <VoteButtons {...voteButtonsFor(row)} />

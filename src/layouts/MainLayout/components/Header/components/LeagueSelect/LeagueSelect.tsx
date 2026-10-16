@@ -1,3 +1,6 @@
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { HeaderDropdown } from '../HeaderDropdown'
 
 import { useLeagueSelect } from './useLeagueSelect'
@@ -17,7 +20,7 @@ export function LeagueSelect() {
       trigger={
         <>
           <span>{selected.name}</span>
-          <i className="icon-chevron-down" aria-hidden="true" />
+          <FontAwesomeIcon icon={faChevronDown} />
         </>
       }
       items={items}

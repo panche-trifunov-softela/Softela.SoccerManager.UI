@@ -30,3 +30,9 @@ If you are developing a production application, we recommend enabling type-aware
 ```
 
 See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+
+## Credits
+
+Icons: [Font Awesome Free](https://fontawesome.com) 6.7.2 by Fonticons, Inc., used under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (icons) and the
+[MIT License](https://opensource.org/licenses/MIT) (code). See https://fontawesome.com/license/free.

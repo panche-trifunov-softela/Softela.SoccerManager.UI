@@ -1,11 +1,14 @@
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import styles from './VoteButtons.module.scss'
 
 import type { VoteButtonsProps } from './types'
 
 /**
- * The reader's vote on one player's current rating: a green up button and a red down button.
- * The reader's own vote shows pressed, with a filled thumb. While the vote is being sent, and
- * once the reader has voted, neither button takes a click.
+ * The reader's vote on one player's current rating: a green up arrow and a red down arrow.
+ * Once the reader has voted, their vote stays at full strength while the other button dims.
+ * While the vote is being sent, and once the reader has voted, neither button takes a click.
  *
  * @param props The player, the reader's vote on them, and what to call when they vote.
  * @returns The two buttons.
@@ -23,10 +26,7 @@ export function VoteButtons({ playerName, vote, isLocked, onVote }: VoteButtonsP
           onVote('up')
         }}
       >
-        <i
-          className={vote === 'up' ? 'icon-thumbs-up-solid' : 'icon-thumbs-up-regular'}
-          aria-hidden="true"
-        />
+        <FontAwesomeIcon icon={faArrowUp} />
       </button>
 
       <button
@@ -39,10 +39,7 @@ export function VoteButtons({ playerName, vote, isLocked, onVote }: VoteButtonsP
           onVote('down')
         }}
       >
-        <i
-          className={vote === 'down' ? 'icon-thumbs-down-solid' : 'icon-thumbs-down-regular'}
-          aria-hidden="true"
-        />
+        <FontAwesomeIcon icon={faArrowDown} />
       </button>
     </div>
   )

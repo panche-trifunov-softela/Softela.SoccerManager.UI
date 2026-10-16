@@ -27,6 +27,10 @@ export const API_ROUTES = {
     /** Votes, as the signed-in caller, on one player's current rating; takes a `POST`. */
     create: '/api/manager-player-rating-votes',
   },
+  managers: {
+    /** The signed-in caller's own manager profile; a `POST` creates it when it is missing. */
+    me: '/api/managers/me',
+  },
   players: {
     /** Searches the players; every query parameter narrows, sorts or pages the result. */
     search: '/api/players/search',

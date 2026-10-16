@@ -4,13 +4,12 @@
  * Column rules for the players table. Everything here nests under the module's
  * own .table so it outranks the global .table th / .table td rules. Widths are
  * border-box, so each one includes the cell's padding: 12px a side, except the
- * first column's start and the last visible column's end, which take the card
- * padding. The player column has no width and takes whatever is left.
+ * first column's start and the last column's end, which take the card padding.
+ * The player column has no width and takes whatever is left.
  *
- * Below md only the photo, Player and Rating show, with a second line under the
- * name holding the position and the vote buttons. md adds Age, Club, Value and
- * the vote column, and the buttons leave the second line; lg adds Position,
- * Nationality and Wage, and the position leaves it too.
+ * Below md only the photo, Player, Rating and the vote buttons show, with the
+ * position under the name. md adds Age, Club and Value; lg adds Position,
+ * Nationality and Wage, and takes the position from under the name.
  */
 .table {
     /* The photo is the first column, so the card padding is its start. Its end
@@ -34,8 +33,7 @@
     .club,
     .nationality,
     .value,
-    .wage,
-    .vote {
+    .wage {
         display: none;
     }
 
@@ -46,10 +44,9 @@
         text-align: end;
     }
 
-    /* 56px of content, enough for the heading with its arrow, with the card padding after it. */
+    /* 56px of content, enough for the heading with its arrow. */
     .rating {
-        width: calc(68px + var(--card-padding));
-        padding-inline-end: var(--card-padding);
+        width: 80px;
     }
 
     /* The two 32px vote buttons and the 8px between them. The DOM's last child, so
@@ -58,21 +55,8 @@
         width: calc(12px + 72px + var(--card-padding));
     }
 
-    /* The player cell's second line: the position, then the vote buttons at its end,
-       which keep their size while a long position is cut short. */
-    .details {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-    }
-
     .position_inline {
         display: block;
-    }
-
-    .vote_inline {
-        flex-shrink: 0;
     }
 
     /* .tag is a block-level flex box; this lets the cell's text-align place it. */
@@ -83,13 +67,8 @@
     @include bp-up(md) {
         .age,
         .club,
-        .value,
-        .vote {
+        .value {
             display: table-cell;
-        }
-
-        .vote_inline {
-            display: none;
         }
 
         .age {
@@ -98,11 +77,6 @@
 
         .club {
             width: 160px;
-        }
-
-        .rating {
-            width: 80px;
-            padding-inline-end: 12px;
         }
 
         .value {

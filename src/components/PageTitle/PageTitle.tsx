@@ -1,3 +1,5 @@
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router'
 
 import styles from './PageTitle.module.scss'
@@ -18,7 +20,7 @@ export function PageTitle({ title, subtitle, backTo, backLabel }: PageTitleProps
         className={`icon-btn icon-btn--blue focus-ring ${styles.back}`}
         aria-label={backLabel}
       >
-        <i className="icon-arrow-left" aria-hidden="true" />
+        <FontAwesomeIcon icon={faArrowLeft} />
       </Link>
 
       <div className={styles.titles}>

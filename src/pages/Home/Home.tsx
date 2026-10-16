@@ -1,3 +1,5 @@
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router'
 
 import { ROUTES } from '@/constants/routes'
@@ -17,7 +19,7 @@ export function Home() {
         <h1 className="h3">My teams</h1>
 
         <Link to={ROUTES.addTeam} className="btn focus-ring g-8">
-          <i className="icon-plus" aria-hidden="true" />
+          <FontAwesomeIcon icon={faPlus} />
           Add team
         </Link>
       </div>

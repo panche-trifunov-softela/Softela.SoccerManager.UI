@@ -1,3 +1,6 @@
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { Pager } from './components/Pager'
 import { SortableHeader } from './components/SortableHeader'
 import { VoteButtons } from './components/VoteButtons'
@@ -112,7 +115,7 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
               <td className={styles.photo}>
                 {row.imageUrl === null ? (
                   <span className="square square--icon" aria-hidden="true">
-                    <i className="icon-user" />
+                    <FontAwesomeIcon icon={faUser} />
                   </span>
                 ) : (
                   <img

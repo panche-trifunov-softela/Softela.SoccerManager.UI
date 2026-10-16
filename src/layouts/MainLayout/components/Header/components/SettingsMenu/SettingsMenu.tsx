@@ -1,3 +1,6 @@
+import { faGear } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { HeaderDropdown } from '../HeaderDropdown'
 
 import { useSettingsMenu } from './useSettingsMenu'
@@ -13,7 +16,7 @@ export function SettingsMenu() {
   return (
     <HeaderDropdown
       role="menu"
-      trigger={<i className="icon-gear-regular" aria-hidden="true" />}
+      trigger={<FontAwesomeIcon icon={faGear} />}
       ariaLabel="Settings"
       items={items}
       onSelect={select}

@@ -1,3 +1,5 @@
+import { faFutbol } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router'
 
 import { useMyTeamCard } from './useMyTeamCard'
@@ -21,7 +23,7 @@ export function MyTeamCard({ team }: MyTeamCardProps) {
       <div className="card_header d-flex align-items-center g-16">
         <span className={`club-logo club-logo--lg ${styles.crest}`}>
           {team.teamLogoUrl === null ? (
-            <i className="icon-ball" aria-hidden="true" />
+            <FontAwesomeIcon icon={faFutbol} />
           ) : (
             <img src={team.teamLogoUrl} alt="" />
           )}

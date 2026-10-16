@@ -1,3 +1,5 @@
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { NavLink } from 'react-router'
 
 import { ROUTES } from '@/constants/routes'
@@ -47,7 +49,7 @@ export function Header() {
             aria-label="Close menu"
             onClick={closeMenu}
           >
-            <i className="icon-xmark" aria-hidden="true" />
+            <FontAwesomeIcon icon={faXmark} />
           </button>
         </div>
 

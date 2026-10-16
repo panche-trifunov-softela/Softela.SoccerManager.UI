@@ -74,11 +74,11 @@
             background: var(--border);
         }
 
-        i {
+        svg {
             transition: transform var(--transition);
         }
 
-        &[aria-expanded="true"] i {
+        &[aria-expanded="true"] svg {
             transform: rotate(180deg);
         }
 
@@ -93,7 +93,7 @@
                 background: none;
             }
 
-            &[aria-expanded="true"] i {
+            &[aria-expanded="true"] svg {
                 transform: none;
             }
         }

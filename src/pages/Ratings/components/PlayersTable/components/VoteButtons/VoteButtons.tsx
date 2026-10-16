@@ -1,3 +1,6 @@
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import styles from './VoteButtons.module.scss'
 
 import type { VoteButtonsProps } from './types'
@@ -23,7 +26,7 @@ export function VoteButtons({ playerName, vote, isLocked, onVote }: VoteButtonsP
           onVote('up')
         }}
       >
-        <i className="icon-arrow-up" aria-hidden="true" />
+        <FontAwesomeIcon icon={faArrowUp} />
       </button>
 
       <button
@@ -36,7 +39,7 @@ export function VoteButtons({ playerName, vote, isLocked, onVote }: VoteButtonsP
           onVote('down')
         }}
       >
-        <i className="icon-arrow-down" aria-hidden="true" />
+        <FontAwesomeIcon icon={faArrowDown} />
       </button>
     </div>
   )

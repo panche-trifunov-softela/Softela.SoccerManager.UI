@@ -1,3 +1,6 @@
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import styles from './SortableHeader.module.scss'
 
 import type { SortableHeaderProps } from './types'
@@ -22,7 +25,7 @@ export function SortableHeader({
 
   const ariaSort = active ? (sortDescending ? 'descending' : 'ascending') : undefined
 
-  const arrow = sortDescending ? 'icon-chevron-down' : 'icon-chevron-up'
+  const arrow = sortDescending ? faChevronDown : faChevronUp
 
   return (
     <th
@@ -39,7 +42,7 @@ export function SortableHeader({
       >
         {label}
 
-        {active && <i className={arrow} aria-hidden="true" />}
+        {active && <FontAwesomeIcon icon={arrow} />}
       </button>
     </th>
   )

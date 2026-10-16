@@ -1,3 +1,6 @@
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import type { PagerProps } from './types'
 
 /**
@@ -25,7 +28,7 @@ export function Pager({ summary, canGoBack, canGoForward, onPrevious, onNext }: 
           aria-disabled={!canGoBack}
           onClick={onPrevious}
         >
-          <i className="icon-chevron-left" aria-hidden="true" />
+          <FontAwesomeIcon icon={faChevronLeft} />
         </button>
 
         <button
@@ -35,7 +38,7 @@ export function Pager({ summary, canGoBack, canGoForward, onPrevious, onNext }: 
           aria-disabled={!canGoForward}
           onClick={onNext}
         >
-          <i className="icon-chevron-right" aria-hidden="true" />
+          <FontAwesomeIcon icon={faChevronRight} />
         </button>
       </div>
     </div>

@@ -1,3 +1,6 @@
+import { faFutbol } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { useAvailableTeamsTable } from './useAvailableTeamsTable'
 
 import styles from './AvailableTeamsTable.module.scss'
@@ -40,7 +43,7 @@ export function AvailableTeamsTable({ rows }: AvailableTeamsTableProps) {
                 <div className="d-flex align-items-center g-12">
                   {row.logoUrl === null ? (
                     <span className="square square--icon" aria-hidden="true">
-                      <i className="icon-ball" />
+                      <FontAwesomeIcon icon={faFutbol} />
                     </span>
                   ) : (
                     <span className={`club-logo club-logo--md ${styles.logo}`}>

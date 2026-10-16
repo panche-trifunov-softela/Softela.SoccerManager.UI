@@ -318,21 +318,6 @@ select.field {
     &--blue {
         background: linear-gradient(360deg, #0496FF 0%, #28B5E0 100%);
     }
-
-    &--cart {
-        background: var(--widget);
-        box-shadow: var(--widget-shadow);
-        will-change: transform;
-        transition: transform var(--transition);
-
-        i {
-            color: var(--nav-arrow) !important;
-        }
-
-        &:hover, &:focus {
-            transform: scale(.9);
-        }
-    }
 }
 
 a {
@@ -366,45 +351,6 @@ a {
 
     &--alt {
         border-color: var(--score-alt);
-    }
-}
-
-.like {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    line-height: 1;
-
-    &[disabled] {
-        pointer-events: none;
-        cursor: default;
-    }
-
-    &_icon {
-        position: relative;
-        width: 14px;
-        height: 14px;
-
-        i {
-            position: absolute;
-            font-size: 14px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            transition: opacity var(--transition);
-        }
-
-        &.red i {
-            color: #ED0404;
-        }
-
-        &.light i {
-            color: var(--nav-arrow);
-        }
-    }
-
-    &_text {
-        color: var(--text) !important;
     }
 }
 

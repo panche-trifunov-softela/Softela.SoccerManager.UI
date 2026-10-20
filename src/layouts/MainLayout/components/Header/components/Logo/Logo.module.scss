@@ -3,20 +3,16 @@
 .logo {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-    font-family: var(--heading-font);
-    font-weight: 700;
-    color: var(--header);
 
+    // The SVG carries the wordmark; each size's font-size scales its height,
+    // so sm renders at the SVG's designed 40px.
     &_image {
-        height: 1.6em;
+        height: 2em;
         width: auto;
     }
 
     &.sm {
-        font-size: 19px;
-        gap: 4px;
+        font-size: 20px;
     }
 
     &.md {

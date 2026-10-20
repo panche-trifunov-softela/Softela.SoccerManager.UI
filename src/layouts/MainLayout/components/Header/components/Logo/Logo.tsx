@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router'
 
-import logo from '@/assets/images/logo.png'
+import logo from '@/assets/images/the11master-header-logo-light.svg'
 import { ROUTES } from '@/constants/routes'
 
 import styles from './Logo.module.scss'
@@ -16,8 +16,7 @@ import type { LogoProps } from './types'
 export function Logo({ size = 'md' }: LogoProps) {
   return (
     <NavLink className={`${styles.logo} ${styles[size]}`} to={ROUTES.home}>
-      <img className={styles.logo_image} src={logo} alt="" />
-      Soccer Manager
+      <img className={styles.logo_image} src={logo} alt="The 11 Master" />
     </NavLink>
   )
 }

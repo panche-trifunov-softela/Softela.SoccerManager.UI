@@ -6,7 +6,7 @@ import { createLeagueTeamManagerApplication, toErrorMessage } from '@/services/a
 
 import { APPLY_FAILED_MESSAGE } from './constants'
 
-import type { AvailableTeamRow, AvailableTeamsTableState } from './types'
+import type { AvailableTeamRow, AvailableTeamsTableProps, AvailableTeamsTableState } from './types'
 
 /**
  * Applies for the table's clubs, one at a time.
@@ -14,12 +14,18 @@ import type { AvailableTeamRow, AvailableTeamsTableState } from './types'
  * - A successful application goes Home.
  * - A failed one says why, and the club can be applied for again.
  * - A click while an application is in flight does nothing.
+ * - While the reader has a pending application for a club with no manager, no other club can
+ *   be applied for.
  * - An application that settles after the table has gone changes nothing, so it never moves the
  *   reader away from the page they went to.
  *
- * @returns The club being applied for, why the last application failed, and what applies.
+ * @param rows The clubs the table shows.
+ * @returns The club being applied for, why the last application failed, whether a club can be
+ * applied for, and what applies.
  */
-export function useAvailableTeamsTable(): AvailableTeamsTableState {
+export function useAvailableTeamsTable(
+  rows: AvailableTeamsTableProps['rows'],
+): AvailableTeamsTableState {
   const navigate = useNavigate()
 
   const [applyingId, setApplyingId] = useState<number | null>(null)
@@ -34,6 +40,10 @@ export function useAvailableTeamsTable(): AvailableTeamsTableState {
       isMounted.current = false
     }
   }, [])
+
+  // A pending application on a club that has since got a manager can never be accepted, so it
+  // holds no other club back.
+  const canApply = !rows.some((row) => row.hasPendingApplication && !row.isManaged)
 
   const apply = (row: AvailableTeamRow) => {
     if (applyingId !== null) return
@@ -53,5 +63,5 @@ export function useAvailableTeamsTable(): AvailableTeamsTableState {
       })
   }
 
-  return { applyingId, error, apply }
+  return { applyingId, error, canApply, apply }
 }

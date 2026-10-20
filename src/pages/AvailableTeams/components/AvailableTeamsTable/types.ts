@@ -33,6 +33,12 @@ export interface AvailableTeamsTableState {
   /** Why the last application failed, or `null` when none has. */
   error: string | null
 
+  /**
+   * Whether the reader can apply for a club: `false` while they have a pending application for a
+   * club with no manager.
+   */
+  canApply: boolean
+
   /** Applies for one club, unless an application is already in flight. */
   apply: (row: AvailableTeamRow) => void
 }

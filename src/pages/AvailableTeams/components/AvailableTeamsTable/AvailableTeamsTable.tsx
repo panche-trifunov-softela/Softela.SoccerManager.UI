@@ -9,15 +9,19 @@ import type { AvailableTeamsTableProps } from './types'
 
 /**
  * The clubs of one game world: one row per club, with its crest, how wealthy it is, and its
- * status. A free club has an Apply button, which applies for it and goes Home; a managed club
- * shows a Managed tag, and one the reader has applied for an Applied tag. Why an application
- * failed shows under the table, in a live region.
+ * status.
+ *
+ * - A free club has an Apply button, which applies for it and goes Home.
+ * - A managed club shows a Managed tag.
+ * - A club the reader has applied for shows an Applied tag. While one does, no other club has an
+ *   Apply button.
+ * - Why an application failed shows under the table, in a live region.
  *
  * @param props The clubs to show.
  * @returns The rendered table.
  */
 export function AvailableTeamsTable({ rows }: AvailableTeamsTableProps) {
-  const { applyingId, error, apply } = useAvailableTeamsTable()
+  const { applyingId, error, canApply, apply } = useAvailableTeamsTable(rows)
 
   return (
     <div className="card">
@@ -62,7 +66,7 @@ export function AvailableTeamsTable({ rows }: AvailableTeamsTableProps) {
                   <span className={`label text-12 ${styles.status_tag}`}>Managed</span>
                 ) : row.hasPendingApplication ? (
                   <span className={`label text-12 ${styles.status_tag}`}>Applied</span>
-                ) : (
+                ) : canApply ? (
                   <button
                     type="button"
                     className="btn focus-ring"
@@ -76,7 +80,7 @@ export function AvailableTeamsTable({ rows }: AvailableTeamsTableProps) {
                   >
                     {applyingId === row.id ? 'Applying…' : 'Apply'}
                   </button>
-                )}
+                ) : null}
               </td>
             </tr>
           ))}

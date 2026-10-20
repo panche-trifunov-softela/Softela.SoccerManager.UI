@@ -5,8 +5,12 @@ import { AvailableTeamsTable } from './components/AvailableTeamsTable'
 import { useAvailableTeams } from './useAvailableTeams'
 
 /**
- * The clubs of one game world: the second step of adding a team. A free club shows an Apply
- * button, a managed one a Managed tag, and one the reader has applied for an Applied tag.
+ * The clubs of one game world: the second step of adding a team.
+ *
+ * - A free club shows an Apply button.
+ * - A managed club shows a Managed tag.
+ * - A club the reader has applied for shows an Applied tag. While one does, no other club shows
+ *   an Apply button.
  *
  * @returns The rendered page.
  */

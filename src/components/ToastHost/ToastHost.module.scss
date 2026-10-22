@@ -1,0 +1,84 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * Above the mobile drawer (40) and its backdrop (30). It never blocks the page
+ * behind it: only the toast itself takes pointer events.
+ */
+.container {
+    position: fixed;
+    inset-block-start: var(--page-gutter);
+    inset-inline: var(--page-gutter);
+    z-index: 50;
+    pointer-events: none;
+
+    @include bp-up(md) {
+        inset-inline-start: auto;
+        inline-size: 380px;
+    }
+}
+
+/* Padding is tighter than a card's: the toast is a strip, not a panel. */
+.toast {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding-block: 12px;
+    padding-inline: 16px 12px;
+    background: var(--widget);
+    box-shadow: var(--widget-shadow);
+    border-radius: 4px;
+    border-inline-start: 4px solid transparent;
+    color: var(--text);
+    overflow-wrap: anywhere;
+    pointer-events: auto;
+    user-select: text;
+    animation: toast_in var(--transition);
+
+    @media (prefers-reduced-motion: reduce) {
+        animation: none;
+    }
+
+    &--success {
+        border-inline-start-color: var(--success);
+
+        .icon {
+            color: var(--success);
+        }
+    }
+
+    &--error {
+        border-inline-start-color: var(--error);
+
+        .icon {
+            color: var(--error);
+        }
+    }
+}
+
+/* Sits level with the first line of text. */
+.icon {
+    flex: none;
+    margin-block-start: 2px;
+    font-size: 1rem;
+}
+
+.message {
+    flex: 1;
+    min-inline-size: 0;
+}
+
+.dismiss {
+    flex: none;
+}
+
+@keyframes toast_in {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}

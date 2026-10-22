@@ -30,9 +30,6 @@ export interface AvailableTeamsTableState {
   /** The league team id of the club being applied for, or `null` when none is in flight. */
   applyingId: number | null
 
-  /** Why the last application failed, or `null` when none has. */
-  error: string | null
-
   /**
    * Whether the reader can apply for a club: `false` while they have a pending application for a
    * club with no manager.

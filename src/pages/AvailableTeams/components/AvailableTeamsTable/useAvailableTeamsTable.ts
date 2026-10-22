@@ -3,25 +3,25 @@ import { useNavigate } from 'react-router'
 
 import { ROUTES } from '@/constants/routes'
 import { createLeagueTeamManagerApplication, toErrorMessage } from '@/services/api'
+import { toast } from '@/store/toast'
 
-import { APPLY_FAILED_MESSAGE } from './constants'
+import { APPLY_FAILED_MESSAGE, APPLY_SENT_MESSAGE } from './constants'
 
 import type { AvailableTeamRow, AvailableTeamsTableProps, AvailableTeamsTableState } from './types'
 
 /**
  * Applies for the table's clubs, one at a time.
  *
- * - A successful application goes Home.
- * - A failed one says why, and the club can be applied for again.
+ * - A successful application says so and goes Home.
+ * - A failed one says why, naming the club, and the club can be applied for again.
  * - A click while an application is in flight does nothing.
  * - While the reader has a pending application for a club with no manager, no other club can
  *   be applied for.
- * - An application that settles after the table has gone changes nothing, so it never moves the
- *   reader away from the page they went to.
+ * - An application that settles after the table has gone still says how it went, but never moves
+ *   the reader away from the page they went to.
  *
  * @param rows The clubs the table shows.
- * @returns The club being applied for, why the last application failed, whether a club can be
- * applied for, and what applies.
+ * @returns The club being applied for, whether a club can be applied for, and what applies.
  */
 export function useAvailableTeamsTable(
   rows: AvailableTeamsTableProps['rows'],
@@ -29,7 +29,6 @@ export function useAvailableTeamsTable(
   const navigate = useNavigate()
 
   const [applyingId, setApplyingId] = useState<number | null>(null)
-  const [error, setError] = useState<string | null>(null)
 
   const isMounted = useRef(false)
 
@@ -49,19 +48,19 @@ export function useAvailableTeamsTable(
     if (applyingId !== null) return
 
     setApplyingId(row.id)
-    setError(null)
 
     createLeagueTeamManagerApplication({ leagueTeamId: row.id })
       .then(() => {
+        toast.success(`${row.name}: ${APPLY_SENT_MESSAGE}`)
+
         if (isMounted.current) void navigate(ROUTES.home)
       })
       .catch((cause: unknown) => {
-        if (!isMounted.current) return
+        toast.error(`${row.name}: ${toErrorMessage(cause, APPLY_FAILED_MESSAGE)}`)
 
-        setApplyingId(null)
-        setError(toErrorMessage(cause, APPLY_FAILED_MESSAGE))
+        if (isMounted.current) setApplyingId(null)
       })
   }
 
-  return { applyingId, error, canApply, apply }
+  return { applyingId, canApply, apply }
 }

@@ -15,13 +15,12 @@ import type { AvailableTeamsTableProps } from './types'
  * - A managed club shows a Managed tag.
  * - A club the reader has applied for shows an Applied tag. While one does, no other club has an
  *   Apply button.
- * - Why an application failed shows under the table, in a live region.
  *
  * @param props The clubs to show.
  * @returns The rendered table.
  */
 export function AvailableTeamsTable({ rows }: AvailableTeamsTableProps) {
-  const { applyingId, error, canApply, apply } = useAvailableTeamsTable(rows)
+  const { applyingId, canApply, apply } = useAvailableTeamsTable(rows)
 
   return (
     <div className="card">
@@ -86,8 +85,6 @@ export function AvailableTeamsTable({ rows }: AvailableTeamsTableProps) {
           ))}
         </tbody>
       </table>
-
-      <div role="status">{error !== null && <p className="label card-padded">{error}</p>}</div>
     </div>
   )
 }

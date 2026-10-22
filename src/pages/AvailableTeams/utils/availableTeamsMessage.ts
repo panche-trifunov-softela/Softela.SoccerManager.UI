@@ -5,7 +5,8 @@ import { NOT_FOUND_MESSAGE } from '../constants'
  *
  * @param hasLeagueId Whether the address names a valid league id.
  * @param isLoading Whether the read for this league is still in flight.
- * @param error Why the read failed, or `null` when it did not.
+ * @param error The fixed sentence that says why the read failed (not found, or could not
+ * be loaded), or `null` when it did not.
  * @param rowCount How many clubs the read found.
  * @returns The sentence to show, or `null` when the table shows clubs.
  */

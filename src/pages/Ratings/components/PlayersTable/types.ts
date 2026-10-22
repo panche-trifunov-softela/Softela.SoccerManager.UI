@@ -60,7 +60,7 @@ export interface PlayersRead {
   /** The page of players read, or `null` when the read failed. */
   result: PlayerSearchResultDto | null
 
-  /** Why the read failed, or `null` when it did not. */
+  /** The fixed sentence that says the read failed, or `null` when it did not. */
   error: string | null
 }
 
@@ -76,8 +76,8 @@ export interface PlayersTableState {
   isLoading: boolean
 
   /**
-   * What shows under the headings instead of rows: that they are loading, why the read failed, that
-   * the page is past the end, or that nothing matched. `null` when the table shows rows.
+   * What shows under the headings instead of rows: that they are loading, that the read failed,
+   * that the page is past the end, or that nothing matched. `null` when the table shows rows.
    */
   message: string | null
 
@@ -116,7 +116,4 @@ export interface CastVote {
 export interface PlayerVotesState {
   /** The props of one row's vote buttons: the player, the reader's vote, and what voting does. */
   voteButtonsFor: (row: PlayerRow) => VoteButtonsProps
-
-  /** Why the last vote failed, or `null` when none has. */
-  error: string | null
 }

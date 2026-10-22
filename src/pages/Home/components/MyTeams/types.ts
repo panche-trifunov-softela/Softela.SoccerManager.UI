@@ -8,7 +8,7 @@ export interface MyTeamsState {
   /** Whether the read is still in flight. */
   isLoading: boolean
 
-  /** Why the read failed, or `null` when it did not. */
+  /** The fixed line to show when the read failed, or `null` when it did not. */
   error: string | null
 
   /** Whether the read succeeded and found nothing. */
@@ -23,6 +23,6 @@ export interface MyTeamsRead {
   /** Whether the read is still in flight. */
   isLoading: boolean
 
-  /** Why the read failed, or `null` when it did not. */
+  /** The fixed line to show when the read failed, or `null` when it did not. */
   error: string | null
 }

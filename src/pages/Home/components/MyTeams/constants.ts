@@ -3,6 +3,12 @@ import type { MyTeamsRead } from './types'
 /** The grid shows the clubs run right now, not tenures already ended. */
 export const CURRENT_ONLY = true
 
+/**
+ * What a failed read says when the API gave no reason, and the line the view keeps where the
+ * clubs would be.
+ */
+export const MY_TEAMS_LOAD_FAILED_MESSAGE = 'Your clubs could not be loaded.'
+
 /** What the hook holds before the first read settles. */
 export const LOADING: MyTeamsRead = {
   teams: [],

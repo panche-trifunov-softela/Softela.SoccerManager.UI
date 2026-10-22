@@ -8,8 +8,8 @@ import type { PlayerFiltersProps, PlayerFiltersState } from './types'
  * filter change.
  *
  * @param onFilter Called with the filter that changed.
- * @returns The lists, why they could not be read, and one change handler per
- * select.
+ * @returns The lists, the line that says they could not be read, and one change
+ * handler per select.
  */
 export function usePlayerFilters(onFilter: PlayerFiltersProps['onFilter']): PlayerFiltersState {
   const options = useFilterOptions()

@@ -14,7 +14,10 @@ export interface AvailableTeamsRead {
   /** The clubs read, empty when the read failed. */
   teams: readonly AvailableLeagueTeamDto[]
 
-  /** Why the read failed, or `null` when it did not. */
+  /**
+   * The fixed sentence that says the read failed (not found, or could not be loaded), or `null`
+   * when it did not.
+   */
   error: string | null
 }
 
@@ -28,4 +31,10 @@ export interface AvailableTeamsState {
 
   /** What shows instead of the table, or `null` when the table shows clubs. */
   message: string | null
+
+  /**
+   * Reads the game world and its clubs again, keeping the table on screen until the new rows
+   * land.
+   */
+  refresh: () => void
 }

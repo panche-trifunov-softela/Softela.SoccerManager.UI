@@ -11,11 +11,13 @@ import { useAvailableTeams } from './useAvailableTeams'
  * - A managed club shows a Managed tag.
  * - A club the reader has applied for shows an Applied tag. While one does, no other club shows
  *   an Apply button.
+ * - Applying keeps the reader on the page and reloads the clubs.
+ * - A club list that could not be read shows a short fixed sentence in place of the table.
  *
  * @returns The rendered page.
  */
 export function AvailableTeams() {
-  const { leagueName, rows, message } = useAvailableTeams()
+  const { leagueName, rows, message, refresh } = useAvailableTeams()
 
   return (
     <div className="d-flex flex-column g-20">
@@ -26,7 +28,11 @@ export function AvailableTeams() {
         backLabel="Back to game worlds"
       />
 
-      {message === null ? <AvailableTeamsTable rows={rows} /> : <p className="label">{message}</p>}
+      {message === null ? (
+        <AvailableTeamsTable rows={rows} onApplied={refresh} />
+      ) : (
+        <p className="label">{message}</p>
+      )}
     </div>
   )
 }

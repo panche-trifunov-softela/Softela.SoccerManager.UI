@@ -25,7 +25,7 @@ export interface PlayerFiltersProps {
   onFilter: (change: PlayerFilterChange) => void
 }
 
-/** The lists the selects offer, and why they could not be read. */
+/** The lists the selects offer, and the line that says when they could not be read. */
 export interface FilterOptions {
   /** The positions to filter by, in the API's order. */
   positions: readonly PositionDto[]
@@ -36,7 +36,7 @@ export interface FilterOptions {
   /** The national teams to filter by, in the API's order. */
   nationalTeams: readonly NationalTeamDto[]
 
-  /** Why the lists could not be read, or `null` when they could. */
+  /** The fixed sentence that says the lists could not be read, or `null` when they could. */
   error: string | null
 }
 

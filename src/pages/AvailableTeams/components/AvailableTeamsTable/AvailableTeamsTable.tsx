@@ -11,16 +11,17 @@ import type { AvailableTeamsTableProps } from './types'
  * The clubs of one game world: one row per club, with its crest, how wealthy it is, and its
  * status.
  *
- * - A free club has an Apply button, which applies for it and goes Home.
+ * - A free club has an Apply button, which applies for it and reloads the clubs, staying on the
+ *   page.
  * - A managed club shows a Managed tag.
  * - A club the reader has applied for shows an Applied tag. While one does, no other club has an
  *   Apply button.
  *
- * @param props The clubs to show.
+ * @param props The clubs to show, and what re-reads them after an application went through.
  * @returns The rendered table.
  */
-export function AvailableTeamsTable({ rows }: AvailableTeamsTableProps) {
-  const { applyingId, canApply, apply } = useAvailableTeamsTable(rows)
+export function AvailableTeamsTable({ rows, onApplied }: AvailableTeamsTableProps) {
+  const { applyingId, canApply, apply } = useAvailableTeamsTable(rows, onApplied)
 
   return (
     <div className="card">

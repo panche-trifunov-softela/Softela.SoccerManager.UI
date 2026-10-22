@@ -1,5 +1,14 @@
 /** Shown where a player has no position, club or nationality. */
 export const MISSING = '—'
 
-/** What shows when a vote never got an answer from the API. */
+/** What a toast says, after the player's name, when a vote never got an answer from the API. */
 export const VOTE_FAILED_MESSAGE = 'The vote could not be sent.'
+
+/** What a toast says, after the player's name, when a vote went through. */
+export const VOTE_SENT_MESSAGE = 'Your vote was sent.'
+
+/**
+ * What a toast falls back to, and what the table says in place of rows, when the page of players
+ * could not be read.
+ */
+export const PLAYERS_LOAD_FAILED_MESSAGE = 'Players could not be loaded.'

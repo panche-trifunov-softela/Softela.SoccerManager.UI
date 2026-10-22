@@ -2,6 +2,9 @@
 export interface AvailableTeamsTableProps {
   /** The clubs to show, in order. */
   rows: readonly AvailableTeamRow[]
+
+  /** Reads the clubs again once an application went through. */
+  onApplied: () => void
 }
 
 /** One row of the table: a club as the view shows it. */

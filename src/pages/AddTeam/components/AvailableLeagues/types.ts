@@ -29,7 +29,7 @@ export interface AvailableLeaguesRead {
   /** The leagues read, empty when the read failed. */
   leagues: readonly LeagueDto[]
 
-  /** Why the read failed, or `null` when it did not. */
+  /** The fixed line to show when the read failed, or `null` when it did not. */
   error: string | null
 }
 
@@ -41,7 +41,7 @@ export interface AvailableLeaguesState {
   /** Whether the read for the current search is still in flight. */
   isLoading: boolean
 
-  /** Why the read failed, or `null` when it did not. */
+  /** The fixed line to show when the read failed, or `null` when it did not. */
   error: string | null
 
   /** Whether the read succeeded and found nothing. */

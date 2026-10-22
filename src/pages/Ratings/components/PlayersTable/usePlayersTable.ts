@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 
-import { searchPlayers } from '@/services/api'
+import { searchPlayers, toErrorMessage } from '@/services/api'
+import { toast } from '@/store/toast'
 
+import { PLAYERS_LOAD_FAILED_MESSAGE } from './constants'
 import { pagerSummary, tableMessage, toPlayerRow } from './utils'
 
 import type { PlayersRead, PlayersTableProps, PlayersTableState } from './types'
@@ -18,6 +20,8 @@ import type { PlayersRead, PlayersTableProps, PlayersTableState } from './types'
  *   object: it only ever changes through `useRatings`' setter, so a repeated
  *   search reads again.
  * - The pager reflects the page asked for at once.
+ * - A failed read raises an error toast with the reason, and the table keeps a fixed line saying
+ *   the players could not be loaded. A read that was aborted raises nothing.
  *
  * @param query The search to read: its name, filters, sort and page.
  * @param onPageChange Called with the page the reader asked for.
@@ -41,11 +45,11 @@ export function usePlayersTable(
         // An abort is this effect's own cleanup, not a failure to report.
         if (controller.signal.aborted) return
 
-        setRead({
-          query,
-          result: null,
-          error: cause instanceof Error ? cause.message : 'Players could not be loaded.',
-        })
+        toast.error(toErrorMessage(cause, PLAYERS_LOAD_FAILED_MESSAGE))
+
+        // The table keeps a fixed line rather than the raw cause, which can be a browser's
+        // "Failed to fetch"; the toast carries the reason.
+        setRead({ query, result: null, error: PLAYERS_LOAD_FAILED_MESSAGE })
       })
 
     return () => {

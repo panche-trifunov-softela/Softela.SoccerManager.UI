@@ -46,8 +46,9 @@ It can also be started by hand from the Actions tab.
 - every response carries `Cache-Control: no-cache` except the hashed files under `/assets/`, which are
   cached for a year, so a change to `public/config.js` is picked up on the next load.
 
-`public/config.js` ships as it is. Its `api.baseUrl` still points at the local API until the API is
-deployed.
+`public/config.js` ships as it is: Keycloak at https://auth.the11master.com and the API at
+https://api.the11master.com. Locally, the git-ignored `public/config.development.js` overrides it,
+for example with `api.baseUrl` set to `https://localhost:7265`.
 
 One-time setup:
 

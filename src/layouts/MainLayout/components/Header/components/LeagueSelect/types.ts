@@ -1,22 +1,13 @@
 import type { HeaderDropdownItem } from '../HeaderDropdown'
 
-/** A league a user can play in. Component-local until the API defines the record. */
-export interface League {
-  /** Identifies the league. */
-  id: string
-
-  /** The league's display name. */
-  name: string
-}
-
 /** What `useLeagueSelect` hands the view. */
 export interface LeagueSelectState {
-  /** The league currently chosen. */
-  selected: League
+  /** The league team currently chosen, or `null` while there is none to choose from. */
+  selected: HeaderDropdownItem | null
 
-  /** The leagues, in display order. */
+  /** The league teams the signed-in manager runs, in the backend's order. */
   items: readonly HeaderDropdownItem[]
 
-  /** Sets the chosen league by id. */
+  /** Sets the chosen league team by id. */
   select: (id: string) => void
 }

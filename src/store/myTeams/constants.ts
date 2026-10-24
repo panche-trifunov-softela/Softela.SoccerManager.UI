@@ -1,6 +1,6 @@
-import type { MyTeamsRead } from './types'
+import type { MyTeamsRead } from '@/types/myTeamsRead'
 
-/** The grid shows the clubs run right now, not tenures already ended. */
+/** The store holds the clubs run right now, not tenures already ended. */
 export const CURRENT_ONLY = true
 
 /**
@@ -9,7 +9,7 @@ export const CURRENT_ONLY = true
  */
 export const MY_TEAMS_LOAD_FAILED_MESSAGE = 'Your clubs could not be loaded.'
 
-/** What the hook holds before the first read settles. */
+/** What the store holds before the first read settles, and again while a failed read is retried. */
 export const LOADING: MyTeamsRead = {
   teams: [],
   isLoading: true,

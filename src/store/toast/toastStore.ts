@@ -1,23 +1,14 @@
+import { createStore } from '@/store/createStore'
+
+import type { ReadableStore } from '@/types/readableStore'
 import type { Toast } from '@/types/toast'
 import type { ToastKind } from '@/types/toastKind'
 
 /** The toast on screen, or `null` when there is none. */
-let current: Toast | null = null
+const store = createStore<Toast | null>(null)
 
 /** The id the next toast receives; it only ever grows. */
 let nextId = 1
-
-/** Everything to call when the current toast changes. */
-const listeners = new Set<() => void>()
-
-/**
- * Tells every subscriber the current toast changed.
- *
- * @returns Nothing.
- */
-function emit(): void {
-  listeners.forEach((listener) => listener())
-}
 
 /**
  * Makes a new toast the current one, replacing any toast already showing.
@@ -27,39 +18,13 @@ function emit(): void {
  * @returns Nothing.
  */
 function show(kind: ToastKind, message: string): void {
-  current = { id: nextId++, kind, message }
-
-  emit()
+  store.set({ id: nextId++, kind, message })
 }
 
 /**
  * The toast's subscription surface, shaped for `useSyncExternalStore`.
  */
-export const toastStore = {
-  /**
-   * Registers a listener to call whenever the current toast changes.
-   *
-   * @param listener The function to call on a change.
-   * @returns A function that removes the listener again.
-   */
-  subscribe(listener: () => void) {
-    listeners.add(listener)
-
-    return () => {
-      listeners.delete(listener)
-    }
-  },
-
-  /**
-   * Reads the current toast. The stored object itself is returned, never a
-   * copy, so repeated reads between changes are identical.
-   *
-   * @returns The toast on screen, or `null` when there is none.
-   */
-  getSnapshot() {
-    return current
-  },
-}
+export const toastStore: ReadableStore<Toast | null> = store
 
 /**
  * The calls that raise and clear toasts. They are plain functions that read no
@@ -96,10 +61,8 @@ export const toast = {
    * @returns Nothing.
    */
   dismiss(id: number): void {
-    if (current?.id !== id) return
+    if (store.getSnapshot()?.id !== id) return
 
-    current = null
-
-    emit()
+    store.set(null)
   },
 }

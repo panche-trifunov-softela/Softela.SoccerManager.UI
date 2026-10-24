@@ -26,6 +26,9 @@ export const API_ROUTES = {
   managerPlayerRatingVotes: {
     /** Votes, as the signed-in caller, on one player's current rating; takes a `POST`. */
     create: '/api/manager-player-rating-votes',
+
+    /** One vote, by its id; a `DELETE` withdraws it when it is the signed-in caller's own. */
+    byId: (id: number) => `/api/manager-player-rating-votes/${id}`,
   },
   managers: {
     /** The signed-in caller's own manager profile; a `POST` creates it when it is missing. */

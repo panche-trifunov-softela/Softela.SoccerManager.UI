@@ -13,6 +13,9 @@ export interface VoteButtonsProps {
    */
   vote: VoteDirection | null
 
-  /** Called with the way the reader votes. */
+  /**
+   * Called with the button the reader pressed: a new vote, or the vote already shown, to take it
+   * back.
+   */
   onVote: (direction: VoteDirection) => void
 }

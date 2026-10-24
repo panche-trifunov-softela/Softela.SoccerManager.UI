@@ -1,69 +1,128 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
-import { createManagerPlayerRatingVote, toErrorMessage } from '@/services/api'
+import {
+  createManagerPlayerRatingVote,
+  deleteManagerPlayerRatingVote,
+  toErrorMessage,
+} from '@/services/api'
 import { toast } from '@/store/toast'
 
-import { VOTE_FAILED_MESSAGE, VOTE_SENT_MESSAGE } from '../constants'
+import {
+  VOTE_FAILED_MESSAGE,
+  VOTE_REMOVE_FAILED_MESSAGE,
+  VOTE_REMOVED_MESSAGE,
+  VOTE_SENT_MESSAGE,
+} from '../constants'
+import { replaceCastVote } from '../utils'
 
 import type { VoteButtonsProps, VoteDirection } from '../components/VoteButtons'
-import type { CastVote, PlayerRow, PlayerVotesState } from '../types'
+import type { CastVote, CastVotes, PlayerRow, PlayerVotesState } from '../types'
 
 /**
- * Casts the reader's votes on the players' current ratings. A vote shows as its pressed button
- * from the click on, and its outcome is also put into words in a toast.
+ * Casts and removes the reader's votes on the players' current ratings. A change shows on the
+ * buttons from the click on, and its outcome is also put into words in a toast.
  *
- * - Players are voted on independently. A row that already shows a vote, sent or still being
- *   sent, takes no other.
- * - A vote cast here is kept with the rating it was cast on, and shows until that rating
+ * - A row with no vote takes one. A click on the vote a row shows removes it.
+ * - Players are voted on independently, and one player's requests run one at a time: while a vote
+ *   or a removal is being sent, clicks on that player do nothing.
+ * - A change made here is kept with the rating it was made on, and shows until that rating
  *   changes. Otherwise a row shows the vote the API read.
- * - A vote that goes through says so in a toast naming the player.
- * - A failed vote is taken back, so the buttons are as they were, and a toast says which player
- *   and why.
+ * - A change that goes through says so in a toast naming the player.
+ * - A failed change is undone, so the buttons are as they were, and a toast says which player and
+ *   why.
  *
  * @returns The props of each row's vote buttons.
  */
 export function usePlayerVotes(): PlayerVotesState {
-  const [castVotes, setCastVotes] = useState<Readonly<Partial<Record<number, CastVote>>>>({})
+  const [castVotes, setCastVotes] = useState<CastVotes>({})
 
-  const voteOf = (row: PlayerRow): VoteDirection | null => {
+  // The players with a request in flight. Nothing renders from it, so it is a ref, not state.
+  const sendingIds = useRef(new Set<number>())
+
+  const castOf = (row: PlayerRow): CastVote | undefined => {
     const cast = castVotes[row.id]
 
-    return cast !== undefined && cast.rating === row.rating ? cast.direction : row.myVote
+    return cast?.rating === row.rating ? cast : undefined
+  }
+
+  const myVoteOf = (row: PlayerRow): Pick<PlayerRow, 'myVote' | 'myVoteId'> => {
+    const cast = castOf(row)
+
+    return cast === undefined
+      ? { myVote: row.myVote, myVoteId: row.myVoteId }
+      : { myVote: cast.direction, myVoteId: cast.id }
+  }
+
+  const castVote = (row: PlayerRow, direction: VoteDirection) => {
+    const sending: CastVote = { direction, id: null, rating: row.rating }
+    const previous = castVotes[row.id]
+
+    sendingIds.current.add(row.id)
+    setCastVotes((votes) => ({ ...votes, [row.id]: sending }))
+
+    createManagerPlayerRatingVote({ playerId: row.id, upOrDown: direction === 'up' })
+      .then(
+        ({ id }) => {
+          // The vote keeps the id the API gave it: removing the vote later takes it.
+          setCastVotes((votes) => replaceCastVote(votes, row.id, sending, { ...sending, id }))
+
+          toast.success(`${row.name}: ${VOTE_SENT_MESSAGE}`)
+        },
+        (cause: unknown) => {
+          setCastVotes((votes) => replaceCastVote(votes, row.id, sending, previous))
+
+          toast.error(`${row.name}: ${toErrorMessage(cause, VOTE_FAILED_MESSAGE)}`)
+        },
+      )
+      .finally(() => {
+        sendingIds.current.delete(row.id)
+      })
+  }
+
+  const removeVote = (row: PlayerRow, id: number) => {
+    const removing: CastVote = { direction: null, id: null, rating: row.rating }
+    const previous = castVotes[row.id]
+
+    sendingIds.current.add(row.id)
+    setCastVotes((votes) => ({ ...votes, [row.id]: removing }))
+
+    deleteManagerPlayerRatingVote(id)
+      .then(
+        () => {
+          toast.success(`${row.name}: ${VOTE_REMOVED_MESSAGE}`)
+        },
+        (cause: unknown) => {
+          setCastVotes((votes) => replaceCastVote(votes, row.id, removing, previous))
+
+          toast.error(`${row.name}: ${toErrorMessage(cause, VOTE_REMOVE_FAILED_MESSAGE)}`)
+        },
+      )
+      .finally(() => {
+        sendingIds.current.delete(row.id)
+      })
   }
 
   const vote = (row: PlayerRow, direction: VoteDirection) => {
-    // One vote per rating: while a vote is shown, sent or still being sent, a click does
-    // nothing.
-    if (voteOf(row) !== null) return
+    if (sendingIds.current.has(row.id)) return
 
-    const cast: CastVote = { direction, rating: row.rating }
+    const { myVote, myVoteId } = myVoteOf(row)
 
-    setCastVotes((votes) => ({ ...votes, [row.id]: cast }))
+    if (myVote === null) {
+      castVote(row, direction)
 
-    createManagerPlayerRatingVote({ playerId: row.id, upOrDown: direction === 'up' }).then(
-      () => {
-        toast.success(`${row.name}: ${VOTE_SENT_MESSAGE}`)
-      },
-      (cause: unknown) => {
-        // Only this click's vote is taken back: a vote cast since, on a newer rating, stays.
-        setCastVotes((votes) => {
-          if (votes[row.id] !== cast) return votes
+      return
+    }
 
-          const rest = { ...votes }
+    // Only the vote shown takes a click; the other button is disabled while it shows.
+    if (myVote !== direction) return
 
-          delete rest[row.id]
-
-          return rest
-        })
-
-        toast.error(`${row.name}: ${toErrorMessage(cause, VOTE_FAILED_MESSAGE)}`)
-      },
-    )
+    // A vote read from an API build that sends no vote ids has nothing to be removed by.
+    if (myVoteId !== null) removeVote(row, myVoteId)
   }
 
   const voteButtonsFor = (row: PlayerRow): VoteButtonsProps => ({
     playerName: row.name,
-    vote: voteOf(row),
+    vote: myVoteOf(row).myVote,
     onVote: (direction) => {
       vote(row, direction)
     },

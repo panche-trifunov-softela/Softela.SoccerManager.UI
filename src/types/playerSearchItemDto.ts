@@ -50,4 +50,10 @@ export interface PlayerSearchItemDto {
    * `null` when they have not voted on it.
    */
   myVote: boolean | null
+
+  /**
+   * The identifier of the signed-in caller's vote on the player's current rating, or `null` when
+   * they have not voted on it.
+   */
+  myVoteId: number | null
 }

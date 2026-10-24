@@ -6,7 +6,10 @@ export { getAvailableLeagueTeams } from './leagueTeamApi'
 export { getMyLeagueTeamManagers } from './leagueTeamManagerApi'
 export { createLeagueTeamManagerApplication } from './leagueTeamManagerApplicationApi'
 export { ensureMyManager } from './managerApi'
-export { createManagerPlayerRatingVote } from './managerPlayerRatingVoteApi'
+export {
+  createManagerPlayerRatingVote,
+  deleteManagerPlayerRatingVote,
+} from './managerPlayerRatingVoteApi'
 export { getNationalTeams } from './nationalTeamApi'
 export { searchPlayers } from './playerApi'
 export { getPositions } from './positionApi'

@@ -7,6 +7,12 @@ export const VOTE_FAILED_MESSAGE = 'The vote could not be sent.'
 /** What a toast says, after the player's name, when a vote went through. */
 export const VOTE_SENT_MESSAGE = 'Your vote was sent.'
 
+/** What a toast says, after the player's name, when a vote was removed. */
+export const VOTE_REMOVED_MESSAGE = 'Your vote was removed.'
+
+/** What a toast says, after the player's name, when removing a vote got no answer from the API. */
+export const VOTE_REMOVE_FAILED_MESSAGE = 'The vote could not be removed.'
+
 /**
  * What a toast falls back to, and what the table says in place of rows, when the page of players
  * could not be read.

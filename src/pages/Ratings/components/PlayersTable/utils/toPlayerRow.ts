@@ -29,5 +29,7 @@ export function toPlayerRow(item: PlayerSearchItemDto, today: Date): PlayerRow {
     value: formatEuros(item.value),
     wage: formatEuros(item.wage),
     myVote: toVoteDirection(item.myVote),
+    // An API build from before the field existed sends none, which counts as no vote id.
+    myVoteId: item.myVoteId ?? null,
   }
 }

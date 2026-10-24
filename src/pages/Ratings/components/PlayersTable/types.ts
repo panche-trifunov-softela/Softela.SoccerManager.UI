@@ -50,6 +50,9 @@ export interface PlayerRow {
 
   /** The reader's vote on the player's current rating, as the API read it, or `null` when none. */
   myVote: VoteDirection | null
+
+  /** The id of that vote, which removing it takes, or `null` when there is none. */
+  myVoteId: number | null
 }
 
 /** One finished read, kept with the query it was made for. */
@@ -103,14 +106,23 @@ export interface PlayersTableState {
   goToNext: () => void
 }
 
-/** A vote the reader cast in this visit, kept with the rating it was cast on. */
+/**
+ * A change this visit made to the reader's vote on one player, kept with the rating it was made on.
+ * While that rating stays current, it overrides the vote the API read.
+ */
 export interface CastVote {
-  /** Which way the reader voted. */
-  direction: VoteDirection
+  /** Which way the reader voted, or `null` when they removed their vote. */
+  direction: VoteDirection | null
 
-  /** The player's rating when the vote was cast. */
+  /** The vote's id, which removing it takes, or `null` while it is being sent and once removed. */
+  id: number | null
+
+  /** The player's rating when the change was made. */
   rating: number
 }
+
+/** The changes this visit made to the reader's votes, by player id. */
+export type CastVotes = Readonly<Partial<Record<number, CastVote>>>
 
 /** What `usePlayerVotes` exposes to the table. */
 export interface PlayerVotesState {

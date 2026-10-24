@@ -9,9 +9,10 @@
     width: 32px;
 }
 
-/* The reader's own vote stays at full strength, though it takes no click. */
+/* The reader's own vote: a thick border drawn inside the button, so the square keeps its size,
+   in the arrow's own colour, which contrasts with the button's fill in both themes. */
 .button[aria-pressed="true"] {
-    opacity: 1;
+    box-shadow: inset 0 0 0 3px currentColor;
 }
 
 /* The global ring is drawn inside the button, over its colour; drawn outside, it

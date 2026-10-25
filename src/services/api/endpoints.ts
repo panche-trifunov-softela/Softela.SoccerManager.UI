@@ -27,7 +27,10 @@ export const API_ROUTES = {
     /** Votes, as the signed-in caller, on one player's current rating; takes a `POST`. */
     create: '/api/manager-player-rating-votes',
 
-    /** One vote, by its id; a `DELETE` withdraws it when it is the signed-in caller's own. */
+    /**
+     * One vote, by its id; a `PUT` changes its direction and a `DELETE` withdraws it, when it is the
+     * signed-in caller's own.
+     */
     byId: (id: number) => `/api/manager-player-rating-votes/${id}`,
   },
   managers: {

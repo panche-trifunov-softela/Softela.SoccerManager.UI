@@ -4,10 +4,13 @@ import {
   createManagerPlayerRatingVote,
   deleteManagerPlayerRatingVote,
   toErrorMessage,
+  updateManagerPlayerRatingVote,
 } from '@/services/api'
 import { toast } from '@/store/toast'
 
 import {
+  VOTE_CHANGE_FAILED_MESSAGE,
+  VOTE_CHANGED_MESSAGE,
   VOTE_FAILED_MESSAGE,
   VOTE_REMOVE_FAILED_MESSAGE,
   VOTE_REMOVED_MESSAGE,
@@ -19,12 +22,13 @@ import type { VoteButtonsProps, VoteDirection } from '../components/VoteButtons'
 import type { CastVote, CastVotes, PlayerRow, PlayerVotesState } from '../types'
 
 /**
- * Casts and removes the reader's votes on the players' current ratings. A change shows on the
- * buttons from the click on, and its outcome is also put into words in a toast.
+ * Casts, changes and removes the reader's votes on the players' current ratings. A change shows on
+ * the buttons from the click on, and its outcome is also put into words in a toast.
  *
- * - A row with no vote takes one. A click on the vote a row shows removes it.
- * - Players are voted on independently, and one player's requests run one at a time: while a vote
- *   or a removal is being sent, clicks on that player do nothing.
+ * - A row with no vote takes one. A click on the vote a row shows removes it, and a click on the
+ *   other arrow turns the vote around.
+ * - Players are voted on independently, and one player's requests run one at a time: while a vote,
+ *   a change or a removal is being sent, clicks on that player do nothing.
  * - A change made here is kept with the rating it was made on, and shows until that rating
  *   changes. Otherwise a row shows the vote the API read.
  * - A change that goes through says so in a toast naming the player.
@@ -79,6 +83,30 @@ export function usePlayerVotes(): PlayerVotesState {
       })
   }
 
+  const changeVote = (row: PlayerRow, direction: VoteDirection, id: number) => {
+    // The vote keeps its id: the update only turns its direction.
+    const sending: CastVote = { direction, id, rating: row.rating }
+    const previous = castVotes[row.id]
+
+    sendingIds.current.add(row.id)
+    setCastVotes((votes) => ({ ...votes, [row.id]: sending }))
+
+    updateManagerPlayerRatingVote({ id, upOrDown: direction === 'up' })
+      .then(
+        () => {
+          toast.success(`${row.name}: ${VOTE_CHANGED_MESSAGE}`)
+        },
+        (cause: unknown) => {
+          setCastVotes((votes) => replaceCastVote(votes, row.id, sending, previous))
+
+          toast.error(`${row.name}: ${toErrorMessage(cause, VOTE_CHANGE_FAILED_MESSAGE)}`)
+        },
+      )
+      .finally(() => {
+        sendingIds.current.delete(row.id)
+      })
+  }
+
   const removeVote = (row: PlayerRow, id: number) => {
     const removing: CastVote = { direction: null, id: null, rating: row.rating }
     const previous = castVotes[row.id]
@@ -113,11 +141,17 @@ export function usePlayerVotes(): PlayerVotesState {
       return
     }
 
-    // Only the vote shown takes a click; the other button is disabled while it shows.
-    if (myVote !== direction) return
+    // A vote read from an API build that sends no vote ids has nothing to be changed or removed by.
+    if (myVoteId === null) return
 
-    // A vote read from an API build that sends no vote ids has nothing to be removed by.
-    if (myVoteId !== null) removeVote(row, myVoteId)
+    // The arrow already shown removes the vote; the other arrow turns it around.
+    if (myVote === direction) {
+      removeVote(row, myVoteId)
+
+      return
+    }
+
+    changeVote(row, direction, myVoteId)
   }
 
   const voteButtonsFor = (row: PlayerRow): VoteButtonsProps => ({

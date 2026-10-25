@@ -9,15 +9,13 @@
     width: 32px;
 }
 
-/* The reader's own vote: a thick border drawn inside the button, so the square keeps its size, in
-   a darker shade of the button's own green or red. It keys off the same global classes that set
-   the fill, so the two cannot drift apart. */
+/* The reader's own vote: a darker button behind the filled arrow. */
 .button:global(.accept)[aria-pressed="true"] {
-    box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--grass) 60%, black);
+    background: var(--grass-pressed);
 }
 
 .button:global(.decline)[aria-pressed="true"] {
-    box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--red) 60%, black);
+    background: var(--red-pressed);
 }
 
 /* The global ring is drawn inside the button, over its colour; drawn outside, it

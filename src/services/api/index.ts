@@ -9,6 +9,7 @@ export { ensureMyManager } from './managerApi'
 export {
   createManagerPlayerRatingVote,
   deleteManagerPlayerRatingVote,
+  updateManagerPlayerRatingVote,
 } from './managerPlayerRatingVoteApi'
 export { getNationalTeams } from './nationalTeamApi'
 export { searchPlayers } from './playerApi'

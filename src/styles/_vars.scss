@@ -22,11 +22,12 @@
     --blue: #2662F0;
     --green: #13783e;
     --grass: #7ED321;
-    --grass-pressed: color-mix(in srgb, var(--grass) 85%, black);
+    --grass-deep: color-mix(in srgb, var(--grass) 70%, black);
+    --grass-pressed: color-mix(in srgb, var(--grass-deep) 90%, black);
     --neon-green: #04E762;
     --pink: #DE0D92;
     --red: #ED0423;
-    --red-pressed: color-mix(in srgb, var(--red) 85%, black);
+    --red-pressed: color-mix(in srgb, var(--red) 90%, black);
     --purple: #6665DD;
     --salmon: #FF715B;
     --orange: #F17105;

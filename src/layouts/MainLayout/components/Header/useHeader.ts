@@ -39,13 +39,13 @@ export function useHeader(): HeaderState {
     setIsMenuOpen(false)
   }
 
-  const signOut = useCallback(() => {
+  const signOut = () => {
     void logout()
-  }, [logout])
+  }
 
   useScrollLock(isMenuOpen)
 
-  const toggleMenu = useCallback(() => setIsMenuOpen((open) => !open), [])
+  const toggleMenu = () => setIsMenuOpen((open) => !open)
 
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false)

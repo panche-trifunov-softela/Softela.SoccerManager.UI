@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useMyLeagueTeams } from '@/hooks/useMyLeagueTeams'
 
@@ -31,7 +31,7 @@ export function useLeagueSelect(): LeagueSelectState {
   )
 
   const selected = items.find((item) => item.id === selectedId) ?? items[0] ?? null
-  const select = useCallback((id: string) => setSelectedId(id), [])
+  const select = (id: string) => setSelectedId(id)
 
   return { selected, items, select }
 }

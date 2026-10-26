@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react'
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from 'react'
 import { useLocation } from 'react-router'
 
 import { useScrollLock } from '@/hooks/useScrollLock'
@@ -133,9 +133,9 @@ export function useOffCanvasHost(): OffCanvasHostState {
     return () => document.removeEventListener('keydown', onDocumentKeyDown, true)
   }, [isOpen])
 
-  const onClose = useCallback(() => offCanvas.close(), [])
+  const onClose = () => offCanvas.close()
 
-  const onKeyDown = useCallback((event: KeyboardEvent<HTMLDivElement>) => {
+  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key !== 'Escape') return
 
     // The header drawer, its dropdowns and the toast listen for Escape on the
@@ -143,17 +143,17 @@ export function useOffCanvasHost(): OffCanvasHostState {
     event.stopPropagation()
 
     offCanvas.close()
-  }, [])
+  }
 
   // Transitions inside the content bubble up to the panel, so only the panel's
   // own visibility change, which ends last, counts.
-  const onTransitionEnd = useCallback((event: TransitionEvent<HTMLDivElement>) => {
+  const onTransitionEnd = (event: TransitionEvent<HTMLDivElement>) => {
     if (event.target !== event.currentTarget || event.propertyName !== 'visibility') return
 
     if (offCanvasStore.getSnapshot() !== null) return
 
     setShown(null)
-  }, [])
+  }
 
   return { panel: shown?.panel ?? null, isOpen, titleId, panelRef, onClose, onKeyDown, onTransitionEnd }
 }

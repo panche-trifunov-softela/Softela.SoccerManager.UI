@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router'
 
 import { ApiError, getAvailableLeagueTeams, getLeague, toErrorMessage } from '@/services/api'
@@ -68,9 +68,9 @@ export function useAvailableTeams(): AvailableTeamsState {
     }
   }, [leagueId, reloads])
 
-  const refresh = useCallback(() => {
+  const refresh = () => {
     setReloads((count) => count + 1)
-  }, [])
+  }
 
   const current = read !== null && read.leagueId === leagueId ? read : null
 

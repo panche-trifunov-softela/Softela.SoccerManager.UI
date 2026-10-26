@@ -2,6 +2,7 @@ import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { useLocation } from 'react-router'
 
 import { useAuth } from '@/hooks/useAuth'
+import { useScrollLock } from '@/hooks/useScrollLock'
 
 import type { HeaderState } from './types'
 
@@ -38,11 +39,13 @@ export function useHeader(): HeaderState {
     setIsMenuOpen(false)
   }
 
-  const signOut = useCallback(() => {
+  const signOut = () => {
     void logout()
-  }, [logout])
+  }
 
-  const toggleMenu = useCallback(() => setIsMenuOpen((open) => !open), [])
+  useScrollLock(isMenuOpen)
+
+  const toggleMenu = () => setIsMenuOpen((open) => !open)
 
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false)
@@ -51,8 +54,6 @@ export function useHeader(): HeaderState {
 
   useEffect(() => {
     if (!isMenuOpen) return
-
-    const root = document.documentElement
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') closeMenu()
@@ -68,7 +69,6 @@ export function useHeader(): HeaderState {
       if (toggleRef.current?.getClientRects().length === 0) setIsMenuOpen(false)
     }
 
-    root.classList.add('no-scroll')
     closeButtonRef.current?.focus()
 
     document.addEventListener('keydown', handleKeyDown)
@@ -76,8 +76,6 @@ export function useHeader(): HeaderState {
     window.addEventListener('resize', handleResize)
 
     return () => {
-      root.classList.remove('no-scroll')
-
       document.removeEventListener('keydown', handleKeyDown)
       document.removeEventListener('focusin', handleFocusIn)
       window.removeEventListener('resize', handleResize)

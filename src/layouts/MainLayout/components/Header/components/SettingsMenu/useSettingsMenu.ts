@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import { useNavigate } from 'react-router'
 
 import { SETTINGS_MENU_ITEMS } from './constants'
@@ -13,14 +12,11 @@ import type { SettingsMenuState } from './types'
 export function useSettingsMenu(): SettingsMenuState {
   const navigate = useNavigate()
 
-  const select = useCallback(
-    (id: string) => {
-      const item = SETTINGS_MENU_ITEMS.find((entry) => entry.id === id)
+  const select = (id: string) => {
+    const item = SETTINGS_MENU_ITEMS.find((entry) => entry.id === id)
 
-      if (item) void navigate(item.path)
-    },
-    [navigate],
-  )
+    if (item) void navigate(item.path)
+  }
 
   return { items: SETTINGS_MENU_ITEMS, select }
 }

@@ -142,38 +142,32 @@ export function useToastHost(): ToastHostState {
     return () => document.removeEventListener('keydown', onDocumentKeyDown)
   }, [currentId])
 
-  const onPointerEnter = useCallback(() => pause('hover'), [pause])
+  const onPointerEnter = () => pause('hover')
 
-  const onPointerLeave = useCallback(() => resume('hover'), [resume])
+  const onPointerLeave = () => resume('hover')
 
-  const onFocus = useCallback(
-    (event: FocusEvent<HTMLDivElement>) => {
-      const from = event.relatedTarget
+  const onFocus = (event: FocusEvent<HTMLDivElement>) => {
+    const from = event.relatedTarget
 
-      // Focus arriving from another element in the page is the place to return
-      // to on dismissal. Focus moving inside the toast, or coming back with the
-      // window (no related target), keeps the element already remembered.
-      if (from instanceof HTMLElement && !event.currentTarget.contains(from)) {
-        returnFocusRef.current = from
-      }
+    // Focus arriving from another element in the page is the place to return
+    // to on dismissal. Focus moving inside the toast, or coming back with the
+    // window (no related target), keeps the element already remembered.
+    if (from instanceof HTMLElement && !event.currentTarget.contains(from)) {
+      returnFocusRef.current = from
+    }
 
-      pause('focus')
-    },
-    [pause],
-  )
+    pause('focus')
+  }
 
-  const onBlur = useCallback(
-    (event: FocusEvent<HTMLDivElement>) => {
-      const to = event.relatedTarget
+  const onBlur = (event: FocusEvent<HTMLDivElement>) => {
+    const to = event.relatedTarget
 
-      if (to instanceof Node && event.currentTarget.contains(to)) return
+    if (to instanceof Node && event.currentTarget.contains(to)) return
 
-      resume('focus')
-    },
-    [resume],
-  )
+    resume('focus')
+  }
 
-  const onDismiss = useCallback(() => {
+  const onDismiss = () => {
     if (!current) return
 
     const hadFocus = toastRef.current?.contains(document.activeElement) ?? false
@@ -184,20 +178,17 @@ export function useToastHost(): ToastHostState {
     returnFocusRef.current = null
 
     if (hadFocus && returnTo?.isConnected) returnTo.focus()
-  }, [current])
+  }
 
-  const onKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLDivElement>) => {
-      if (event.key !== 'Escape') return
+  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== 'Escape') return
 
-      // The header listens for Escape on the document to close its drawer; the
-      // key has done its job here and must not reach it.
-      event.stopPropagation()
+    // The header listens for Escape on the document to close its drawer; the
+    // key has done its job here and must not reach it.
+    event.stopPropagation()
 
-      onDismiss()
-    },
-    [onDismiss],
-  )
+    onDismiss()
+  }
 
   return { toast: current, toastRef, onPointerEnter, onPointerLeave, onFocus, onBlur, onKeyDown, onDismiss }
 }

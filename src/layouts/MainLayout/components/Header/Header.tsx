@@ -45,7 +45,7 @@ export function Header() {
           <button
             ref={closeButtonRef}
             type="button"
-            className={`focus-ring ${styles.close}`}
+            className={`close-btn focus-ring ${styles.close}`}
             aria-label="Close menu"
             onClick={closeMenu}
           >

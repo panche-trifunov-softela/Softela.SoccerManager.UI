@@ -15,16 +15,13 @@ export function useHeaderDropdown(onSelect: HeaderDropdownProps['onSelect']): He
   const triggerRef = useRef<HTMLButtonElement>(null)
 
   const close = useCallback(() => setIsOpen(false), [])
-  const toggle = useCallback(() => setIsOpen((open) => !open), [])
+  const toggle = () => setIsOpen((open) => !open)
 
-  const select = useCallback(
-    (id: string) => {
-      onSelect(id)
-      close()
-      triggerRef.current?.focus()
-    },
-    [onSelect, close],
-  )
+  const select = (id: string) => {
+    onSelect(id)
+    close()
+    triggerRef.current?.focus()
+  }
 
   useEffect(() => {
     if (!isOpen) return

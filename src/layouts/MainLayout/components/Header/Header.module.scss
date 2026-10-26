@@ -94,20 +94,6 @@
 }
 
 .close {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    font-size: 1.125rem;
-    color: var(--header);
-    transition: color var(--transition);
-
-    &:hover {
-        color: var(--highlight);
-    }
-
     @include bp-up(md) {
         display: none;
     }

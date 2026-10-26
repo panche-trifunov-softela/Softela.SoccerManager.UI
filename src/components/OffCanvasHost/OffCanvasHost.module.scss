@@ -1,0 +1,75 @@
+/*
+ * Above the header drawer (backdrop 30, drawer 40) and below ToastHost (50), so a
+ * toast raised from the panel stays on top.
+ */
+.backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    background: var(--backdrop);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition), visibility var(--transition);
+
+    &--open {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.panel {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-end: calc(-1 * min(100%, var(--off-canvas-width)));
+    z-index: 46;
+    display: flex;
+    flex-direction: column;
+    width: min(100%, var(--off-canvas-width));
+    background: var(--widget);
+    box-shadow: var(--widget-shadow);
+    visibility: hidden;
+    transition: inset-inline-end var(--transition), visibility var(--transition);
+
+    // Opening shows the panel at once so the hook's focus() call finds it
+    // focusable; closing keeps the base rule's delayed hide for the slide-out.
+    &--open {
+        inset-inline-end: 0;
+        visibility: visible;
+        transition: inset-inline-end var(--transition), visibility 0s;
+    }
+}
+
+.header {
+    flex: none;
+    padding: var(--card-padding);
+}
+
+.title {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0 var(--card-padding) var(--card-padding);
+}
+
+// Near-instant rather than none, so transitionend still fires and the closed
+// panel's content unmounts. The open state keeps visibility 0s so focus() finds
+// the panel.
+@media (prefers-reduced-motion: reduce) {
+    .backdrop {
+        transition: none;
+    }
+
+    .panel {
+        transition-duration: 0.01ms;
+    }
+
+    .panel--open {
+        transition-duration: 0.01ms, 0s;
+    }
+}

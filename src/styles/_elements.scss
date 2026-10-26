@@ -320,6 +320,23 @@ select.field {
     }
 }
 
+// A 40px icon-only button that dismisses a drawer or panel.
+.close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    font-size: 1.125rem;
+    color: var(--header);
+    transition: color var(--transition);
+
+    &:hover {
+        color: var(--highlight);
+    }
+}
+
 a {
     &.h1, &.h2, &.h3, &.h4, &.h5, &.h6 {
         transition: color var(--transition);

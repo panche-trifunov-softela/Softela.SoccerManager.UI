@@ -119,7 +119,7 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
                   </span>
                 ) : (
                   <img
-                    className={`square-avatar ${styles.portrait}`}
+                    className="square-avatar square-avatar--photo"
                     src={row.imageUrl}
                     alt=""
                     loading="lazy"
@@ -148,7 +148,7 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
               <td className={`text-12 ${styles.wage}`}>{row.wage}</td>
 
               <td className={styles.rating}>
-                <span className={`tag tag--accent ${styles.badge}`}>{row.rating}</span>
+                <span className="tag tag--accent tag--inline">{row.rating}</span>
               </td>
 
               <td className={styles.vote}>

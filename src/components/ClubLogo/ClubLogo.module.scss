@@ -1,0 +1,22 @@
+/* The medium crest takes the same 40px box in every row, so the names line up; a
+   logo keeps its proportions inside it. */
+.md {
+    width: 40px;
+
+    img {
+        width: 100%;
+        object-fit: contain;
+    }
+}
+
+/* The large crest box keeps its square while a club has no logo to put in it. */
+.lg {
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    background: var(--body);
+    color: var(--label);
+    font-size: 1.75rem;
+}

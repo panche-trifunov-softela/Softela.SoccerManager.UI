@@ -1,5 +1,4 @@
-import { faFutbol } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ClubLogo } from '@/components/ClubLogo'
 
 import { useAvailableTeamsTable } from './useAvailableTeamsTable'
 
@@ -16,12 +15,14 @@ import type { AvailableTeamsTableProps } from './types'
  * - A managed club shows a Managed tag.
  * - A club the reader has applied for shows an Applied tag. While one does, no other club has an
  *   Apply button.
+ * - Clicking a club's row, or its name from the keyboard, opens its squad in the side panel.
+ *   Apply does not.
  *
  * @param props The clubs to show, and what re-reads them after an application went through.
  * @returns The rendered table.
  */
 export function AvailableTeamsTable({ rows, onApplied }: AvailableTeamsTableProps) {
-  const { applyingId, canApply, apply } = useAvailableTeamsTable(rows, onApplied)
+  const { applyingId, canApply, apply, showSquad } = useAvailableTeamsTable(rows, onApplied)
 
   return (
     <div className="card">
@@ -42,20 +43,25 @@ export function AvailableTeamsTable({ rows, onApplied }: AvailableTeamsTableProp
 
         <tbody>
           {rows.map((row) => (
-            <tr key={row.id}>
+            <tr
+              key={row.id}
+              tabIndex={-1}
+              className={`c-pointer focus-ring ${styles.row}`}
+              onClick={() => {
+                showSquad(row)
+              }}
+            >
               <td>
                 <div className="d-flex align-items-center g-12">
-                  {row.logoUrl === null ? (
-                    <span className="square square--icon" aria-hidden="true">
-                      <FontAwesomeIcon icon={faFutbol} />
-                    </span>
-                  ) : (
-                    <span className={`club-logo club-logo--md ${styles.logo}`}>
-                      <img src={row.logoUrl} alt="" />
-                    </span>
-                  )}
+                  <ClubLogo logoUrl={row.logoUrl} size="md" />
 
-                  <span className="h4 text-overflow">{row.name}</span>
+                  <button
+                    type="button"
+                    className={`h4 text-overflow focus-ring ${styles.name}`}
+                    aria-label={`Show the squad of ${row.name}`}
+                  >
+                    {row.name}
+                  </button>
                 </div>
               </td>
 
@@ -74,7 +80,9 @@ export function AvailableTeamsTable({ rows, onApplied }: AvailableTeamsTableProp
                       applyingId === row.id ? `Applying for ${row.name}` : `Apply for ${row.name}`
                     }
                     aria-disabled={applyingId !== null}
-                    onClick={() => {
+                    onClick={(event) => {
+                      event.stopPropagation()
+
                       apply(row)
                     }}
                   >

@@ -2,7 +2,8 @@
 
 /*
  * The generic table look lives in _elements.scss as .table. This keeps only what
- * is particular to this table: its column widths and the status tag.
+ * is particular to this table: its column widths, the status tag, the row hover
+ * and the club name's button.
  *
  * Widths are border-box, so each includes the cell's padding: 12px a side, except
  * the first column's start and the last column's end, which take the card
@@ -30,15 +31,20 @@
     }
 }
 
-/* Every crest takes the same 40px box, so the names line up; a logo keeps its
-   proportions inside it. */
-.logo {
-    width: 40px;
+/* A row opens its club's squad, so it tints on hover. The cells paint no
+   background of their own, so the row's shows through. */
+.row:hover {
+    background: var(--body);
+}
 
-    img {
-        width: 100%;
-        object-fit: contain;
-    }
+/* The club's name is a button, so the squad opens from the keyboard. The global
+   reset already strips a button's background, border, margin and padding and
+   makes it inherit its font and colour, and .h4 and .text-overflow give the look.
+   This only undoes the button's centred text and lets the name shrink, so it
+   ellipsizes instead of stretching the flex row. */
+.name {
+    min-width: 0;
+    text-align: start;
 }
 
 /* A muted, outlined tag in the status column: Managed for a club that already

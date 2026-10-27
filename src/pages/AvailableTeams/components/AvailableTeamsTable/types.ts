@@ -41,4 +41,7 @@ export interface AvailableTeamsTableState {
 
   /** Applies for one club, unless an application is already in flight. */
   apply: (row: AvailableTeamRow) => void
+
+  /** Opens a club's squad in the side panel. */
+  showSquad: (row: AvailableTeamRow) => void
 }

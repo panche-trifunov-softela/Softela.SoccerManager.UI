@@ -131,11 +131,13 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
                 <span className="h4 text-overflow d-block">{row.name}</span>
 
                 <span className={`label text-10 text-overflow ${styles.position_inline}`}>
-                  {row.position}
+                  <abbr title={row.positionName}>{row.positionShortName}</abbr>
                 </span>
               </td>
 
-              <td className={`text-12 text-overflow ${styles.position}`}>{row.position}</td>
+              <td className={`text-12 text-overflow ${styles.position}`}>
+                <abbr title={row.positionName}>{row.positionShortName}</abbr>
+              </td>
 
               <td className={`text-12 ${styles.age}`}>{row.age}</td>
 

@@ -27,8 +27,11 @@ export interface PlayerRow {
   /** The address of the player's photo, or `null` when there is none. */
   imageUrl: string | null
 
-  /** The player's main position, or a dash when there is none. */
-  position: string
+  /** The full name of the player's main position, shown on hover. */
+  positionName: string
+
+  /** The short name of that position, for example `CB`, as the table shows it. */
+  positionShortName: string
 
   /** The player's age in completed years. */
   age: number

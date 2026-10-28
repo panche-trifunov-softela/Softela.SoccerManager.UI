@@ -1,5 +1,3 @@
-import { MISSING } from '../constants'
-
 import type { LeagueTeamSquadPlayerDto } from '@/types/leagueTeamSquadPlayerDto'
 
 import type { SquadPlayerRow } from '../types'
@@ -9,14 +7,15 @@ import type { SquadPlayerRow } from '../types'
  * counts as none.
  *
  * @param player The player, as the API returned them.
- * @returns The row, with its position already written for display.
+ * @returns The row the table shows.
  */
 export function toSquadPlayerRow(player: LeagueTeamSquadPlayerDto): SquadPlayerRow {
   return {
     id: player.id,
     name: player.name,
     imageUrl: player.imageUrl?.trim() ? player.imageUrl : null,
-    position: player.positionName ?? MISSING,
+    positionName: player.positionName,
+    positionShortName: player.positionShortName,
     rating: player.rating,
   }
 }

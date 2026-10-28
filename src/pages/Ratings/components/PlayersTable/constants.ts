@@ -1,4 +1,4 @@
-/** Shown where a player has no position, club or nationality. */
+/** Shown where a player has no club or nationality. */
 export const MISSING = '—'
 
 /** What a toast says, after the player's name, when a vote never got an answer from the API. */

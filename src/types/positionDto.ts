@@ -20,6 +20,14 @@ export interface PositionDto {
   /** The side of the pitch the position occupies. */
   side: PositionSide
 
+  /** The short name of the position, for example `CB`. */
+  shortName: string
+
+  /**
+   * The position's place in the catalog order, from 1, which orders the positions of one line.
+   */
+  catalogOrder: number
+
   /** When the position was created, as a UTC ISO string. */
   createdAt: string
 

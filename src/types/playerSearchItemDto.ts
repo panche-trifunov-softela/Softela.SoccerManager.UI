@@ -39,11 +39,14 @@ export interface PlayerSearchItemDto {
   /** The name of that national team, or `null` when the player has none. */
   nationalTeamName: string | null
 
-  /** The identifier of the player's main position, or `null` when the player has none. */
-  positionId: number | null
+  /** The identifier of the player's main position. */
+  positionId: number
 
-  /** The name of that position, or `null` when the player has none. */
-  positionName: string | null
+  /** The name of that position. */
+  positionName: string
+
+  /** The short name of that position, for example `CB`. */
+  positionShortName: string
 
   /**
    * The signed-in caller's vote on the player's current rating: `true` up, `false` down, or

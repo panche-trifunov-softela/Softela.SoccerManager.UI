@@ -18,6 +18,9 @@ export const API_ROUTES = {
      * caller has applied for it; `?leagueId=` picks the league.
      */
     available: '/api/league-teams/available',
+
+    /** One league team's squad, ordered by line, position, rating and name. */
+    players: (id: number) => `/api/league-teams/${id}/players`,
   },
   leagues: {
     /** The leagues the signed-in caller does not manage a club in; `?searchTerm=` narrows them by name. */

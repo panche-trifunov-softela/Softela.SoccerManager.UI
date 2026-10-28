@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { createElement, useEffect, useRef, useState } from 'react'
 
 import { createLeagueTeamManagerApplication, toErrorMessage } from '@/services/api'
+import { offCanvas } from '@/store/offCanvas'
 import { toast } from '@/store/toast'
 
-import { APPLY_FAILED_MESSAGE, APPLY_SENT_MESSAGE } from './constants'
+import { TeamSquad } from './components/TeamSquad'
+import { APPLY_FAILED_MESSAGE, APPLY_SENT_MESSAGE, SQUAD_TITLE } from './constants'
 
 import type { AvailableTeamRow, AvailableTeamsTableProps, AvailableTeamsTableState } from './types'
 
@@ -17,10 +19,13 @@ import type { AvailableTeamRow, AvailableTeamsTableProps, AvailableTeamsTableSta
  * - While the reader has a pending application for a club with no manager, no other club can
  *   be applied for.
  * - An application that settles after the table has gone still says how it went.
+ * - Showing a club's squad opens it in the side panel, under the heading "Squad". The panel
+ *   fetches the squad itself.
  *
  * @param rows The clubs the table shows.
  * @param onApplied Reads the clubs again once an application went through.
- * @returns The club being applied for, whether a club can be applied for, and what applies.
+ * @returns The club being applied for, whether a club can be applied for, what applies, and what
+ * opens a club's squad.
  */
 export function useAvailableTeamsTable(
   rows: AvailableTeamsTableProps['rows'],
@@ -66,5 +71,16 @@ export function useAvailableTeamsTable(
     void createLeagueTeamManagerApplication({ leagueTeamId: row.id }).then(onSent, onFailed)
   }
 
-  return { applyingId, canApply, apply }
+  const showSquad = (row: AvailableTeamRow) => {
+    offCanvas.open({
+      title: SQUAD_TITLE,
+      content: createElement(TeamSquad, {
+        leagueTeamId: row.id,
+        name: row.name,
+        logoUrl: row.logoUrl,
+      }),
+    })
+  }
+
+  return { applyingId, canApply, apply, showSquad }
 }

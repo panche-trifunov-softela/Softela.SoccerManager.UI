@@ -412,6 +412,14 @@ a {
     border: 1px solid var(--border);
 }
 
+// A player photo cropped to the head, on the body tone while it loads.
+.square-avatar--photo {
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+    background: var(--body);
+}
+
 .club-logo {
     height: 50px;
     width: auto;
@@ -586,6 +594,11 @@ a {
 
     &--accent {
         background: var(--accent);
+    }
+
+    // A tag that sits in a line of text; .tag alone is a block-level flex box.
+    &--inline {
+        display: inline-flex;
     }
 
     &--store {

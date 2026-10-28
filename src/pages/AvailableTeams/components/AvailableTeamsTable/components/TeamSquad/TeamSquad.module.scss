@@ -1,0 +1,69 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * The generic table look lives in _elements.scss as .table. This keeps only what
+ * is particular to the squad panel: the table's column widths and padding, the
+ * club's name and the message under the table.
+ *
+ * The panel body already pads its content by --card-padding, so the first
+ * column's start and the last column's end drop the extra card padding .table
+ * adds there. Everything nests under the module's own .table, so each rule ties
+ * or outranks the global .table rule it overrides, and the module loads after it.
+ *
+ * Widths are border-box, so each one includes the cell's padding: 12px a side,
+ * except the photo's, which has none. The name column has no width and takes
+ * whatever is left:
+ * - From sm up the panel is 414px, so the content is 354px (30px padding a
+ *   side). Photo 40 + position 136 + rating 60 leaves the name 118px, 94px of
+ *   content.
+ * - Below sm the panel is the screen and the padding is 20px. At 320px the
+ *   content is 280px; photo 40 + position 96 + rating 60 leaves the name 84px,
+ *   60px of content.
+ */
+.table {
+    th:first-child,
+    td:first-child {
+        padding-inline-start: 0;
+    }
+
+    th:last-child,
+    td:last-child {
+        padding-inline-end: 0;
+    }
+
+    /* The photo has no end padding either: the name cell's own 12px start is the
+       gap to the name. */
+    .photo {
+        width: 40px;
+        padding-inline-end: 0;
+    }
+
+    /* 72px of content: it ends in an ellipsis on a narrow screen. */
+    .position {
+        width: 96px;
+    }
+
+    /* 48px of content, enough for the heading and a two-digit tag. */
+    .rating {
+        width: 60px;
+        text-align: end;
+    }
+
+    @include bp-up(sm) {
+        /* 112px of content, enough for "Defensive Midfield" at text-12. */
+        .position {
+            width: 136px;
+        }
+    }
+}
+
+/* Lets the club name ellipsize instead of stretching the flex row. */
+.name {
+    min-width: 0;
+}
+
+/* The message pads itself instead of taking the panel's flex gap, so the live
+   region adds no space under the table while it is empty. */
+.message {
+    padding-block-start: 16px;
+}

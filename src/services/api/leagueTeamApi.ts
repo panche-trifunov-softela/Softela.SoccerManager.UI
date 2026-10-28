@@ -3,6 +3,7 @@ import { request } from './http'
 import { toQueryString } from './utils'
 
 import type { AvailableLeagueTeamDto } from '@/types/availableLeagueTeamDto'
+import type { LeagueTeamSquadPlayerDto } from '@/types/leagueTeamSquadPlayerDto'
 
 /**
  * Reads every club on one league's roster, with whether each has a current manager and whether
@@ -20,4 +21,21 @@ export function getAvailableLeagueTeams(
   const path = API_ROUTES.leagueTeams.available + toQueryString({ leagueId })
 
   return request<AvailableLeagueTeamDto[]>(path, { signal })
+}
+
+/**
+ * Reads one league team's squad, each player with their current rating and main position.
+ *
+ * @param leagueTeamId The league team's id.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The players, in the order the API returns them.
+ * @throws {ApiError} When the API answers with an error status.
+ */
+export function getLeagueTeamSquad(
+  leagueTeamId: number,
+  signal?: AbortSignal,
+): Promise<LeagueTeamSquadPlayerDto[]> {
+  const path = API_ROUTES.leagueTeams.players(leagueTeamId)
+
+  return request<LeagueTeamSquadPlayerDto[]>(path, { signal })
 }

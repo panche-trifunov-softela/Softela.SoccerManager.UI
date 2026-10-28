@@ -19,15 +19,6 @@
         padding-inline-end: 0;
     }
 
-    /* A photo is not square: it fills the 40px square, cut to fit from the top so
-       the head stays in view. --body shows until it loads. */
-    .portrait {
-        display: block;
-        object-fit: cover;
-        object-position: center top;
-        background: var(--body);
-    }
-
     .position,
     .age,
     .club,
@@ -57,11 +48,6 @@
 
     .position_inline {
         display: block;
-    }
-
-    /* .tag is a block-level flex box; this lets the cell's text-align place it. */
-    .badge {
-        display: inline-flex;
     }
 
     @include bp-up(md) {

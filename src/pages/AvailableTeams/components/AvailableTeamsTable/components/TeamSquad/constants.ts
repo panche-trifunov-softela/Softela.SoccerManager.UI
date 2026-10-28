@@ -1,4 +1,4 @@
-/** Shown where a player has no rating or position. */
+/** Shown where a player has no rating. */
 export const MISSING = '—'
 
 /** What shows under the table while the squad is being read. */

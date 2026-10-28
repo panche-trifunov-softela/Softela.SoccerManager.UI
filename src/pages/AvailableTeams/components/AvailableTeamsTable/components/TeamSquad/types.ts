@@ -23,8 +23,11 @@ export interface SquadPlayerRow {
   /** The address of the player's photo, or `null` when they have none. */
   imageUrl: string | null
 
-  /** The player's main position as it reads, already written for display. */
-  position: string
+  /** The full name of the player's main position, shown on hover. */
+  positionName: string
+
+  /** The short name of that position, for example `CB`, as the table shows it. */
+  positionShortName: string
 
   /** The player's current rating, or `null` when they have none. */
   rating: number | null

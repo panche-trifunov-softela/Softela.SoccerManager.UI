@@ -15,9 +15,12 @@ export interface LeagueTeamSquadPlayerDto {
   /** The URL of the player's photo, or `null` when they have none. */
   imageUrl: string | null
 
-  /** The identifier of the player's main position, or `null` when they have none. */
-  positionId: number | null
+  /** The identifier of the player's main position. */
+  positionId: number
 
-  /** The full name of the player's main position, or `null` when they have none. */
-  positionName: string | null
+  /** The full name of the player's main position. */
+  positionName: string
+
+  /** The short name of that position, for example `CB`. */
+  positionShortName: string
 }

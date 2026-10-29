@@ -4,7 +4,10 @@ export { toErrorMessage } from './toErrorMessage'
 export { getLeague, getLeagues } from './leagueApi'
 export { getAvailableLeagueTeams, getLeagueTeamSquad } from './leagueTeamApi'
 export { getMyLeagueTeamManagers } from './leagueTeamManagerApi'
-export { createLeagueTeamManagerApplication } from './leagueTeamManagerApplicationApi'
+export {
+  createLeagueTeamManagerApplication,
+  getMyLeagueTeamManagerApplications,
+} from './leagueTeamManagerApplicationApi'
 export { ensureMyManager } from './managerApi'
 export {
   createManagerPlayerRatingVote,

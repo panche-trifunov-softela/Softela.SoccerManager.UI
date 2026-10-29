@@ -1,8 +1,6 @@
 import { MyTeamCard } from './components/MyTeamCard'
 import { useMyTeams } from './useMyTeams'
 
-import styles from './MyTeams.module.scss'
-
 /**
  * The clubs the signed-in manager runs, one card per league and club.
  *
@@ -19,7 +17,7 @@ export function MyTeams() {
   if (isEmpty) return <p className="label">You are not managing a club yet.</p>
 
   return (
-    <div className={styles.grid}>
+    <div className="card-grid">
       {teams.map((team) => (
         <MyTeamCard key={team.id} team={team} />
       ))}

@@ -11,6 +11,9 @@ export const API_ROUTES = {
   leagueTeamManagerApplications: {
     /** Applies, as the signed-in caller, to manage one club; takes a `POST`. */
     create: '/api/league-team-manager-applications',
+
+    /** The signed-in caller's own pending applications that can still be accepted. */
+    mine: '/api/league-team-manager-applications/mine',
   },
   leagueTeams: {
     /**

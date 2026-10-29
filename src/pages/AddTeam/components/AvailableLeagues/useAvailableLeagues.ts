@@ -4,9 +4,9 @@ import { generatePath } from 'react-router'
 import { ROUTES } from '@/constants/routes'
 import { getLeagues, toErrorMessage } from '@/services/api'
 import { toast } from '@/store/toast'
+import { formatCreatedAt } from '@/utils/formatCreatedAt'
 
 import { GAME_WORLDS_LOAD_FAILED_MESSAGE } from './constants'
-import { formatCreatedAt } from './utils'
 
 import type {
   AvailableLeagueRow,

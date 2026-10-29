@@ -3,6 +3,7 @@ import { request } from './http'
 
 import type { CreatedResourceDto } from '@/types/createdResourceDto'
 import type { CreateLeagueTeamManagerApplicationRequest } from '@/types/createLeagueTeamManagerApplicationRequest'
+import type { MyLeagueTeamManagerApplicationDto } from '@/types/myLeagueTeamManagerApplicationDto'
 
 /**
  * Applies, as the signed-in caller, to manage one club in its league.
@@ -19,4 +20,21 @@ export function createLeagueTeamManagerApplication(
     method: 'POST',
     body: application,
   })
+}
+
+/**
+ * Returns the pending applications belonging to the signed-in caller that can still be accepted.
+ *
+ * The backend decides which applications are listed and orders them newest first. A caller with
+ * no manager profile gets an empty list rather than a failure.
+ *
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The caller's applications.
+ */
+export function getMyLeagueTeamManagerApplications(
+  signal?: AbortSignal,
+): Promise<MyLeagueTeamManagerApplicationDto[]> {
+  const path = API_ROUTES.leagueTeamManagerApplications.mine
+
+  return request<MyLeagueTeamManagerApplicationDto[]>(path, { signal })
 }

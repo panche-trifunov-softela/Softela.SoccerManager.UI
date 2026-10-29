@@ -1,10 +1,6 @@
-import { Link } from 'react-router'
-
-import { ClubLogo } from '@/components/ClubLogo'
+import { ClubCard } from '@/components/ClubCard'
 
 import { useMyTeamCard } from './useMyTeamCard'
-
-import styles from './MyTeamCard.module.scss'
 
 import type { MyTeamCardProps } from './types'
 
@@ -19,22 +15,14 @@ export function MyTeamCard({ team }: MyTeamCardProps) {
   const { tenure, newsFeedPath } = useMyTeamCard(team)
 
   return (
-    <article className="card border-color-bottom">
-      <div className="card_header d-flex align-items-center g-16">
-        <ClubLogo logoUrl={team.teamLogoUrl} size="lg" />
-
-        <div className={styles.names}>
-          <Link to={newsFeedPath} className={`h4 text-overflow ${styles.link}`}>
-            {team.teamName}
-          </Link>
-          <p className="label text-10">{team.leagueName}</p>
-        </div>
-      </div>
-
-      <div className="card_footer--sm justify-content-between">
-        <span className="text-10">{tenure}</span>
-        {team.isCurrent && <span className="label text-10">Current</span>}
-      </div>
-    </article>
+    <ClubCard
+      logoUrl={team.teamLogoUrl}
+      teamName={team.teamName}
+      leagueName={team.leagueName}
+      to={newsFeedPath}
+    >
+      <span className="text-10">{tenure}</span>
+      {team.isCurrent && <span className="label text-10">Current</span>}
+    </ClubCard>
   )
 }

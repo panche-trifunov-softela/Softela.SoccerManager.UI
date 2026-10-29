@@ -1,10 +1,10 @@
 /**
- * Reads the league id from the address.
+ * Reads an id from a segment of the address, such as `:leagueId`.
  *
- * @param value The address's `:leagueId` segment, if there is one.
+ * @param value The segment, if the address has one.
  * @returns The id, or `null` when the segment is not a whole number above zero.
  */
-export function toLeagueId(value: string | undefined): number | null {
+export function toRouteId(value: string | undefined): number | null {
   if (value === undefined || !/^[1-9]\d*$/.test(value)) return null
 
   const id = Number(value)

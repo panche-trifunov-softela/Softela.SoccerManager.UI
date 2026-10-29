@@ -11,6 +11,6 @@ export interface MyTeamCardState {
   /** The span the tenure covers, ready to render. */
   tenure: string
 
-  /** The path to the team's news feed, ready to link to. */
-  newsFeedPath: string
+  /** The path to the team's squad, ready to link to. */
+  squadPath: string
 }

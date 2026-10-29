@@ -1,0 +1,1 @@
+export { myTeamSquadMessage } from './myTeamSquadMessage'

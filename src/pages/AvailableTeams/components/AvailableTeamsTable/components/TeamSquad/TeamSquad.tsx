@@ -1,9 +1,7 @@
-import { faUser } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import { ClubLogo } from '@/components/ClubLogo'
+import { PlayerPhoto } from '@/components/PlayerPhoto'
+import { MISSING } from '@/constants/missing'
 
-import { MISSING } from './constants'
 import { useTeamSquad } from './useTeamSquad'
 
 import styles from './TeamSquad.module.scss'
@@ -55,18 +53,7 @@ export function TeamSquad({ leagueTeamId, name, logoUrl }: TeamSquadProps) {
             {rows.map((row) => (
               <tr key={row.id}>
                 <td className={styles.photo}>
-                  {row.imageUrl === null ? (
-                    <span className="square square--icon" aria-hidden="true">
-                      <FontAwesomeIcon icon={faUser} />
-                    </span>
-                  ) : (
-                    <img
-                      className="square-avatar square-avatar--photo"
-                      src={row.imageUrl}
-                      alt=""
-                      loading="lazy"
-                    />
-                  )}
+                  <PlayerPhoto imageUrl={row.imageUrl} />
                 </td>
 
                 <td>

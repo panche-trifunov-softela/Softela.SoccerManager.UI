@@ -3,9 +3,10 @@ import { useParams } from 'react-router'
 
 import { ApiError, getAvailableLeagueTeams, getLeague, toErrorMessage } from '@/services/api'
 import { toast } from '@/store/toast'
+import { toRouteId } from '@/utils/toRouteId'
 
 import { CLUBS_LOAD_FAILED_MESSAGE, NOT_FOUND_MESSAGE } from './constants'
-import { availableTeamsMessage, toAvailableTeamRow, toLeagueId } from './utils'
+import { availableTeamsMessage, toAvailableTeamRow } from './utils'
 
 import type { AvailableTeamsRead, AvailableTeamsState } from './types'
 
@@ -28,7 +29,7 @@ import type { AvailableTeamsRead, AvailableTeamsState } from './types'
 export function useAvailableTeams(): AvailableTeamsState {
   const { leagueId: segment } = useParams()
 
-  const leagueId = toLeagueId(segment)
+  const leagueId = toRouteId(segment)
 
   const [read, setRead] = useState<AvailableTeamsRead | null>(null)
 

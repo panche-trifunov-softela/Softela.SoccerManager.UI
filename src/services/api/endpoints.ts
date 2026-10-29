@@ -24,6 +24,12 @@ export const API_ROUTES = {
 
     /** One league team's squad, ordered by line, position, rating and name. */
     players: (id: number) => `/api/league-teams/${id}/players`,
+
+    /**
+     * One league team's squad with each player's contract, morale and condition, in the same order
+     * as `players`; only the club's current manager or an operator may read it.
+     */
+    squad: (id: number) => `/api/league-teams/${id}/squad`,
   },
   leagues: {
     /** The leagues the signed-in caller does not manage a club in; `?searchTerm=` narrows them by name. */

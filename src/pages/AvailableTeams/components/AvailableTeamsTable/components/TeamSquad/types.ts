@@ -20,7 +20,7 @@ export interface SquadPlayerRow {
   /** The player's name. */
   name: string
 
-  /** The address of the player's photo, or `null` when they have none. */
+  /** The address of the player's photo; `null` or blank when they have none. */
   imageUrl: string | null
 
   /** The full name of the player's main position, shown on hover. */

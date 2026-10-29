@@ -1,0 +1,97 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * Column rules for the squad table. Everything here nests under the module's own
+ * .table so it outranks the global .table th / .table td rules. Widths are
+ * border-box, so each one includes the cell's padding: 12px a side, except the
+ * first column's start and the last column's end, which take the card padding.
+ * The name column has no width and takes whatever is left.
+ *
+ * Below md only the photo, Name, Position and Rating show. md adds Value, Wage,
+ * Morale and Condition; lg adds the squad number, Age and Nationality.
+ */
+.table {
+    /* The photo is the first column, so the card padding is its start. Its end
+       padding is dropped: the next cell's own 12px start is the gap. */
+    .photo {
+        width: calc(var(--card-padding) + 40px);
+        padding-inline-end: 0;
+    }
+
+    .number,
+    .age,
+    .nationality,
+    .value,
+    .wage,
+    .morale,
+    .condition {
+        display: none;
+    }
+
+    .number,
+    .age,
+    .value,
+    .wage,
+    .condition,
+    .rating {
+        text-align: end;
+    }
+
+    /* 56px of content, enough for the heading. */
+    .position {
+        width: 80px;
+    }
+
+    /* 48px of content, enough for the heading and a two-digit tag. The DOM's last
+       child, so the global .table gives it the card padding at its end. */
+    .rating {
+        width: calc(12px + 48px + var(--card-padding));
+    }
+
+    @include bp-up(md) {
+        .value,
+        .wage,
+        .morale,
+        .condition {
+            display: table-cell;
+        }
+
+        /* 56px of content, enough for a compact euro amount such as 152.5M. */
+        .value,
+        .wage {
+            width: 80px;
+        }
+
+        /* 96px of content, enough for "Very satisfied". */
+        .morale {
+            width: 120px;
+        }
+
+        /* 64px of content, enough for the heading. */
+        .condition {
+            width: 88px;
+        }
+    }
+
+    @include bp-up(lg) {
+        .number,
+        .age,
+        .nationality {
+            display: table-cell;
+        }
+
+        /* 24px of content, enough for a two-digit number. */
+        .number {
+            width: 48px;
+        }
+
+        .age {
+            width: 64px;
+        }
+
+        /* 40px of content: the crest's square. */
+        .nationality {
+            width: 64px;
+        }
+    }
+}

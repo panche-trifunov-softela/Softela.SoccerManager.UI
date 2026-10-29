@@ -1,6 +1,3 @@
-/** Shown where a player has no rating. */
-export const MISSING = '—'
-
 /** What shows under the table while the squad is being read. */
 export const SQUAD_LOADING_MESSAGE = 'Loading the squad…'
 

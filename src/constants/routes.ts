@@ -15,6 +15,9 @@ export const ROUTES = {
   /** The news feed of one team the signed-in user manages, in one league. */
   myTeamNewsFeed: '/league-teams/:leagueTeamId/news',
 
+  /** The squad of one team the signed-in user manages, in one league. */
+  myTeamSquad: '/league-teams/:leagueTeamId/squad',
+
   /** Adding a team for the signed-in user to manage. */
   addTeam: '/add-team',
 

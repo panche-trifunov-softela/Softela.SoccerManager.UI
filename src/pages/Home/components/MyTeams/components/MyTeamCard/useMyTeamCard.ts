@@ -11,7 +11,7 @@ import type { MyTeamCardProps, MyTeamCardState } from './types'
  * Derives what the card shows from the team it was handed.
  *
  * @param team The team the card describes.
- * @returns The tenure span and the path to the team's news feed.
+ * @returns The tenure span and the path to the team's squad.
  */
 export function useMyTeamCard(team: MyTeamCardProps['team']): MyTeamCardState {
   const tenure = useMemo(
@@ -19,10 +19,10 @@ export function useMyTeamCard(team: MyTeamCardProps['team']): MyTeamCardState {
     [team.startDate, team.endDate],
   )
 
-  const newsFeedPath = useMemo(
-    () => generatePath(ROUTES.myTeamNewsFeed, { leagueTeamId: String(team.leagueTeamId) }),
+  const squadPath = useMemo(
+    () => generatePath(ROUTES.myTeamSquad, { leagueTeamId: String(team.leagueTeamId) }),
     [team.leagueTeamId],
   )
 
-  return { tenure, newsFeedPath }
+  return { tenure, squadPath }
 }

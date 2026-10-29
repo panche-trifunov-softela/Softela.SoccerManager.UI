@@ -7,6 +7,7 @@ import { AddTeam } from '@/pages/AddTeam'
 import { AvailableTeams } from '@/pages/AvailableTeams'
 import { Home } from '@/pages/Home'
 import { MyTeamNewsFeed } from '@/pages/MyTeamNewsFeed'
+import { MyTeamSquad } from '@/pages/MyTeamSquad'
 import { NotFound } from '@/pages/NotFound'
 import { Profile } from '@/pages/Profile'
 import { Ratings } from '@/pages/Ratings'
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
           { path: ROUTES.profile, Component: Profile },
           { path: ROUTES.settings, Component: Settings },
           { path: ROUTES.myTeamNewsFeed, Component: MyTeamNewsFeed },
+          { path: ROUTES.myTeamSquad, Component: MyTeamSquad },
           { path: ROUTES.addTeam, Component: AddTeam },
           { path: ROUTES.availableTeams, Component: AvailableTeams },
           { path: ROUTES.ratings, Component: Ratings },

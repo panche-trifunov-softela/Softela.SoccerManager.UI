@@ -439,6 +439,14 @@ a {
     background: var(--body);
 }
 
+// A crest shown whole inside the square, on the body tone while it loads.
+.square-avatar--logo {
+    display: block;
+    object-fit: contain;
+    padding: 4px;
+    background: var(--body);
+}
+
 .club-logo {
     height: 50px;
     width: auto;

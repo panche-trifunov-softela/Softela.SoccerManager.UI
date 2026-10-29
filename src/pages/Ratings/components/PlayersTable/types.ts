@@ -24,7 +24,7 @@ export interface PlayerRow {
   /** The player's name. */
   name: string
 
-  /** The address of the player's photo, or `null` when there is none. */
+  /** The address of the player's photo; `null` or blank when there is none. */
   imageUrl: string | null
 
   /** The full name of the player's main position, shown on hover. */

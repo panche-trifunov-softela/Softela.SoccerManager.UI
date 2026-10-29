@@ -2,7 +2,11 @@ export { ApiError } from './apiError'
 export { request } from './http'
 export { toErrorMessage } from './toErrorMessage'
 export { getLeague, getLeagues } from './leagueApi'
-export { getAvailableLeagueTeams, getLeagueTeamSquad } from './leagueTeamApi'
+export {
+  getAvailableLeagueTeams,
+  getLeagueTeamSquad,
+  getLeagueTeamSquadMembers,
+} from './leagueTeamApi'
 export { getMyLeagueTeamManagers } from './leagueTeamManagerApi'
 export {
   createLeagueTeamManagerApplication,

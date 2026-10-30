@@ -3,18 +3,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { HeaderDropdown } from '../HeaderDropdown'
 
+import { TRIGGER_LABEL } from './constants'
 import { useLeagueSelect } from './useLeagueSelect'
 
 /**
- * Lets the user switch between the league teams they manage. Renders nothing while there is
- * none to list: the clubs are still loading, the read failed, or the user manages no club.
+ * The club switcher: lists the league teams the user manages, highlights the one the URL names
+ * and opens another club's squad page when one is picked. Its trigger always reads "Teams".
+ * Renders nothing while there is no club to list: the clubs are still loading, the read failed,
+ * or the user manages none.
  *
- * @returns The rendered selector, or `null` when there is nothing to select.
+ * @returns The rendered switcher, or `null` when there is nothing to choose from.
  */
 export function LeagueSelect() {
   const { selected, items, select } = useLeagueSelect()
 
-  if (selected === null) return null
+  if (items.length === 0) return null
 
   return (
     <HeaderDropdown
@@ -22,12 +25,12 @@ export function LeagueSelect() {
       collapsible
       trigger={
         <>
-          <span>{selected.label}</span>
+          <span>{TRIGGER_LABEL}</span>
           <FontAwesomeIcon icon={faChevronDown} />
         </>
       }
       items={items}
-      selectedId={selected.id}
+      selectedId={selected?.id}
       onSelect={select}
     />
   )

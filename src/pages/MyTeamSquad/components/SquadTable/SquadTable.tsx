@@ -12,8 +12,8 @@ import type { SquadTableProps } from './types'
  * One club's squad: a row per player from their photo to their rating, with their squad number,
  * position, age, nationality, value, weekly wage, morale and condition.
  *
- * The narrower the screen, the fewer columns show: the smallest keeps the photo, name, position
- * and rating, a medium one adds value, wage, morale and condition, and a wide one shows them all.
+ * The narrower the screen, the fewer columns show: the smallest keeps the photo, name and
+ * rating, a medium one adds value, wage, morale and condition, and a wide one shows them all.
  *
  * @param props The squad to show, in order.
  * @returns The rendered table.

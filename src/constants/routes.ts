@@ -18,6 +18,9 @@ export const ROUTES = {
   /** The squad of one team the signed-in user manages, in one league. */
   myTeamSquad: '/league-teams/:leagueTeamId/squad',
 
+  /** The tactics of one team the signed-in user manages, in one league. */
+  myTeamTactics: '/league-teams/:leagueTeamId/tactics',
+
   /** Adding a team for the signed-in user to manage. */
   addTeam: '/add-team',
 

@@ -7,8 +7,8 @@
  * first column's start and the last column's end, which take the card padding.
  * The name column has no width and takes whatever is left.
  *
- * Below md only the photo, Name, Position and Rating show. md adds Value, Wage,
- * Morale and Condition; lg adds the squad number, Age and Nationality.
+ * Below md only the photo, Name and Rating show. md adds Value, Wage, Morale and
+ * Condition; lg adds the squad number, Position, Age and Nationality.
  */
 .table {
     /* The photo is the first column, so the card padding is its start. Its end
@@ -19,6 +19,7 @@
     }
 
     .number,
+    .position,
     .age,
     .nationality,
     .value,
@@ -35,11 +36,6 @@
     .condition,
     .rating {
         text-align: end;
-    }
-
-    /* 56px of content, enough for the heading. */
-    .position {
-        width: 80px;
     }
 
     /* 48px of content, enough for the heading and a two-digit tag. The DOM's last
@@ -75,6 +71,7 @@
 
     @include bp-up(lg) {
         .number,
+        .position,
         .age,
         .nationality {
             display: table-cell;
@@ -83,6 +80,11 @@
         /* 24px of content, enough for a two-digit number. */
         .number {
             width: 48px;
+        }
+
+        /* 56px of content, enough for the heading. */
+        .position {
+            width: 80px;
         }
 
         .age {

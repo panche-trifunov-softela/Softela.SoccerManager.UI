@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
 
-import { useMyLeagueTeams } from '@/hooks/useMyLeagueTeams'
+import { useSelectedClub } from '@/hooks/useSelectedClub'
 import { getLeagueTeamSquadMembers, toErrorMessage } from '@/services/api'
 import { toast } from '@/store/toast'
-import { toRouteId } from '@/utils/toRouteId'
+import { toClubSubtitle } from '@/utils/toClubSubtitle'
 
 import { SQUAD_LOAD_FAILED_MESSAGE } from './constants'
 import { myTeamSquadMessage } from './utils'
@@ -20,17 +19,14 @@ import type { MyTeamSquadRead, MyTeamSquadState } from './types'
  * - Any failure to read, a refusal for a caller who does not manage the club included, says why
  *   in a toast and shows a fixed sentence where the table would be. A read that was aborted says
  *   nothing.
- * - The subtitle names the club and its game world when the signed-in manager runs it, from the
- *   shared my-teams store, and is otherwise `null`.
+ * - The club comes from the shared selected-club hook. The subtitle names the club and its game
+ *   world when the signed-in manager runs it, and is otherwise `null`. The squad is read for any
+ *   valid id in the address, a club the manager does not run included.
  *
  * @returns The subtitle, the players in the API's order, and what shows instead of the table.
  */
 export function useMyTeamSquad(): MyTeamSquadState {
-  const { leagueTeamId: segment } = useParams()
-
-  const leagueTeamId = toRouteId(segment)
-
-  const { teams } = useMyLeagueTeams()
+  const { leagueTeamId, club } = useSelectedClub()
 
   const [read, setRead] = useState<MyTeamSquadRead | null>(null)
 
@@ -61,10 +57,8 @@ export function useMyTeamSquad(): MyTeamSquadState {
 
   const players = current?.players ?? []
 
-  const team = teams.find((item) => item.leagueTeamId === leagueTeamId)
-
   return {
-    subtitle: team === undefined ? null : `${team.teamName} – ${team.leagueName}`,
+    subtitle: club === null ? null : toClubSubtitle(club),
     players,
     message: myTeamSquadMessage(
       leagueTeamId !== null,

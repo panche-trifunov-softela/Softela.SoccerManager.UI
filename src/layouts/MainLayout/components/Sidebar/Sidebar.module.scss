@@ -1,0 +1,100 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * The club menu has two modes, both the same column of links:
+ *
+ * - Below lg it is a 56px strip of icons. Each label stays in the accessibility
+ *   tree (and the link's title shows it on hover) but is visually hidden.
+ * - From lg it is the template's 250px panel, with the icon and its label in a row.
+ *
+ * Row recipe, from the Liga template: 40px tall rows with a 4px radius, an 18px
+ * icon centred in a 20px box, a 12px gap, the h4 label, and the active row on the
+ * --border colour.
+ */
+.sidebar {
+    flex: none;
+    width: 56px;
+    /* The same top padding as the page (15px, then 30px from xxl), so the first
+       row lines up with the page title. */
+    padding-block: 15px;
+    padding-inline: 8px;
+    background: var(--widget);
+    box-shadow: var(--widget-shadow);
+
+    /* The template panel's 30px side padding. */
+    @include bp-up(lg) {
+        width: var(--sidebar-width);
+        padding-inline: 30px;
+    }
+
+    @include bp-up(xxl) {
+        padding-block: 30px;
+    }
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 40px;
+    border-radius: 4px;
+    color: var(--text);
+    transition: background-color var(--transition), color var(--transition);
+
+    &:hover,
+    &:focus-visible {
+        color: var(--header);
+    }
+
+    &[aria-current='page'] {
+        background: var(--border);
+        color: var(--header);
+    }
+
+    /* From lg the row reaches 10px into the panel's side padding, as in the
+       template, so the highlight is wider than the icon and label. */
+    @include bp-up(lg) {
+        justify-content: flex-start;
+        padding-inline: 10px;
+        margin-inline: -10px;
+    }
+}
+
+.icon {
+    flex: none;
+    width: 20px;
+    font-size: 1.125rem;
+}
+
+/* Nested under .link so it outranks the global .h4 colour; the label follows the
+   link's own colour. Below lg these are the global .visually-hidden rules. */
+.link .label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    color: inherit;
+
+    /* From lg the label shows again: every visually-hidden rule is undone. */
+    @include bp-up(lg) {
+        position: static;
+        width: auto;
+        height: auto;
+        margin: 0;
+        overflow: visible;
+        clip: auto;
+        white-space: normal;
+    }
+}

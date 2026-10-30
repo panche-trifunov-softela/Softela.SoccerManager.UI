@@ -1,37 +1,41 @@
-import { useMemo, useState } from 'react'
+import { generatePath, useNavigate } from 'react-router'
 
+import { ROUTES } from '@/constants/routes'
 import { useMyLeagueTeams } from '@/hooks/useMyLeagueTeams'
+import { useSelectedClub } from '@/hooks/useSelectedClub'
 
 import { LEAGUE_TEAM_LABEL_SEPARATOR } from './constants'
 
 import type { LeagueSelectState } from './types'
 
 /**
- * Owns which of the signed-in manager's league teams is selected, listing the ones the shared
- * my-teams store holds.
+ * Drives the club switcher: lists the league teams the shared my-teams store holds, marks the
+ * one the URL names, and opens another club's squad page when the user picks it.
  *
- * - Until the user picks one, the first pair in the backend's order is selected.
- * - A selection that drops out of the list falls back to the first pair.
+ * - The selected club is the one in the URL, never a locally remembered choice.
+ * - Picking the selected club does nothing.
+ * - Picking another club always opens its squad page, whichever page is open now.
  *
- * @returns The selected pair, or `null` while there is none, the pairs to list, and a way to
- * change the selection.
+ * @returns The selected pair or `null`, the pairs to list, and a way to switch clubs.
  */
 export function useLeagueSelect(): LeagueSelectState {
   const { teams } = useMyLeagueTeams()
+  const { club } = useSelectedClub()
+  const navigate = useNavigate()
 
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const items = teams.map((team) => ({
+    id: String(team.leagueTeamId),
+    label: `${team.leagueName}${LEAGUE_TEAM_LABEL_SEPARATOR}${team.teamName}`,
+  }))
 
-  const items = useMemo(
-    () =>
-      teams.map((team) => ({
-        id: String(team.leagueTeamId),
-        label: `${team.leagueName}${LEAGUE_TEAM_LABEL_SEPARATOR}${team.teamName}`,
-      })),
-    [teams],
-  )
+  const selectedId = club === null ? null : String(club.leagueTeamId)
+  const selected = items.find((item) => item.id === selectedId) ?? null
 
-  const selected = items.find((item) => item.id === selectedId) ?? items[0] ?? null
-  const select = (id: string) => setSelectedId(id)
+  const select = (id: string) => {
+    if (id === selectedId) return
+
+    void navigate(generatePath(ROUTES.myTeamSquad, { leagueTeamId: id }))
+  }
 
   return { selected, items, select }
 }

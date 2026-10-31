@@ -1,0 +1,22 @@
+/* The global .avatar draws the 80px circle; beside a long club name in a flex row
+   it must keep that size. */
+.photo,
+.placeholder {
+    flex-shrink: 0;
+}
+
+/* A portrait cropped to the circle keeps the face, on the body tone while it loads. */
+.photo {
+    object-position: center top;
+    background: var(--body);
+}
+
+/* The stand-in matches the large crest's: an icon centred on the body tone. */
+.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--body);
+    color: var(--label);
+    font-size: 1.75rem;
+}

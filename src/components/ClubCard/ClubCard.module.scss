@@ -1,5 +1,18 @@
-/* Lets the club name ellipsize instead of stretching the flex row. */
+/* The same padding on every side of the header and the footer, so the crest keeps
+   clear of the line between them. */
+.header,
+.footer {
+    padding: 20px;
+}
+
+.footer {
+    border-top: 1px solid var(--border);
+}
+
+/* Takes the row's free width, so an aside sits at its end, and lets the club name
+   ellipsize instead of stretching the flex row. */
 .names {
+    flex: 1;
     min-width: 0;
 }
 

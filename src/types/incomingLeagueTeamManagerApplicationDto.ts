@@ -1,6 +1,6 @@
 /**
  * An application made for a club in one of the signed-in caller's leagues, enriched with the
- * league and team names for display.
+ * league, team and applicant names for display.
  *
  * Mirrors `IncomingLeagueTeamManagerApplicationDto` on the backend. The timestamp arrives as a UTC
  * ISO string.
@@ -26,6 +26,9 @@ export interface IncomingLeagueTeamManagerApplicationDto {
 
   /** The id of the manager who applied. */
   managerId: number
+
+  /** The name of the manager who applied, ready to show, or `null` when it is not known. */
+  managerName: string | null
 
   /** The address of the applicant's photo, or `null` when they have none. */
   managerImageUrl: string | null

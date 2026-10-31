@@ -15,4 +15,7 @@ export interface LeagueApplicationCardProps {
 export interface LeagueApplicationCardState {
   /** The day the application was made, ready to render. */
   appliedOn: string
+
+  /** The applicant's name, ready to render, or `null` when it is not known. */
+  applicantName: string | null
 }

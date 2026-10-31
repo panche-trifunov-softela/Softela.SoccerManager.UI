@@ -51,8 +51,8 @@ export interface SentApplicationAnswer {
 /** What `useApplicationAnswers` exposes to the view. */
 export interface ApplicationAnswersState {
   /**
-   * The props of one application's answer buttons: the club, the answer under way from them,
-   * whether they refuse clicks, and what answering does.
+   * The props of one application's answer buttons: the phrase naming the application, the answer
+   * under way from them, whether they refuse clicks, and what answering does.
    */
   answerButtonsFor: (application: IncomingLeagueTeamManagerApplicationDto) => AnswerButtonsProps
 }

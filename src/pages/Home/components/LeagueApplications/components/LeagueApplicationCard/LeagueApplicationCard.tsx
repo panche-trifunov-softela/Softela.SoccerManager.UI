@@ -7,12 +7,13 @@ import type { LeagueApplicationCardProps } from './types'
 
 /**
  * One application made for a club in the signed-in manager's leagues: the club, its league, the
- * applicant's photo and the day the application was made. The card links nowhere.
+ * applicant's photo, the day the application was made, and the actions it is handed, at the end of
+ * the footer. The card links nowhere.
  *
- * @param props The application the card describes.
+ * @param props The application the card describes, and the actions at the end of its footer.
  * @returns The rendered card.
  */
-export function LeagueApplicationCard({ application }: LeagueApplicationCardProps) {
+export function LeagueApplicationCard({ application, actions }: LeagueApplicationCardProps) {
   const { appliedOn } = useLeagueApplicationCard(application)
 
   return (
@@ -23,7 +24,7 @@ export function LeagueApplicationCard({ application }: LeagueApplicationCardProp
       aside={<ManagerPhoto imageUrl={application.managerImageUrl} />}
     >
       <span className="text-10">{appliedOn}</span>
-      <span className="label text-10">Pending</span>
+      {actions}
     </ClubCard>
   )
 }

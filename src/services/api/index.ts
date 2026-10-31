@@ -12,6 +12,7 @@ export {
   createLeagueTeamManagerApplication,
   getIncomingLeagueTeamManagerApplications,
   getMyLeagueTeamManagerApplications,
+  updateLeagueTeamManagerApplication,
 } from './leagueTeamManagerApplicationApi'
 export { ensureMyManager } from './managerApi'
 export {

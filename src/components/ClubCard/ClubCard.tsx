@@ -11,7 +11,8 @@ import type { ClubCardProps } from './types'
  *
  * - With `to`, the club's name is the card's link, stretched over the whole card. Without it, the
  *   name is plain text and the card links nowhere.
- * - The aside sits at the end of the header; the footer is the caller's.
+ * - The aside sits at the end of the header; the footer is the caller's, and wraps onto a second
+ *   line when its content does not fit on one.
  *
  * @param props The club, its league, where the card links to, the header's aside, and the
  * footer's content.
@@ -37,7 +38,7 @@ export function ClubCard({ logoUrl, teamName, leagueName, to, aside, children }:
         {aside}
       </div>
 
-      <div className={`d-flex align-items-center justify-content-between ${styles.footer}`}>
+      <div className={`d-flex flex-wrap align-items-center justify-content-between g-8 ${styles.footer}`}>
         {children}
       </div>
     </article>

@@ -1,0 +1,17 @@
+/* The photo and the name under it keep the photo's 80px width, so a long name
+   never takes room from the club's name beside it. */
+.applicant {
+    flex-shrink: 0;
+    width: 80px;
+}
+
+/* A long name wraps onto a second line and is cut there with an ellipsis; a word
+   too long for one line breaks where it must. */
+.name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+}

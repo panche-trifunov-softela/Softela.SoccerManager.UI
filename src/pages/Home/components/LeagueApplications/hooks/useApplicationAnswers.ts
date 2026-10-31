@@ -4,6 +4,7 @@ import { ApiError, toErrorMessage, updateLeagueTeamManagerApplication } from '@/
 import { toast } from '@/store/toast'
 
 import { APPLICATION_ANSWERS } from '../constants'
+import { toApplicationName } from '../utils'
 
 import type { IncomingLeagueTeamManagerApplicationDto } from '@/types/incomingLeagueTeamManagerApplicationDto'
 
@@ -85,7 +86,7 @@ export function useApplicationAnswers(
   }
 
   const answerButtonsFor: ApplicationAnswersState['answerButtonsFor'] = (application) => ({
-    teamName: application.teamName,
+    applicationName: toApplicationName(application),
     sending: sending?.applicationId === application.id ? sending.answer : null,
     isLocked: sending !== null,
     onAnswer: (answer) => {

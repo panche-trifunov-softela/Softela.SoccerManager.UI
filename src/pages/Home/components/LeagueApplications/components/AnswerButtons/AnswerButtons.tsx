@@ -5,22 +5,26 @@ import type { AnswerButtonsProps } from './types'
  *
  * - The button whose answer is under way says so, in its text and in its accessible name.
  * - While any answer from the section is under way, both buttons refuse clicks.
- * - Both accessible names carry the club's name.
+ * - Both accessible names carry the application's name, so two applicants for one club can be told
+ *   apart.
  *
- * @param props The club applied for, the answer under way from these buttons, whether they refuse
- * clicks, and what to call when one is pressed.
+ * @param props The phrase naming the application, the answer under way from these buttons,
+ * whether they refuse clicks, and what to call when one is pressed.
  * @returns The two buttons.
  */
-export function AnswerButtons({ teamName, sending, isLocked, onAnswer }: AnswerButtonsProps) {
+export function AnswerButtons({
+  applicationName,
+  sending,
+  isLocked,
+  onAnswer,
+}: AnswerButtonsProps) {
   return (
     <div className="d-flex g-8">
       <button
         type="button"
         className="btn btn--sm accept focus-ring"
         aria-label={
-          sending === 'accept'
-            ? `Accepting the application for ${teamName}`
-            : `Accept the application for ${teamName}`
+          sending === 'accept' ? `Accepting ${applicationName}` : `Accept ${applicationName}`
         }
         aria-disabled={isLocked}
         onClick={() => {
@@ -34,9 +38,7 @@ export function AnswerButtons({ teamName, sending, isLocked, onAnswer }: AnswerB
         type="button"
         className="btn btn--sm decline focus-ring"
         aria-label={
-          sending === 'reject'
-            ? `Rejecting the application for ${teamName}`
-            : `Reject the application for ${teamName}`
+          sending === 'reject' ? `Rejecting ${applicationName}` : `Reject ${applicationName}`
         }
         aria-disabled={isLocked}
         onClick={() => {

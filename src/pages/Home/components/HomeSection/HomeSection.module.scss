@@ -1,0 +1,10 @@
+@use '@/styles/breakpoints' as *;
+
+/* From lg, where the sections sit side by side, every title row is as tall as a
+   .btn (40px), so their content starts at the same height whether or not the row
+   holds a button. */
+.header {
+    @include bp-up(lg) {
+        min-height: 40px;
+    }
+}

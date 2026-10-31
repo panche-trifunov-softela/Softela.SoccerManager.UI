@@ -3,6 +3,7 @@ import { request } from './http'
 
 import type { CreatedResourceDto } from '@/types/createdResourceDto'
 import type { CreateLeagueTeamManagerApplicationRequest } from '@/types/createLeagueTeamManagerApplicationRequest'
+import type { IncomingLeagueTeamManagerApplicationDto } from '@/types/incomingLeagueTeamManagerApplicationDto'
 import type { MyLeagueTeamManagerApplicationDto } from '@/types/myLeagueTeamManagerApplicationDto'
 
 /**
@@ -37,4 +38,20 @@ export function getMyLeagueTeamManagerApplications(
   const path = API_ROUTES.leagueTeamManagerApplications.mine
 
   return request<MyLeagueTeamManagerApplicationDto[]>(path, { signal })
+}
+
+/**
+ * Returns the applications made for clubs in the signed-in caller's leagues.
+ *
+ * The backend decides which applications are listed and in what order.
+ *
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The applications made for clubs in the caller's leagues.
+ */
+export function getIncomingLeagueTeamManagerApplications(
+  signal?: AbortSignal,
+): Promise<IncomingLeagueTeamManagerApplicationDto[]> {
+  const path = API_ROUTES.leagueTeamManagerApplications.incoming
+
+  return request<IncomingLeagueTeamManagerApplicationDto[]>(path, { signal })
 }

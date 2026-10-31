@@ -9,27 +9,37 @@ import type { ClubCardProps } from './types'
 /**
  * A club in its league, as a card.
  *
- * - The club's name is the card's link, stretched over the whole card.
- * - The footer is the caller's.
+ * - With `to`, the club's name is the card's link, stretched over the whole card. Without it, the
+ *   name is plain text and the card links nowhere.
+ * - The aside sits at the end of the header; the footer is the caller's.
  *
- * @param props The club, its league, where the card links to, and the footer's content.
+ * @param props The club, its league, where the card links to, the header's aside, and the
+ * footer's content.
  * @returns The rendered card.
  */
-export function ClubCard({ logoUrl, teamName, leagueName, to, children }: ClubCardProps) {
+export function ClubCard({ logoUrl, teamName, leagueName, to, aside, children }: ClubCardProps) {
   return (
     <article className="card border-color-bottom">
-      <div className="card_header d-flex align-items-center g-16">
+      <div className={`d-flex align-items-center g-16 ${styles.header}`}>
         <ClubLogo logoUrl={logoUrl} size="lg" />
 
         <div className={styles.names}>
-          <Link to={to} className={`h4 text-overflow ${styles.link}`}>
-            {teamName}
-          </Link>
+          {to === undefined ? (
+            <p className="h4 text-overflow">{teamName}</p>
+          ) : (
+            <Link to={to} className={`h4 text-overflow ${styles.link}`}>
+              {teamName}
+            </Link>
+          )}
           <p className="label text-10">{leagueName}</p>
         </div>
+
+        {aside}
       </div>
 
-      <div className="card_footer--sm justify-content-between">{children}</div>
+      <div className={`d-flex align-items-center justify-content-between ${styles.footer}`}>
+        {children}
+      </div>
     </article>
   )
 }

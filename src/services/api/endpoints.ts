@@ -14,6 +14,9 @@ export const API_ROUTES = {
 
     /** The signed-in caller's own pending applications that can still be accepted. */
     mine: '/api/league-team-manager-applications/mine',
+
+    /** The applications made for clubs in the signed-in caller's leagues. */
+    incoming: '/api/league-team-manager-applications/incoming',
   },
   leagueTeams: {
     /**

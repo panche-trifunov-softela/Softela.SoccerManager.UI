@@ -58,22 +58,15 @@
 }
 
 /*
- * The template has no responsive multi-card grid to reuse: its only repeated
- * card list is tuned to a dashboard cell's width rather than the viewport, so
- * this one is written against the project's own breakpoints instead.
+ * The template has no responsive multi-card grid to reuse. This one fits as many
+ * cards of at least 340px as its own width allows, rather than counting columns
+ * per viewport, so the same grid works full width and inside a page column; a
+ * container narrower than 340px holds one card per row.
  */
 .card-grid {
     display: grid;
     gap: 20px;
-    grid-template-columns: 1fr;
-
-    @include bp-up(md) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @include bp-up(lg) {
-        grid-template-columns: repeat(3, 1fr);
-    }
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
 }
 
 .field {

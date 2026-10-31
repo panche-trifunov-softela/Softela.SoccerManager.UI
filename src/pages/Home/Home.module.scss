@@ -1,0 +1,16 @@
+@use '@/styles/breakpoints' as *;
+
+/* The page's sections, one under another; from lg, side by side in three equal
+   columns, each section's cards stacked in its own column. The tracks start at 0,
+   not at their content's width, so a long club name ellipsizes instead of
+   widening the page. */
+.sections {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+
+    @include bp-up(lg) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: start;
+    }
+}

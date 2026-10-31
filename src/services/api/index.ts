@@ -10,6 +10,7 @@ export {
 export { getMyLeagueTeamManagers } from './leagueTeamManagerApi'
 export {
   createLeagueTeamManagerApplication,
+  getIncomingLeagueTeamManagerApplications,
   getMyLeagueTeamManagerApplications,
 } from './leagueTeamManagerApplicationApi'
 export { ensureMyManager } from './managerApi'

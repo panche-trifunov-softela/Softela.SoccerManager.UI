@@ -1,3 +1,5 @@
+import { HomeSection } from '../HomeSection'
+
 import { AppliedClubCard } from './components/AppliedClubCard'
 import { useAppliedClubs } from './useAppliedClubs'
 
@@ -13,9 +15,7 @@ export function AppliedClubs() {
   if (isHidden) return null
 
   return (
-    <section className="d-flex flex-column g-20">
-      <h2 className="h3">Applied clubs</h2>
-
+    <HomeSection title="Applied clubs">
       {error !== null ? (
         <p className="label">{error}</p>
       ) : (
@@ -25,6 +25,6 @@ export function AppliedClubs() {
           ))}
         </div>
       )}
-    </section>
+    </HomeSection>
   )
 }

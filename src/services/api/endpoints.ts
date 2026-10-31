@@ -17,6 +17,12 @@ export const API_ROUTES = {
 
     /** The applications made for clubs in the signed-in caller's leagues. */
     incoming: '/api/league-team-manager-applications/incoming',
+
+    /**
+     * One application, by its id; a `PUT` answers it, accepting or rejecting it, when the
+     * signed-in caller owns its league or is an operator.
+     */
+    byId: (id: number) => `/api/league-team-manager-applications/${id}`,
   },
   leagueTeams: {
     /**

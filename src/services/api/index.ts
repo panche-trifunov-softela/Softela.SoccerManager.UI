@@ -1,9 +1,11 @@
 export { ApiError } from './apiError'
 export { request } from './http'
 export { toErrorMessage } from './toErrorMessage'
+export { getFormations } from './formationApi'
 export { getLeague, getLeagues } from './leagueApi'
 export {
   getAvailableLeagueTeams,
+  getLeagueTeamNextMatch,
   getLeagueTeamSquad,
   getLeagueTeamSquadMembers,
 } from './leagueTeamApi'
@@ -20,6 +22,7 @@ export {
   deleteManagerPlayerRatingVote,
   updateManagerPlayerRatingVote,
 } from './managerPlayerRatingVoteApi'
+export { autoPickMatchLineup, saveMatchLineup } from './matchApi'
 export { getNationalTeams } from './nationalTeamApi'
 export { searchPlayers } from './playerApi'
 export { getPositions } from './positionApi'

@@ -1,0 +1,39 @@
+/*
+ * The first row holds the select, the auto pick button and the status. The controls sit on the
+ * bottom edge, as the select has its label above it, and the status is centred against them.
+ */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+/* Takes the spare width up to 240px, and may shrink below its content. */
+.formation {
+    flex: 1 1 160px;
+    min-width: 0;
+    max-width: 240px;
+}
+
+.status {
+    align-self: center;
+}
+
+/*
+ * The second row: the hint keeps the width of its text and may shrink, and the buttons follow it
+ * rather than sit at the far edge. It is always there, at the height of the small button, so the
+ * pitch below never jumps when a selection starts or ends.
+ */
+.selection {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    min-height: 32px;
+}
+
+.hint {
+    flex: 0 1 auto;
+    min-width: 0;
+}

@@ -1,0 +1,17 @@
+/*
+ * A group's heading is a bar on the body tone, as the squad table's header is. Rows run to the
+ * card's edges, divided by lines.
+ */
+.title {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding-inline: var(--card-padding);
+    background: var(--body);
+}
+
+.rows {
+    li:not(:first-child) {
+        border-top: 1px solid var(--border);
+    }
+}

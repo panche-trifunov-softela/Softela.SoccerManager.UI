@@ -1,0 +1,163 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * One slot of the lineup as a button. It is 44px wide below sm, 60px from sm and 80px from md. The
+ * smaller phone sizes (the width and the tighter photo margin below sm, the name pill's 9px text
+ * below md) cut how much of a narrow pitch each marker covers, so neighbours overlap less. They do
+ * not guarantee that a crowded line fits: the formation decides how close the markers are placed.
+ *
+ * The minimum height is the photo, its margin and the name pill, so an empty marker and a filled
+ * one are the same height and the rows of the bench line up: 40 + 8 + 13 below sm, 40 + 11 + 13
+ * from sm, and 40 + 11 + 16 from md.
+ *
+ * The empty circle takes the text colour of whatever it sits on, so the pitch can make it white
+ * while the bench keeps the page's own tone. Its background is the pitch's `--slot-empty-bg` when
+ * there is one.
+ */
+.marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 44px;
+    min-height: 61px;
+    padding: 0;
+    border-radius: 8px;
+
+    @include bp-up(sm) {
+        width: 60px;
+        min-height: 64px;
+    }
+
+    @include bp-up(md) {
+        width: 80px;
+        min-height: 67px;
+    }
+
+    &[aria-disabled='true'] {
+        cursor: default;
+    }
+}
+
+/*
+ * The global focus ring is drawn inside the control, where it would sit on the photo. Drawn
+ * outside, with a halo of the widget colour behind it, it reads on the pitch's green and on the
+ * page alike.
+ */
+button.marker:focus-visible {
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px var(--widget);
+}
+
+/* The photo is the 40px square of the player photo, with the rating over its bottom edge. */
+.photo {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+
+    @include bp-up(sm) {
+        margin-bottom: 11px;
+    }
+
+    /* Smaller than the global tag, and nested here to outrank its height and padding. */
+    .rating {
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        justify-content: center;
+        min-width: 22px;
+        height: 16px;
+        padding: 0 5px;
+        border-radius: 6px;
+        font-size: 0.625rem;
+        font-weight: 700;
+        line-height: 1;
+        transform: translateX(-50%);
+
+        @include bp-up(sm) {
+            bottom: -9px;
+            height: 18px;
+        }
+    }
+}
+
+/*
+ * A suspended player: a red disc with a white ban sign on the photo's top-right corner. It is
+ * positioned over the photo, so it adds no height; the button's label says the player is
+ * suspended, so the icon is only for the eye.
+ */
+.suspended {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--widget-light);
+    font-size: 0.5625rem;
+    line-height: 1;
+}
+
+/* Empty: a dashed circle naming the position the slot asks for. */
+.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px dashed currentColor;
+    border-radius: 50%;
+    background: var(--slot-empty-bg, color-mix(in srgb, currentColor 12%, transparent));
+    font-family: var(--heading-font);
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/*
+ * Selected: a 3px accent ring round the photo or the circle, and outside it a 2px ring of the
+ * header colour, so the selection never rests on yellow alone.
+ */
+.selected {
+    .photo,
+    .empty {
+        box-shadow:
+            0 0 0 3px var(--accent),
+            0 0 0 5px var(--header);
+    }
+}
+
+/*
+ * The name sits on a pill of the widget colour so it reads on the pitch's green too, with a 1px
+ * edge of the border colour so it reads on a white card as well. The edge is a shadow, which adds
+ * no height. Below md the text is 9px on a 13px line; below sm the pill may be wider than the 44px
+ * marker (it stays centred), from sm it keeps to the marker's width, and from md the text is
+ * 10px on a 16px line.
+ */
+.name {
+    max-width: 52px;
+    padding: 0 3px;
+    border-radius: 8px;
+    background: var(--widget);
+    box-shadow: 0 0 0 1px var(--border);
+    color: var(--header);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    line-height: 13px;
+
+    @include bp-up(sm) {
+        max-width: 100%;
+    }
+
+    @include bp-up(md) {
+        padding: 0 6px;
+        font-size: 0.625rem;
+        line-height: 16px;
+    }
+}

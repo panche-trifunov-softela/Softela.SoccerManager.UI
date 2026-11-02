@@ -1,17 +1,30 @@
 import { PageTitle } from '@/components/PageTitle'
 import { ROUTES } from '@/constants/routes'
 
-import { TACTICS_COMING_SOON_MESSAGE } from './constants'
+import { Bench } from './components/Bench'
+import { LineupSquadList } from './components/LineupSquadList'
+import { LineupToolbar } from './components/LineupToolbar'
+import { NextMatchHeader } from './components/NextMatchHeader'
+import { Pitch } from './components/Pitch'
 import { useMyTeamTactics } from './useMyTeamTactics'
 
+import styles from './MyTeamTactics.module.scss'
+
 /**
- * The tactics of one club the signed-in manager runs. For now a placeholder: the title bar, as on
- * the squad page, and a line saying the tactics are coming.
+ * The tactics of one club the signed-in manager runs: its next match and the lineup for it, on a
+ * pitch with the bench under it and the squad beside it, edited by tapping a slot and then a slot
+ * or a player. Every change is saved at once.
+ *
+ * - An address with no valid id shows that the club could not be found.
+ * - While the data loads, when it could not be read (a refusal to a caller who does not manage
+ *   the club included), and when there is no match or no formation to edit, a short fixed
+ *   sentence shows in place of the board.
+ * - A failure to read is also toasted.
  *
  * @returns The rendered page.
  */
 export function MyTeamTactics() {
-  const { subtitle } = useMyTeamTactics()
+  const { subtitle, view } = useMyTeamTactics()
 
   return (
     <div className="d-flex flex-column g-20">
@@ -22,7 +35,29 @@ export function MyTeamTactics() {
         backLabel="Back to my teams"
       />
 
-      <p className="label">{TACTICS_COMING_SOON_MESSAGE}</p>
+      {view.kind === 'message' ? (
+        <p className="label">{view.message}</p>
+      ) : (
+        <div className={styles.board}>
+          <div className={styles.header}>
+            <NextMatchHeader {...view.board.header} />
+          </div>
+
+          <div className={styles.toolbar}>
+            <LineupToolbar {...view.board.toolbar} />
+          </div>
+
+          <div className={styles.lineup}>
+            <Pitch {...view.board.pitch} />
+
+            <Bench {...view.board.bench} />
+          </div>
+
+          <div className={styles.squad}>
+            <LineupSquadList {...view.board.squad} />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

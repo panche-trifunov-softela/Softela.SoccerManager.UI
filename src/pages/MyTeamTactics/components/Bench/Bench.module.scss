@@ -1,0 +1,28 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * The grid by breakpoint:
+ *
+ * - Below md: four markers to a row.
+ * - From md up to lg: all eight in one row.
+ * - From lg: four to a row again, as the bench then sits in the board's 480px column, which fits
+ *   four 80px markers but not eight.
+ *
+ * Each marker is centred in its cell and the cells stay at the top, so an empty slot and a filled
+ * one share a baseline.
+ */
+.slots {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    justify-items: center;
+    align-items: start;
+    gap: 16px 8px;
+
+    @include bp-up(md) {
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+
+    @include bp-up(lg) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}

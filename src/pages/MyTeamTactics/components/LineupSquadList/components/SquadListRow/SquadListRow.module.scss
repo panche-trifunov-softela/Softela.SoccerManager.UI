@@ -1,0 +1,126 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * One row is two lines on a phone and one from md. The first line holds the squad number and the
+ * name, which takes the whole width; the second holds the position (28px), the rating (36px) and
+ * the condition, in fixed columns so the cells of one row line up with the next row's.
+ * From md the row is five columns: the squad number, the name (which takes whatever is left), the
+ * position, the rating and the condition. A phone cannot spare the 172px those columns need and
+ * still show a name.
+ *
+ * The 3px start border is always there, transparent, so selecting a row never moves its content.
+ */
+.row {
+    display: grid;
+    grid-template-columns: 24px 28px 36px minmax(0, 1fr);
+    grid-template-areas:
+        'number who who who'
+        '. position rating condition';
+    align-items: center;
+    column-gap: 8px;
+    row-gap: 2px;
+    width: 100%;
+    min-height: 52px;
+    padding-block: 6px;
+    padding-inline: calc(var(--card-padding) - 3px) var(--card-padding);
+    border-inline-start: 3px solid transparent;
+    text-align: start;
+    transition: background var(--transition);
+
+    @include bp-up(md) {
+        grid-template-columns: 24px minmax(0, 1fr) 36px 40px 40px;
+        grid-template-areas: none;
+        row-gap: 0;
+    }
+
+    &:hover:not(:disabled, [aria-disabled='true'], [aria-pressed='true']) {
+        background: var(--body);
+    }
+
+    &:disabled,
+    &[aria-disabled='true'] {
+        cursor: default;
+    }
+
+    &[aria-pressed='true'] {
+        border-inline-start-color: var(--accent);
+        background: color-mix(in srgb, var(--accent) 16%, transparent);
+    }
+}
+
+/* A suspended player outside the lineup cannot be picked. */
+.unavailable {
+    opacity: 0.5;
+}
+
+/* Where each part sits on the phone's two lines; from md the grid places them in order. */
+.number {
+    grid-area: number;
+    text-align: end;
+}
+
+.who {
+    grid-area: who;
+}
+
+.position {
+    grid-area: position;
+}
+
+.rating {
+    grid-area: rating;
+    justify-self: start;
+}
+
+.condition {
+    grid-area: condition;
+    text-align: start;
+}
+
+@include bp-up(md) {
+    .number,
+    .who,
+    .position,
+    .rating,
+    .condition {
+        grid-area: auto;
+    }
+
+    .rating {
+        justify-self: end;
+    }
+
+    .condition {
+        text-align: end;
+    }
+}
+
+/* The selected row's name is bolder, besides the accent bar and the tint. */
+.row[aria-pressed='true'] .name {
+    font-weight: 800;
+}
+
+/* The name and, under it, the suspension tag. Both may shrink below their content. */
+.who {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    min-width: 0;
+}
+
+.name {
+    max-width: 100%;
+}
+
+/* Red outline and words, so a suspension never rests on colour alone. */
+.suspended {
+    padding: 0 4px;
+    border: 1px solid var(--red);
+    border-radius: 4px;
+    color: var(--header);
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 14px;
+    white-space: nowrap;
+}

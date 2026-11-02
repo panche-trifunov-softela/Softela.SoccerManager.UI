@@ -4,6 +4,10 @@
  * to the configured base URL.
  */
 export const API_ROUTES = {
+  formations: {
+    /** Every formation. */
+    list: '/api/formations',
+  },
   leagueTeamManagers: {
     /** The signed-in caller's own appointments. */
     mine: '/api/league-team-managers/mine',
@@ -39,6 +43,12 @@ export const API_ROUTES = {
      * as `players`; only the club's current manager or an operator may read it.
      */
     squad: (id: number) => `/api/league-teams/${id}/squad`,
+
+    /**
+     * One league team's next match with its lineup; only the club's current manager or an operator
+     * may read it, and the API answers 204 with no body when the club has no match to come.
+     */
+    nextMatch: (id: number) => `/api/league-teams/${id}/next-match`,
   },
   leagues: {
     /** The leagues the signed-in caller does not manage a club in; `?searchTerm=` narrows them by name. */
@@ -57,6 +67,16 @@ export const API_ROUTES = {
   managers: {
     /** The signed-in caller's own manager profile; a `POST` creates it when it is missing. */
     me: '/api/managers/me',
+  },
+  matches: {
+    /**
+     * One match's lineup for a club, by the match's id; a `PUT` changes its formation, one slot,
+     * or both.
+     */
+    lineup: (id: number) => `/api/matches/${id}/lineup`,
+
+    /** Replaces one match's lineup for a club with an automatically picked one; takes a `POST`. */
+    autoPick: (id: number) => `/api/matches/${id}/lineup/auto-pick`,
   },
   players: {
     /** Searches the players; every query parameter narrows, sorts or pages the result. */

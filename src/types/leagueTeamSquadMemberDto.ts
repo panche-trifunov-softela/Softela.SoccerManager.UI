@@ -2,8 +2,8 @@ import type { Morale } from './morale'
 
 /**
  * A player in a club's squad, as `GET /api/league-teams/{id}/squad` returns it to the club's
- * manager: the squad entry's contract, morale and condition in that game world, with the
- * player's current rating, main position and national team.
+ * manager: the squad entry's contract, morale, condition and suspension in that game world, with
+ * the player's current rating, main position and national team.
  *
  * The date of birth arrives as `yyyy-MM-dd`.
  */
@@ -61,4 +61,10 @@ export interface LeagueTeamSquadMemberDto {
 
   /** The player's condition, from 1 to 100. */
   condition: number
+
+  /**
+   * Whether the player is suspended in the domestic competition, and so can't be picked for a
+   * lineup.
+   */
+  isSuspended: boolean
 }

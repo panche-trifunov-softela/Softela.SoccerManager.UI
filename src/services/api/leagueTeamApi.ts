@@ -5,6 +5,7 @@ import { toQueryString } from './utils'
 import type { AvailableLeagueTeamDto } from '@/types/availableLeagueTeamDto'
 import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
 import type { LeagueTeamSquadPlayerDto } from '@/types/leagueTeamSquadPlayerDto'
+import type { NextMatchDto } from '@/types/nextMatchDto'
 
 /**
  * Reads every club on one league's roster, with whether each has a current manager and whether
@@ -58,4 +59,25 @@ export function getLeagueTeamSquadMembers(
   const path = API_ROUTES.leagueTeams.squad(leagueTeamId)
 
   return request<LeagueTeamSquadMemberDto[]>(path, { signal })
+}
+
+/**
+ * Reads one league team's next match, with the club's lineup for it.
+ *
+ * @param leagueTeamId The league team's id.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The next match, or `null` when the club has no match to come: the API answers 204 with
+ * no body, which `request` resolves as `undefined`.
+ * @throws {ApiError} When the API answers with an error status, such as 403 for a caller who
+ * does not manage the club.
+ */
+export async function getLeagueTeamNextMatch(
+  leagueTeamId: number,
+  signal?: AbortSignal,
+): Promise<NextMatchDto | null> {
+  const path = API_ROUTES.leagueTeams.nextMatch(leagueTeamId)
+
+  const nextMatch = await request<NextMatchDto | undefined>(path, { signal })
+
+  return nextMatch ?? null
 }

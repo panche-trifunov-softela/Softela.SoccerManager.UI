@@ -1,0 +1,13 @@
+/*
+ * The opponent takes the row's spare width down to 200px, then the venue and the kick-off wrap
+ * under it. Both ends can shrink below their content, so a long name ellipsizes instead of
+ * widening the card.
+ */
+.opponent {
+    flex: 1 1 200px;
+    min-width: 0;
+}
+
+.names {
+    min-width: 0;
+}

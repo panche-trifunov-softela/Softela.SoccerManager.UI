@@ -6,8 +6,10 @@ import { toast } from '@/store/toast'
 import {
   AUTO_PICK_FAILED_MESSAGE,
   CLEAR_SELECTION_KEY,
+  LINEUP_REFRESH_MESSAGE,
   LINEUP_SAVE_FAILED_MESSAGE,
   RELOAD_STATUSES,
+  SERVER_ERROR_STATUS,
 } from '../constants'
 import { resolveTap, toLineupIndex } from '../utils'
 
@@ -33,11 +35,12 @@ import type {
  *   moves, swaps, places or clears (see `resolveTap`). Escape drops the selection too.
  * - A selection and a settled save state belong to one match, and read as empty for any other.
  *   The save state reads `saving` for as long as any request is outstanding.
- * - Success shows only in the save state. A failure says why in a toast, and a 400, 403 or 404
- *   also reads the page's data again, since the server's state may have moved on.
+ * - Success shows only in the save state. A failure says why in a toast, and a 400, 403, 404 or
+ *   500 also reads the page's data again, since the server's state may have moved on. A 500, as
+ *   when another device's save of the same lineup won, is toasted as a fixed sentence.
  * - On a first visit, when the viewer runs the club and the lineup has a formation but nobody in
  *   it, the lineup is picked automatically. A match is judged once, the first time its lineup is
- *   seen with no request outstanding, so emptying a lineup by hand never brings a pick.
+ *   seen while the board is unlocked, so emptying a lineup by hand never brings a pick.
  *
  * @param options The club, the match whose lineup is edited, and what to call to refresh it.
  * @returns The selection, the save state, whether the board is locked, and the actions.
@@ -127,12 +130,21 @@ export function useLineupEditor({
       }
 
       const onFailed = (cause: unknown) => {
-        toast.error(toErrorMessage(cause, failedMessage))
+        const status = cause instanceof ApiError ? cause.status : null
+
+        // A 500 carries only a generic title, so a fixed sentence says what happens next.
+        const message =
+          status === SERVER_ERROR_STATUS
+            ? LINEUP_REFRESH_MESSAGE
+            : toErrorMessage(cause, failedMessage)
+
+        toast.error(message)
 
         settle('failed')
 
-        // The lineup, the match or the caller's access may have changed since the board was read.
-        if (cause instanceof ApiError && RELOAD_STATUSES.includes(cause.status)) reload()
+        // The lineup, the match or the caller's access may have changed since the board was read,
+        // or another device's save of the same lineup won the race.
+        if (status !== null && RELOAD_STATUSES.includes(status)) reload()
       }
 
       void call().then(onDone, onFailed)
@@ -141,7 +153,7 @@ export function useLineupEditor({
   )
 
   const autoPick = useCallback(() => {
-    if (lineup === null) return
+    if (lineup === null || isLocked) return
 
     const { formationId } = lineup
 
@@ -154,7 +166,7 @@ export function useLineupEditor({
         }),
       AUTO_PICK_FAILED_MESSAGE,
     )
-  }, [lineup, send])
+  }, [lineup, isLocked, send])
 
   const isFirstVisitCheckable = canAutoPickOnFirstVisit && leagueTeamId !== null && lineup !== null
 
@@ -164,9 +176,9 @@ export function useLineupEditor({
     lineup.slots.every((slot) => slot.playerId === null)
 
   useEffect(() => {
-    // While a request is outstanding the match is not judged, so a pick skipped for that reason
-    // happens when the request settles and this effect runs again.
-    if (!isFirstVisitCheckable || matchId === null || hasPendingRequest || inFlight.current) return
+    // While a request is outstanding or the data is read again, the match is not judged, so a pick
+    // skipped for that reason happens when the board unlocks and this effect runs again.
+    if (!isFirstVisitCheckable || matchId === null || isLocked || inFlight.current) return
 
     // A match is judged once, the first time its lineup is seen. A lineup that the manager empties
     // later is never picked for them, and a repeated effect run never sends a second pick.
@@ -175,7 +187,7 @@ export function useLineupEditor({
     firstVisitChecked.current.add(matchId)
 
     if (needsFirstPick) autoPick()
-  }, [isFirstVisitCheckable, matchId, hasPendingRequest, needsFirstPick, autoPick])
+  }, [isFirstVisitCheckable, matchId, isLocked, needsFirstPick, autoPick])
 
   const saveSlot = (current: MatchLineupDto, { slotNumber, playerId }: SlotChange) => {
     send(

@@ -21,6 +21,9 @@ export const LINEUP_SAVE_FAILED_MESSAGE = 'The lineup could not be saved.'
 /** Toasted when an auto pick got no reply from the API. */
 export const AUTO_PICK_FAILED_MESSAGE = 'The lineup could not be picked.'
 
+/** Toasted when a save fails inside the server, while the page reads its data again. */
+export const LINEUP_REFRESH_MESSAGE = 'The lineup could not be saved, so it is being refreshed.'
+
 /** How each save state reads in the toolbar; `null` says nothing. */
 export const SAVE_STATUS_LABELS: Readonly<Record<SaveState, string | null>> = {
   idle: null,
@@ -48,10 +51,17 @@ export const BENCH_SLOT_LABEL = 'Sub'
 export const LAST_STARTER_SLOT = 11
 
 /**
- * The API statuses after which the server's state may have moved on (a refused change, a match or
- * a club that is gone, a caller without access), so the page reads its data again.
+ * The API status of a failure inside the server. A lineup save ends this way when another device's
+ * save of the same lineup won the race.
  */
-export const RELOAD_STATUSES: readonly number[] = [400, 403, 404]
+export const SERVER_ERROR_STATUS = 500
+
+/**
+ * The API statuses after which the server's state may have moved on (a refused change, a match or
+ * a club that is gone, a caller without access, a save that lost a race with another device), so
+ * the page reads its data again.
+ */
+export const RELOAD_STATUSES: readonly number[] = [400, 403, 404, SERVER_ERROR_STATUS]
 
 /** The key that drops the lineup selection. */
 export const CLEAR_SELECTION_KEY = 'Escape'

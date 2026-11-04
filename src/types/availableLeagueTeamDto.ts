@@ -1,5 +1,3 @@
-import type { FinancialState } from './financialState'
-
 /**
  * A club on one league's roster, with whether it currently has a manager and whether the
  * signed-in caller has applied for it, as `GET /api/league-teams/available` returns it.
@@ -14,8 +12,11 @@ export interface AvailableLeagueTeamDto {
   /** The URL of the club's logo image, or `null` when it has none. */
   teamLogoUrl: string | null
 
-  /** The club's overall financial standing. */
-  teamFinancialState: FinancialState
+  /** The club's overall financial standing, as a number from 1 to 5. */
+  teamFinancialState: number
+
+  /** That standing in words, for example `Very rich`. */
+  teamFinancialStateLabel: string
 
   /** Whether the club has a current manager in the league, so it cannot be applied for. */
   isManaged: boolean

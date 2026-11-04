@@ -1,5 +1,3 @@
-import type { Morale } from './morale'
-
 /**
  * A player in a club's squad, as `GET /api/league-teams/{id}/squad` returns it to the club's
  * manager: the squad entry's contract, morale, condition and suspension in that game world, with
@@ -56,8 +54,11 @@ export interface LeagueTeamSquadMemberDto {
   /** The player's contract wage at this club, in euros per week. */
   wage: number
 
-  /** How the player feels about their situation at the club. */
-  morale: Morale
+  /** How the player feels about their situation at the club, as a number from 1 to 5. */
+  morale: number
+
+  /** That morale in words, for example `Very satisfied`. */
+  moraleLabel: string
 
   /** The player's condition, from 1 to 100. */
   condition: number

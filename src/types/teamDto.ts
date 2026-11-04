@@ -1,5 +1,3 @@
-import type { FinancialState } from './financialState'
-
 /**
  * A team as the API returns it.
  *
@@ -16,8 +14,8 @@ export interface TeamDto {
   /** The identifier of the team's stadium, or `null` when it has none. */
   stadiumId: number | null
 
-  /** The team's overall financial standing. */
-  financialState: FinancialState
+  /** The team's overall financial standing, as a number from 1 to 5. */
+  financialState: number
 
   /** The URL of the team's jersey image, or `null` when it has none. */
   jerseyUrl: string | null

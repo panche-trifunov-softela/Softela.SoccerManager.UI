@@ -1,8 +1,6 @@
 import { ageOn } from '@/utils/ageOn'
 import { formatEuros } from '@/utils/formatEuros'
 
-import { MORALE_LABELS } from '../constants'
-
 import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
 
 import type { SquadMemberRow } from '../types'
@@ -27,7 +25,7 @@ export function toSquadMemberRow(member: LeagueTeamSquadMemberDto, today: Date):
     nationalityLogoUrl: member.nationalTeamLogoUrl,
     value: formatEuros(member.value),
     wage: formatEuros(member.wage),
-    morale: MORALE_LABELS[member.morale],
+    morale: member.moraleLabel,
     condition: `${member.condition}%`,
     rating: member.rating,
   }

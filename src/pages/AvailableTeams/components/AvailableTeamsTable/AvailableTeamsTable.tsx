@@ -65,7 +65,11 @@ export function AvailableTeamsTable({ rows, onApplied }: AvailableTeamsTableProp
                 </div>
               </td>
 
-              <td className={`text-12 ${styles.finances}`}>{row.finances}</td>
+              <td className={`text-12 ${styles.finances}`}>
+                <span className={`text-600 level-pill level-pill--${row.financesLevel}`}>
+                  {row.finances}
+                </span>
+              </td>
 
               <td className={styles.status}>
                 {row.isManaged ? (

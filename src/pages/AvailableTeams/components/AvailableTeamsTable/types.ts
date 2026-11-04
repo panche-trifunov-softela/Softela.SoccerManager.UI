@@ -21,6 +21,9 @@ export interface AvailableTeamRow {
   /** How wealthy the club is, in words. */
   finances: string
 
+  /** The same standing as a number from 1 to 5, which picks the pill's colour. */
+  financesLevel: number
+
   /** Whether the club has a current manager, so it cannot be applied for. */
   isManaged: boolean
 

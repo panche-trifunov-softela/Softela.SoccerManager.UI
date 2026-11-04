@@ -26,6 +26,7 @@ export function toSquadMemberRow(member: LeagueTeamSquadMemberDto, today: Date):
     value: formatEuros(member.value),
     wage: formatEuros(member.wage),
     morale: member.moraleLabel,
+    moraleLevel: member.morale,
     condition: `${member.condition}%`,
     rating: member.rating,
   }

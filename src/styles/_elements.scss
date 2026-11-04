@@ -677,6 +677,44 @@ a {
     }
 }
 
+// One step of a five-step scale, worst (1) to best (5). It fills its cell, so a
+// column of them lines up. A value outside the scale has no modifier and shows
+// as plain text. The word always stays: red and green look alike to a
+// colour-blind reader.
+.level-pill {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    border-radius: 8px;
+    white-space: nowrap;
+
+    &--1 {
+        background: var(--red);
+        color: var(--header-dark);
+    }
+
+    &--2 {
+        background: color-mix(in srgb, var(--red) 12%, transparent);
+        color: color-mix(in srgb, var(--red) 70%, var(--header));
+    }
+
+    &--3 {
+        border: 1px solid var(--border);
+        color: var(--label);
+    }
+
+    &--4 {
+        background: color-mix(in srgb, var(--grass) 22%, transparent);
+        color: color-mix(in srgb, var(--green) 80%, var(--header));
+    }
+
+    &--5 {
+        background: var(--green);
+        color: var(--header-dark);
+    }
+}
+
 // A data table: a label header bar on --body, with rows divided by --border
 // lines. The layout is fixed, so each consumer sizes its own columns.
 .table {

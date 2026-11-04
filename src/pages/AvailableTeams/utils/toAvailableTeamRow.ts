@@ -14,6 +14,7 @@ export function toAvailableTeamRow(team: AvailableLeagueTeamDto): AvailableTeamR
     name: team.teamName,
     logoUrl: team.teamLogoUrl,
     finances: team.teamFinancialStateLabel,
+    financesLevel: team.teamFinancialState,
     isManaged: team.isManaged,
     hasPendingApplication: team.hasPendingApplication,
   }

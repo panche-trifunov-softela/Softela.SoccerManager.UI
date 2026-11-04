@@ -23,10 +23,10 @@
     }
 
     @include bp-up(md) {
-        /* 72px of content, between the club and status columns. */
+        /* 88px of content: the pill, between the club and status columns. */
         .finances {
             display: table-cell;
-            width: 96px;
+            width: 112px;
         }
     }
 }

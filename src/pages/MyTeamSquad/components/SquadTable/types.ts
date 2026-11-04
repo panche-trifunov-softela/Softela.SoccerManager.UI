@@ -44,6 +44,9 @@ export interface SquadMemberRow {
   /** The player's morale, in words. */
   morale: string
 
+  /** The same morale as a number from 1 to 5, which picks the pill's colour. */
+  moraleLevel: number
+
   /** The player's condition as a percentage, for example `87%`. */
   condition: string
 

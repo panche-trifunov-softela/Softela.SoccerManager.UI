@@ -100,7 +100,11 @@ export function SquadTable({ players }: SquadTableProps) {
 
               <td className={`text-12 ${styles.wage}`}>{row.wage}</td>
 
-              <td className={`text-12 text-overflow ${styles.morale}`}>{row.morale}</td>
+              <td className={`text-12 ${styles.morale}`}>
+                <span className={`text-600 level-pill level-pill--${row.moraleLevel}`}>
+                  {row.morale}
+                </span>
+              </td>
 
               <td className={`text-12 ${styles.condition}`}>{row.condition}</td>
 

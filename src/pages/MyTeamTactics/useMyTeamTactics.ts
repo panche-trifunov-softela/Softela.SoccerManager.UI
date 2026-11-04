@@ -1,7 +1,7 @@
 import { useSelectedClub } from '@/hooks/useSelectedClub'
 import { toClubSubtitle } from '@/utils/toClubSubtitle'
 
-import { useLineupEditor, useTacticsRead } from './hooks'
+import { useBoardSave, useInstructionsEditor, useLineupEditor, useTacticsRead } from './hooks'
 import { toTacticsView } from './utils'
 
 import type { MyTeamTacticsState } from './types'
@@ -14,6 +14,8 @@ import type { MyTeamTacticsState } from './types'
  * - The data is read for any valid id in the address, a club the manager does not run included;
  *   the API decides who may see it. Only a manager who runs the club has an empty lineup picked
  *   for them on a first visit.
+ * - The lineup and the team instructions are edited through one shared save, so a request for
+ *   either locks the whole board and shares one save status.
  * - While the data loads, when it could not be read, and when the club has no match to come or no
  *   formation to edit, a short fixed sentence shows in place of the board.
  *
@@ -22,19 +24,30 @@ import type { MyTeamTacticsState } from './types'
 export function useMyTeamTactics(): MyTeamTacticsState {
   const { leagueTeamId, club } = useSelectedClub()
 
-  const { read, isLoading, isReloading, reload, replaceLineup } = useTacticsRead(leagueTeamId)
+  const { read, isLoading, isReloading, reload, replaceLineup, replaceInstructions } =
+    useTacticsRead(leagueTeamId)
+
+  const nextMatch = read?.nextMatch ?? null
+
+  const save = useBoardSave({ matchId: nextMatch?.matchId ?? null, isReloading, reload })
 
   const editor = useLineupEditor({
     leagueTeamId,
     canAutoPickOnFirstVisit: club !== null,
-    nextMatch: read?.nextMatch ?? null,
-    isReloading,
-    reload,
+    nextMatch,
+    save,
     replaceLineup,
   })
 
+  const instructionsEditor = useInstructionsEditor({ nextMatch, save, replaceInstructions })
+
   return {
     subtitle: club === null ? null : toClubSubtitle(club),
-    view: toTacticsView({ hasLeagueTeamId: leagueTeamId !== null, isLoading, read, editor }),
+    view: toTacticsView({
+      hasLeagueTeamId: leagueTeamId !== null,
+      isLoading,
+      read,
+      editors: { save, lineup: editor, instructions: instructionsEditor },
+    }),
   }
 }

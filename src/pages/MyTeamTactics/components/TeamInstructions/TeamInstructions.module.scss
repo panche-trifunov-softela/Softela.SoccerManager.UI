@@ -1,0 +1,43 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * The title sits at one end of the heading row and the save status echo at the other, on one
+ * baseline.
+ */
+.heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+}
+
+/*
+ * The grid by breakpoint:
+ *
+ * - Below sm: one select to a row.
+ * - From sm up to md: two to a row.
+ * - From md up to lg: three to a row, so the six short ones fill two rows.
+ * - From lg: two to a row again, as the card then sits in the board's 480px column.
+ */
+.controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px 16px;
+
+    @include bp-up(sm) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include bp-up(md) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @include bp-up(lg) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Attacking side has the longest choices, so it takes a whole row at every width. */
+.wide {
+    grid-column: 1 / -1;
+}

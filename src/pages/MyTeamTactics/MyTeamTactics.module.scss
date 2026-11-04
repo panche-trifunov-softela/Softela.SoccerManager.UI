@@ -2,10 +2,13 @@
 
 /*
  * The board is one column on a phone: header, toolbar, lineup (the pitch with the bench under it),
- * squad. From lg the squad list takes the left column beside the lineup, and the header and the
- * toolbar span the width above them. The right column stops at 480px, the pitch's own widest
- * size. The pitch and the bench share one grid area, so the gap between them is the lineup's own
- * and does not follow the height of the squad list.
+ * squad, and last the team instructions. From lg the squad list takes the left column beside the
+ * lineup, and the header and the toolbar span the width above them. The right column stops at
+ * 480px, the pitch's own widest size, and holds the lineup with the team instructions right under
+ * it. The squad spans both right-hand rows and the last row takes what is left (`1fr`), so the
+ * third row is the lineup's own height and the card stays right under the bench however long the
+ * squad list is. The pitch and the bench share one grid area, so the gap between them is the
+ * lineup's own and does not follow the height of the squad list.
  */
 .board {
     display: grid;
@@ -14,15 +17,18 @@
         'header'
         'toolbar'
         'lineup'
-        'squad';
+        'squad'
+        'instructions';
     gap: 20px;
 
     @include bp-up(lg) {
         grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
+        grid-template-rows: auto auto auto 1fr;
         grid-template-areas:
             'header header'
             'toolbar toolbar'
-            'squad lineup';
+            'squad lineup'
+            'squad instructions';
         align-items: start;
     }
 }
@@ -44,4 +50,8 @@
 
 .squad {
     grid-area: squad;
+}
+
+.instructions {
+    grid-area: instructions;
 }

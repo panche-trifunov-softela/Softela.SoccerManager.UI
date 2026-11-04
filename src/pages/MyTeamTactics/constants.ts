@@ -1,3 +1,5 @@
+import type { InstructionField } from '@/types/instructionField'
+
 import type { SaveState } from './types'
 
 /** What shows when the address names no valid league team id. */
@@ -24,7 +26,16 @@ export const AUTO_PICK_FAILED_MESSAGE = 'The lineup could not be picked.'
 /** Toasted when a save fails inside the server, while the page reads its data again. */
 export const LINEUP_REFRESH_MESSAGE = 'The lineup could not be saved, so it is being refreshed.'
 
-/** How each save state reads in the toolbar; `null` says nothing. */
+/** Toasted when an instruction change got no reply from the API. */
+export const INSTRUCTIONS_SAVE_FAILED_MESSAGE = 'The instructions could not be saved.'
+
+/**
+ * Toasted when an instruction save fails inside the server, while the page reads its data again.
+ */
+export const INSTRUCTIONS_REFRESH_MESSAGE =
+  'The instructions could not be saved, so they are being refreshed.'
+
+/** How each save state reads in the toolbar and the team instructions card; `null` says nothing. */
 export const SAVE_STATUS_LABELS: Readonly<Record<SaveState, string | null>> = {
   idle: null,
   saving: 'Saving…',
@@ -50,9 +61,12 @@ export const BENCH_SLOT_LABEL = 'Sub'
 /** The number of the last starter slot: slots 1 to this number are the starting eleven. */
 export const LAST_STARTER_SLOT = 11
 
+/** The instructions whose select spans the card's full width, because their choices read long. */
+export const WIDE_INSTRUCTION_FIELDS: readonly InstructionField[] = ['attackingSide']
+
 /**
- * The API status of a failure inside the server. A lineup save ends this way when another device's
- * save of the same lineup won the race.
+ * The API status of a failure inside the server. A save ends this way when another device's save
+ * won the race: the lineup's, or the first save of the same instructions.
  */
 export const SERVER_ERROR_STATUS = 500
 

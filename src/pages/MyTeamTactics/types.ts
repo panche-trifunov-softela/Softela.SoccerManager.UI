@@ -1,5 +1,8 @@
 import type { FormationDto } from '@/types/formationDto'
+import type { InstructionDefinitionDto } from '@/types/instructionDefinitionDto'
+import type { InstructionField } from '@/types/instructionField'
 import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
+import type { MatchInstructionsDto } from '@/types/matchInstructionsDto'
 import type { MatchLineupDto } from '@/types/matchLineupDto'
 import type { NextMatchDto } from '@/types/nextMatchDto'
 
@@ -8,6 +11,7 @@ import type { LineupSquadListProps, SquadRowView } from './components/LineupSqua
 import type { LineupToolbarProps } from './components/LineupToolbar'
 import type { NextMatchHeaderProps } from './components/NextMatchHeader'
 import type { PitchProps } from './components/Pitch'
+import type { TeamInstructionsProps } from './components/TeamInstructions'
 
 /** One finished read of the page's data, kept with the club it was made for. */
 export interface TacticsRead {
@@ -22,6 +26,9 @@ export interface TacticsRead {
 
   /** Every formation the API offers, in its order, empty when the read failed. */
   formations: FormationDto[]
+
+  /** Every instruction the API offers, in its order, empty when the read failed. */
+  instructionDefinitions: InstructionDefinitionDto[]
 
   /** The fixed sentence that says the read failed, or `null` when it did not. */
   error: string | null
@@ -49,6 +56,11 @@ export interface TacticsReadState {
 
   /** Swaps the shown match's lineup for one the API returned, when it still belongs to it. */
   replaceLineup: (lineup: MatchLineupDto) => void
+
+  /**
+   * Swaps the shown match's instructions for ones the API returned, when they still belong to it.
+   */
+  replaceInstructions: (instructions: MatchInstructionsDto) => void
 }
 
 /** What the manager has picked up on the board: a slot, or a player who is not in the lineup. */
@@ -118,8 +130,53 @@ export interface TacticsViewInput {
   /** The finished read for this club, or `null` while there is none. */
   read: TacticsRead | null
 
-  /** The editor's state and actions, which the board hands to its controls. */
-  editor: LineupEditorState
+  /** The board's shared save and its editors, which the board hands to its controls. */
+  editors: TacticsEditors
+}
+
+/** What the sentences of a failed save say. */
+export interface SaveMessages {
+  /** Toasted when the API gives no better reason for the failure. */
+  failedMessage: string
+
+  /** Toasted when the save fails inside the server, while the page reads its data again. */
+  refreshMessage: string
+}
+
+/** What `useBoardSave` is handed. */
+export interface BoardSaveOptions {
+  /** The id of the match the board edits, or `null` when there is none. */
+  matchId: number | null
+
+  /** Whether the page's data is being read again, so what is shown may be out of date. */
+  isReloading: boolean
+
+  /** Reads the page's data again. */
+  reload: () => void
+}
+
+/** What `useBoardSave` exposes to the board's editors. */
+export interface BoardSaveState {
+  /** Where the latest save stands: saving while any request is outstanding. */
+  saveState: SaveState
+
+  /**
+   * Whether a request is outstanding, for any match, or the page's data is being read again, so
+   * every control refuses input.
+   */
+  isLocked: boolean
+
+  /**
+   * Whether a request is outstanding at this moment, which `isLocked` only shows on the next
+   * render.
+   */
+  isSending: () => boolean
+
+  /**
+   * Sends one request when none is outstanding and a match is shown, and hands its result to
+   * `onDone`. Returns whether the request was started; a refused one changes nothing.
+   */
+  send: <T>(call: () => Promise<T>, onDone: (result: T) => void, messages: SaveMessages) => boolean
 }
 
 /** What `useLineupEditor` is handed. */
@@ -133,11 +190,10 @@ export interface LineupEditorOptions {
   /** The match whose lineup the board edits, or `null` when there is none. */
   nextMatch: NextMatchDto | null
 
-  /** Whether the page's data is being read again, so the lineup shown may be out of date. */
-  isReloading: boolean
-
-  /** Reads the page's data again. */
-  reload: () => void
+  /**
+   * The board's shared save, which sends the lineup's requests one at a time and locks the board.
+   */
+  save: BoardSaveState
 
   /** Swaps the shown match's lineup for one the API returned. */
   replaceLineup: (lineup: MatchLineupDto) => void
@@ -147,15 +203,6 @@ export interface LineupEditorOptions {
 export interface LineupEditorState {
   /** What is picked up on the board, or `null` when nothing is. */
   selection: LineupSelection | null
-
-  /** Where the latest save stands: saving while any request is outstanding. */
-  saveState: SaveState
-
-  /**
-   * Whether a request is outstanding, for any match, or the page's data is being read again, so
-   * every control refuses input.
-   */
-  isLocked: boolean
 
   /** Handles a tap on a slot. */
   tapSlot: (slotNumber: number) => void
@@ -174,6 +221,39 @@ export interface LineupEditorState {
 
   /** Replaces the lineup with one picked from the squad. */
   autoPick: () => void
+}
+
+/** What `useInstructionsEditor` is handed. */
+export interface InstructionsEditorOptions {
+  /** The match whose instructions the board edits, or `null` when there is none. */
+  nextMatch: NextMatchDto | null
+
+  /**
+   * The board's shared save, which sends the instructions' requests one at a time and locks the
+   * board.
+   */
+  save: BoardSaveState
+
+  /** Swaps the shown match's instructions for ones the API returned. */
+  replaceInstructions: (instructions: MatchInstructionsDto) => void
+}
+
+/** What `useInstructionsEditor` exposes to the page. */
+export interface InstructionsEditorState {
+  /** Changes one instruction, saving it at once. */
+  change: (field: InstructionField, value: number) => void
+}
+
+/** The board's shared save and its two editors, which the board hands to its controls. */
+export interface TacticsEditors {
+  /** The save both editors send their requests through. */
+  save: BoardSaveState
+
+  /** The lineup's editor. */
+  lineup: LineupEditorState
+
+  /** The team instructions' editor. */
+  instructions: InstructionsEditorState
 }
 
 /** A lineup player joined to the squad, as a slot shows them. */
@@ -252,6 +332,9 @@ export interface TacticsBoard {
 
   /** The squad list. */
   squad: LineupSquadListProps
+
+  /** The team instructions. */
+  instructions: TeamInstructionsProps
 }
 
 /** What the page shows: a fixed sentence, or the board. */

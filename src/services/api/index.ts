@@ -22,7 +22,12 @@ export {
   deleteManagerPlayerRatingVote,
   updateManagerPlayerRatingVote,
 } from './managerPlayerRatingVoteApi'
-export { autoPickMatchLineup, saveMatchLineup } from './matchApi'
+export {
+  autoPickMatchLineup,
+  getInstructionOptions,
+  saveMatchInstructions,
+  saveMatchLineup,
+} from './matchApi'
 export { getNationalTeams } from './nationalTeamApi'
 export { searchPlayers } from './playerApi'
 export { getPositions } from './positionApi'

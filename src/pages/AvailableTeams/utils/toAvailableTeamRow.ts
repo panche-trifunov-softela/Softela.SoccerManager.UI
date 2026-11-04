@@ -1,5 +1,3 @@
-import { FINANCIAL_STATE_LABELS } from '../constants'
-
 import type { AvailableLeagueTeamDto } from '@/types/availableLeagueTeamDto'
 
 import type { AvailableTeamRow } from '../components/AvailableTeamsTable'
@@ -15,7 +13,7 @@ export function toAvailableTeamRow(team: AvailableLeagueTeamDto): AvailableTeamR
     id: team.id,
     name: team.teamName,
     logoUrl: team.teamLogoUrl,
-    finances: FINANCIAL_STATE_LABELS[team.teamFinancialState],
+    finances: team.teamFinancialStateLabel,
     isManaged: team.isManaged,
     hasPendingApplication: team.hasPendingApplication,
   }

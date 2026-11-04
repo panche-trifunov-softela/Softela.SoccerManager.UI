@@ -77,6 +77,15 @@ export const API_ROUTES = {
 
     /** Replaces one match's lineup for a club with an automatically picked one; takes a `POST`. */
     autoPick: (id: number) => `/api/matches/${id}/lineup/auto-pick`,
+
+    /**
+     * One match's instructions for a club, by the match's id; a `PUT` changes one or more of the
+     * seven.
+     */
+    instructions: (id: number) => `/api/matches/${id}/instructions`,
+
+    /** The instructions a club gives for a match, each with its choices, for the page to offer. */
+    instructionOptions: '/api/matches/instruction-options',
   },
   players: {
     /** Searches the players; every query parameter narrows, sorts or pages the result. */

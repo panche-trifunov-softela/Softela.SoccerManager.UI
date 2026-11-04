@@ -6,14 +6,15 @@ import { LineupSquadList } from './components/LineupSquadList'
 import { LineupToolbar } from './components/LineupToolbar'
 import { NextMatchHeader } from './components/NextMatchHeader'
 import { Pitch } from './components/Pitch'
+import { TeamInstructions } from './components/TeamInstructions'
 import { useMyTeamTactics } from './useMyTeamTactics'
 
 import styles from './MyTeamTactics.module.scss'
 
 /**
  * The tactics of one club the signed-in manager runs: its next match and the lineup for it, on a
- * pitch with the bench under it and the squad beside it, edited by tapping a slot and then a slot
- * or a player. Every change is saved at once.
+ * pitch with the bench under it and the team instructions under that, and the squad beside it,
+ * edited by tapping a slot and then a slot or a player. Every change is saved at once.
  *
  * - An address with no valid id shows that the club could not be found.
  * - While the data loads, when it could not be read (a refusal to a caller who does not manage
@@ -55,6 +56,10 @@ export function MyTeamTactics() {
 
           <div className={styles.squad}>
             <LineupSquadList {...view.board.squad} />
+          </div>
+
+          <div className={styles.instructions}>
+            <TeamInstructions {...view.board.instructions} />
           </div>
         </div>
       )}

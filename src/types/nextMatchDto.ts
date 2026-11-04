@@ -1,7 +1,8 @@
+import type { MatchInstructionsDto } from './matchInstructionsDto'
 import type { MatchLineupDto } from './matchLineupDto'
 
 /**
- * A club's next match, with its opponent and the club's lineup for it, as
+ * A club's next match, with its opponent and the club's lineup and instructions for it, as
  * `GET /api/league-teams/{id}/next-match` returns it. The API answers 204 with no body when the
  * club has no match to come.
  *
@@ -31,4 +32,10 @@ export interface NextMatchDto {
 
   /** The club's lineup for the match. */
   lineup: MatchLineupDto
+
+  /**
+   * The club's instructions for the match: the ones saved for it, else the ones it last saved for
+   * an earlier match, else the defaults.
+   */
+  instructions: MatchInstructionsDto
 }

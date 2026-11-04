@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import {
   getFormations,
+  getInstructionOptions,
   getLeagueTeamNextMatch,
   getLeagueTeamSquadMembers,
   toErrorMessage,
@@ -10,15 +11,16 @@ import { toast } from '@/store/toast'
 
 import { TACTICS_LOAD_FAILED_MESSAGE } from '../constants'
 
+import type { MatchInstructionsDto } from '@/types/matchInstructionsDto'
 import type { MatchLineupDto } from '@/types/matchLineupDto'
 
 import type { TacticsRead, TacticsReadState } from '../types'
 
 /**
  * Reads what the tactics page shows for the club the address names: its next match with the
- * lineup, its squad and the formations on offer.
+ * lineup, its squad, the formations on offer and the instructions on offer.
  *
- * - The three reads run together and are kept as one, with the club they were made for. A read
+ * - The four reads run together and are kept as one, with the club they were made for. A read
  *   made for another club counts as still loading. State is written only when a read settles.
  * - An address that names no valid id reads nothing.
  * - A failure to read, a refusal for a caller who does not manage the club included, says why in a
@@ -28,9 +30,10 @@ import type { TacticsRead, TacticsReadState } from '../types'
  *   is older than the latest reload asked for.
  * - `replaceLineup` swaps in a lineup the API returned, only while the shown read is still the
  *   club and the match that lineup belongs to.
+ * - `replaceInstructions` does the same for the match's instructions.
  *
  * @param leagueTeamId The league team the address names, or `null` when it names none.
- * @returns The read for that club, whether it is loading or being read again, and the two actions.
+ * @returns The read for that club, whether it is loading or being read again, and the actions.
  */
 export function useTacticsRead(leagueTeamId: number | null): TacticsReadState {
   const [stored, setStored] = useState<TacticsRead | null>(null)
@@ -46,13 +49,15 @@ export function useTacticsRead(leagueTeamId: number | null): TacticsReadState {
       getLeagueTeamNextMatch(leagueTeamId, controller.signal),
       getLeagueTeamSquadMembers(leagueTeamId, controller.signal),
       getFormations(controller.signal),
+      getInstructionOptions(controller.signal),
     ])
-      .then(([nextMatch, squad, formations]) => {
+      .then(([nextMatch, squad, formations, instructionDefinitions]) => {
         setStored({
           leagueTeamId,
           nextMatch,
           squad,
           formations,
+          instructionDefinitions,
           error: null,
           reloadCount: reloads,
         })
@@ -68,6 +73,7 @@ export function useTacticsRead(leagueTeamId: number | null): TacticsReadState {
           nextMatch: null,
           squad: [],
           formations: [],
+          instructionDefinitions: [],
           error: TACTICS_LOAD_FAILED_MESSAGE,
           reloadCount: reloads,
         })
@@ -97,6 +103,24 @@ export function useTacticsRead(leagueTeamId: number | null): TacticsReadState {
     })
   }, [])
 
+  const replaceInstructions = useCallback((instructions: MatchInstructionsDto) => {
+    setStored((current) => {
+      const nextMatch = current?.nextMatch ?? null
+
+      if (current === null || nextMatch === null) return current
+
+      // A response that lands after the user moved to another club or match is not theirs to show.
+      if (
+        current.leagueTeamId !== instructions.leagueTeamId ||
+        nextMatch.matchId !== instructions.matchId
+      ) {
+        return current
+      }
+
+      return { ...current, nextMatch: { ...nextMatch, instructions } }
+    })
+  }, [])
+
   const read = stored !== null && stored.leagueTeamId === leagueTeamId ? stored : null
 
   return {
@@ -105,5 +129,6 @@ export function useTacticsRead(leagueTeamId: number | null): TacticsReadState {
     isReloading: read !== null && read.reloadCount < reloads,
     reload,
     replaceLineup,
+    replaceInstructions,
   }
 }

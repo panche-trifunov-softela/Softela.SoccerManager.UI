@@ -115,6 +115,13 @@ select.field {
     color: var(--text);
     background: var(--widget);
     cursor: pointer;
+
+    // An aria-disabled select looks disabled but keeps focus, like an aria-disabled button.
+    &[aria-disabled="true"] {
+        pointer-events: none;
+        cursor: default;
+        opacity: .5;
+    }
 }
 
 .cover {

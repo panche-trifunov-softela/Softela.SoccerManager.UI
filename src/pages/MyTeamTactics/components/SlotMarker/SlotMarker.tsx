@@ -9,12 +9,14 @@ import styles from './SlotMarker.module.scss'
 import type { SlotMarkerProps } from './types'
 
 /**
- * One slot of the lineup as a button: the player's photo with their rating, and their name under
- * it, or a dashed circle naming the position when the slot is empty.
+ * One slot of the lineup as a button: the player's round photo in a ring coloured by how well they
+ * suit the slot's position, with their rating and their name, or a dashed circle naming the
+ * position when the slot is empty.
  *
- * - A selected slot has a ring round its photo or circle.
- * - A suspended player carries a red badge with a ban sign on the photo's corner, hidden from
- *   assistive technology because the button's label already says the player is suspended.
+ * - A bench slot has no fit, so its ring has no colour.
+ * - A selected marker has a white ring and an inverted name.
+ * - A suspended player has a greyed photo and a ban sign, hidden from assistive technology because
+ *   the button's label already says the player is suspended.
  * - While the board is locked the button is `aria-disabled` rather than `disabled`, so it keeps
  *   focus; the editor refuses the tap.
  *
@@ -23,6 +25,10 @@ import type { SlotMarkerProps } from './types'
  */
 export function SlotMarker({ slot, isLocked, onTap }: SlotMarkerProps) {
   const { player } = slot
+
+  const fitClass = slot.fit === null ? '' : styles[`fit--${slot.fit}`]
+
+  const photoClass = player?.isSuspended ? styles['photo--suspended'] : ''
 
   return (
     <button
@@ -39,12 +45,14 @@ export function SlotMarker({ slot, isLocked, onTap }: SlotMarkerProps) {
         <span className={styles.empty}>{slot.label}</span>
       ) : (
         <>
-          <span className={styles.photo}>
-            <PlayerPhoto imageUrl={player.imageUrl} />
-
-            <span className={`tag tag--accent tag--inline ${styles.rating}`}>
-              {player.rating ?? MISSING}
+          <span className={`${styles.disc} ${fitClass}`}>
+            <span className={styles.ring}>
+              <span className={`${styles.photo} ${photoClass}`}>
+                <PlayerPhoto imageUrl={player.imageUrl} />
+              </span>
             </span>
+
+            <span className={`tag tag--inline ${styles.rating}`}>{player.rating ?? MISSING}</span>
 
             {player.isSuspended ? (
               <span className={styles.suspended} aria-hidden="true">

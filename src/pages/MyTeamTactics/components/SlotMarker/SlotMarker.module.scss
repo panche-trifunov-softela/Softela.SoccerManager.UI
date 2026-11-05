@@ -1,36 +1,42 @@
 @use '@/styles/breakpoints' as *;
 
 /*
- * One slot of the lineup as a button. It is 44px wide below sm, 60px from sm and 80px from md. The
- * smaller phone sizes (the width and the tighter photo margin below sm, the name pill's 9px text
- * below md) cut how much of a narrow pitch each marker covers, so neighbours overlap less. They do
- * not guarantee that a crowded line fits: the formation decides how close the markers are placed.
+ * One slot of the lineup as a button: a round icon with the player's name on a pill overlapping its
+ * foot. The icon is `--disc` wide, set by the page's lineup (40px below sm, 44px from sm and 60px
+ * from md), and the marker fills the width its parent gives it, never narrower than the icon. The
+ * pill's text is in rem with a unitless line height, so it follows the browser's font size.
  *
- * The minimum height is the photo, its margin and the name pill, so an empty marker and a filled
- * one are the same height and the rows of the bench line up: 40 + 8 + 13 below sm, 40 + 11 + 13
- * from sm, and 40 + 11 + 16 from md.
+ * The minimum height is the icon plus the pill below the overlap, so an empty marker and a filled
+ * one are the same height and the rows of the bench line up. From md the sizes grow together.
  *
  * The empty circle takes the text colour of whatever it sits on, so the pitch can make it white
  * while the bench keeps the page's own tone. Its background is the pitch's `--slot-empty-bg` when
  * there is one.
  */
 .marker {
+    --name-height: 14px;
+    --name-overlap: 5px;
+    --chip-height: 14px;
+    --rim: 1px;
+    --ring: 2px;
+    --gap: 1px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 44px;
-    min-height: 61px;
+    width: 100%;
+    min-width: var(--disc);
+    min-height: calc(var(--disc) + var(--name-height) - var(--name-overlap));
     padding: 0;
     border-radius: 8px;
 
-    @include bp-up(sm) {
-        width: 60px;
-        min-height: 64px;
-    }
-
     @include bp-up(md) {
-        width: 80px;
-        min-height: 67px;
+        --name-height: 18px;
+        --name-overlap: 7px;
+        --chip-height: 17px;
+        --rim: 2px;
+        --ring: 3px;
+        --gap: 2px;
     }
 
     &[aria-disabled='true'] {
@@ -48,69 +54,132 @@ button.marker:focus-visible {
     box-shadow: 0 0 0 5px var(--widget);
 }
 
-/* The photo is the 40px square of the player photo, with the rating over its bottom edge. */
-.photo {
+/*
+ * The round icon: a dark rim, the coloured ring, a dark gap, then the photo. The dark rim and gap
+ * keep the ring off the pitch and off the photo, because a bare red on the pitch's green is about
+ * 1.2:1 while between dark it is at least 4.3:1.
+ */
+.disc {
     position: relative;
     display: block;
-    width: 40px;
-    height: 40px;
-    margin-bottom: 8px;
-    border-radius: 4px;
+    flex: none;
+    width: var(--disc);
+    height: var(--disc);
+    padding: var(--rim);
+    border-radius: 50%;
+    background: var(--black-2);
+    box-shadow: 0 3px 8px color-mix(in srgb, var(--black-2) 45%, transparent);
 
-    @include bp-up(sm) {
-        margin-bottom: 11px;
-    }
-
-    /* Smaller than the global tag, and nested here to outrank its height and padding. */
+    /*
+     * The rating is white, not yellow, because yellow now means "can play here". It is white in
+     * every theme, since the global tag's text is always dark. Nested here to outrank the global
+     * tag's height and padding.
+     */
     .rating {
         position: absolute;
-        bottom: -8px;
-        left: 50%;
+        top: -2px;
+        inset-inline-start: calc(var(--disc) * -0.1);
         justify-content: center;
-        min-width: 22px;
-        height: 16px;
-        padding: 0 5px;
-        border-radius: 6px;
-        font-size: 0.625rem;
+        min-width: calc(var(--chip-height) * 1.25);
+        height: auto;
+        min-height: var(--chip-height);
+        padding: 0 calc(var(--chip-height) * 0.28);
+        border-radius: var(--chip-height);
+        background: var(--widget-light);
+        box-shadow: 0 0 0 1px var(--black-2);
+        font-family: var(--heading-font);
+        font-size: 0.5625rem;
         font-weight: 700;
         line-height: 1;
-        transform: translateX(-50%);
 
-        @include bp-up(sm) {
-            bottom: -9px;
-            height: 18px;
+        @include bp-up(md) {
+            font-size: 0.625rem;
         }
     }
 }
 
+.fit--good {
+    --fit-colour: var(--fit-good);
+}
+
+.fit--ok {
+    --fit-colour: var(--fit-ok);
+}
+
+.fit--poor {
+    --fit-colour: var(--fit-poor);
+}
+
+/* A bench slot has no fit, so its ring falls back to the neutral dark. */
+.ring {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: calc(var(--ring) + var(--gap));
+    border-radius: 50%;
+    background: var(--fit-colour, var(--black-3));
+}
+
+/* The photo is cropped round; the dark gap round it is a shadow, which adds no size. */
+.photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--black-3);
+    box-shadow: 0 0 0 var(--gap) var(--black-2);
+
+    img,
+    :global(.square) {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        border-radius: 50%;
+        background: var(--black-3);
+    }
+
+    :global(.square) {
+        color: var(--haki);
+        font-size: calc(var(--disc) * 0.4);
+    }
+
+    &--suspended img,
+    &--suspended :global(.square) {
+        filter: grayscale(1) brightness(0.78);
+    }
+}
+
 /*
- * A suspended player: a red disc with a white ban sign on the photo's top-right corner. It is
- * positioned over the photo, so it adds no height; the button's label says the player is
- * suspended, so the icon is only for the eye.
+ * A suspended player: a white disc with a dark ban sign on the icon's top-right corner. It is
+ * white, not red, because red now means a poor fit. It is positioned over the icon, so it adds no
+ * height; the button's label says the player is suspended, so the sign is only for the eye.
  */
 .suspended {
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: -2px;
+    inset-inline-end: calc(var(--disc) * -0.04);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 16px;
-    height: 16px;
+    width: var(--chip-height);
+    height: var(--chip-height);
     border-radius: 50%;
-    background: var(--red);
-    color: var(--widget-light);
-    font-size: 0.5625rem;
+    background: var(--widget-light);
+    box-shadow: 0 0 0 1px var(--black-2);
+    color: var(--black-2);
+    font-size: calc(var(--chip-height) * 0.65);
     line-height: 1;
 }
 
 /* Empty: a dashed circle naming the position the slot asks for. */
 .empty {
     display: flex;
+    flex: none;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: var(--disc);
+    height: var(--disc);
     border: 2px dashed currentColor;
     border-radius: 50%;
     background: var(--slot-empty-bg, color-mix(in srgb, currentColor 12%, transparent));
@@ -118,46 +187,64 @@ button.marker:focus-visible {
     font-size: 0.625rem;
     font-weight: 700;
     line-height: 1;
-}
 
-/*
- * Selected: a 3px accent ring round the photo or the circle, and outside it a 2px ring of the
- * header colour, so the selection never rests on yellow alone.
- */
-.selected {
-    .photo,
-    .empty {
-        box-shadow:
-            0 0 0 3px var(--accent),
-            0 0 0 5px var(--header);
+    @include bp-up(md) {
+        font-size: 0.75rem;
     }
 }
 
 /*
- * The name sits on a pill of the widget colour so it reads on the pitch's green too, with a 1px
- * edge of the border colour so it reads on a white card as well. The edge is a shadow, which adds
- * no height. Below md the text is 9px on a 13px line; below sm the pill may be wider than the 44px
- * marker (it stays centred), from sm it keeps to the marker's width, and from md the text is
- * 10px on a 16px line.
+ * The name sits on a pill of the widget colour so it reads on the pitch's green too, with a
+ * hairline edge and a soft shadow so it reads on a white card as well. It overlaps the foot of the
+ * icon and may be as wide as the marker less a few pixels, so the pills of neighbours do not touch.
  */
 .name {
-    max-width: 52px;
-    padding: 0 3px;
-    border-radius: 8px;
+    position: relative;
+    z-index: 1;
+    width: max-content;
+    max-width: calc(100% - 5px);
+    min-height: var(--name-height);
+    margin-top: calc(var(--name-overlap) * -1);
+    padding: 0 0.45em;
+    border-radius: var(--name-height);
     background: var(--widget);
-    box-shadow: 0 0 0 1px var(--border);
+    box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--black-2) 28%, transparent),
+        0 2px 4px color-mix(in srgb, var(--black-2) 24%, transparent);
     color: var(--header);
     font-size: 0.5625rem;
     font-weight: 600;
-    line-height: 13px;
-
-    @include bp-up(sm) {
-        max-width: 100%;
-    }
+    line-height: 1.55;
 
     @include bp-up(md) {
-        padding: 0 6px;
-        font-size: 0.625rem;
-        line-height: 16px;
+        font-size: 0.6875rem;
+        line-height: 1.64;
+    }
+}
+
+/*
+ * Selected: a white ring round the icon or the circle, with a dark hairline so it also reads on the
+ * bench's white card, and the name inverted. The ring is white, not yellow or red, because those
+ * now mean the fit. It comes after `.name`, so the inverted name wins at equal specificity.
+ */
+.selected {
+    .disc {
+        transform: scale(1.06);
+        box-shadow:
+            0 0 0 2.5px var(--widget-light),
+            0 0 0 3.5px var(--black-2),
+            0 4px 10px color-mix(in srgb, var(--black-2) 45%, transparent);
+    }
+
+    .empty {
+        box-shadow:
+            0 0 0 2.5px var(--widget-light),
+            0 0 0 3.5px var(--black-2);
+    }
+
+    .name {
+        background: var(--black-2);
+        color: var(--widget-light);
+        box-shadow: 0 0 0 1.5px var(--widget-light);
     }
 }

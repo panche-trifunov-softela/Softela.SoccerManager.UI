@@ -1,141 +1,104 @@
 @use '@/styles/breakpoints' as *;
 
 /*
- * The pitch is 68 by 105 from md, the proportions of a real one, and 68 by 122 below md, taller so
- * the markers have more room on a phone. Its colours derive from the existing green and white
- * tokens through the custom properties below.
+ * The pitch is a board 1 wide by 1.75 high (480 wide at most) below md and 4 wide by 5 high (560 by
+ * 700 at its widest) from md. The drawing stretches to it, and the markers are placed in percent of
+ * it, so the shape may change per breakpoint without touching either.
  *
- * The markings sit near the edge; the field the markers are placed in is inset further, which
- * keeps a marker whose coordinates are not at the extremes clear of the markings' edge. It does
- * not keep every marker whole: the pitch does not clip, so a marker placed at the very edge of the
- * field reaches past the drawing rather than being cut off. The stripes are a background and
- * follow the rounded corners without clipping. The team's own goal line is the top.
+ * The pitch is green in every theme, so the white it sets does not follow the theme.
+ *
+ * Nothing here clips: only the drawing does, inside its own box. A marker's focus ring and a
+ * selected marker are therefore never cut off, even at the edge of the board.
+ *
+ * `--disc`, the size of a marker's round icon, is set by the page's lineup and read here.
  */
 .pitch {
-    --pitch-dark: var(--green);
-    --pitch-light: color-mix(in srgb, var(--green) 88%, white);
-    --pitch-line: color-mix(in srgb, var(--widget-light) 85%, transparent);
+    --slot-empty-bg: color-mix(in srgb, var(--black-2) 38%, transparent);
 
     position: relative;
     width: 100%;
     max-width: 480px;
     margin-inline: auto;
-    aspect-ratio: 68 / 122;
-    border-radius: 4px;
+    aspect-ratio: 1 / 1.75;
     color: var(--widget-light);
-    background: repeating-linear-gradient(
-        to bottom,
-        var(--pitch-dark) 0,
-        var(--pitch-dark) 10%,
-        var(--pitch-light) 10%,
-        var(--pitch-light) 20%
-    );
 
     @include bp-up(md) {
-        aspect-ratio: 68 / 105;
+        max-width: 560px;
+        aspect-ratio: 4 / 5;
     }
 }
 
-/* The touchlines and goal lines; every other marking is placed inside them. */
-.markings {
-    position: absolute;
-    inset: 8px;
-    border: 2px solid var(--pitch-line);
-}
-
-.halfway {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    left: 0;
-    height: 2px;
-    margin-top: -1px;
-    background: var(--pitch-line);
-}
-
-/* 9.15m of radius on a 68m wide pitch. */
-.circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 27%;
-    aspect-ratio: 1;
-    border: 2px solid var(--pitch-line);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-}
-
-/*
- * The penalty and goal areas hang from the goal line, which serves as the side of each one that
- * lies along it.
- */
-.area {
-    position: absolute;
-    left: 50%;
-    border: 2px solid var(--pitch-line);
-    transform: translateX(-50%);
-}
-
-.penaltyTop,
-.penaltyBottom {
-    width: 59%;
-    height: 15.7%;
-}
-
-.goalTop,
-.goalBottom {
-    width: 27%;
-    height: 5.2%;
-}
-
-.penaltyTop,
-.goalTop {
-    top: 0;
-    border-top: 0;
-}
-
-.penaltyBottom,
-.goalBottom {
-    bottom: 0;
-    border-bottom: 0;
-}
-
-/*
- * The space the markers are placed in: a slot's coordinates are percentages of this box. The side
- * inset is 6px below sm, 12px from sm and 28px from md; the top and bottom inset is 24px
- * throughout.
- *
- * It also sets the background of an empty slot's circle: a darker green than the pitch, so the
- * position label reads over the markings. The bench, which has no such property, falls back to
- * the marker's own tint.
- */
+/* The space the markers are placed in: the whole board, the same one the drawing is drawn in. */
 .field {
-    --slot-empty-bg: color-mix(in srgb, var(--green) 80%, black);
-
     position: absolute;
-    inset: 24px 6px;
-
-    @include bp-up(sm) {
-        inset: 24px 12px;
-    }
-
-    @include bp-up(md) {
-        inset: 24px 28px;
-    }
+    inset: 0;
 }
 
 /*
- * A marker's photo, not the marker as a whole, is centred on the slot's point: the translation
- * up is half the 40px photo, so the name and the tags under the photo do not lift it.
+ * The disc, not the marker as a whole, is centred on the slot's point: the translation up is half
+ * the disc, so the name under it does not lift it. The width is the room the slot has in its line,
+ * set inline, and the marker fills it up to the maximum below. The maximum also caps a marker alone
+ * in its line, whose room is the whole board.
+ *
+ * The transform makes each item a stacking context, so a selected or focused marker is raised on
+ * the item itself. The items are in slot order, far to near, so a nearer marker paints over a
+ * farther one.
  */
 .spot {
     position: absolute;
-    transform: translate(-50%, -20px);
+    min-width: var(--disc);
+    max-width: 76px;
+    transform: translate(-50%, calc(var(--disc) / -2));
+
+    @include bp-up(md) {
+        max-width: 104px;
+    }
+
+    &--selected,
+    &:focus-within {
+        z-index: 1;
+    }
 }
 
+.legend_list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 12px;
+
+    /* Tighter than the global legend, so the three fit on one line on the narrowest board. */
+    > li {
+        gap: 5px;
+        font-size: 0.6875rem;
+        letter-spacing: 0;
+    }
+}
+
+/* The legend's dots take the rings' colours; the hairline keeps the yellow off a white page. */
+.dot {
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--black-2) 30%, transparent);
+
+    &--good {
+        background: var(--fit-good);
+    }
+
+    &--ok {
+        background: var(--fit-ok);
+    }
+
+    &--poor {
+        background: var(--fit-poor);
+    }
+}
+
+/* Each marker keeps the width of an unplaced slot, as there is no line for it to share. */
 .unplaced {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 8px 12px;
+
+    > li {
+        width: 76px;
+    }
 }

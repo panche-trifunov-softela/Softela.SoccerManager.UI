@@ -277,6 +277,18 @@ export interface SlotPlayerView {
   isSuspended: boolean
 }
 
+/** How well a player suits the position of the slot they are in. */
+export type PositionFit = 'good' | 'ok' | 'poor'
+
+/** A point on the board. */
+export interface ScreenPoint {
+  /** How far across the board the point sits, in percent of its width. */
+  x: number
+
+  /** How far down the board the point sits, in percent of its height. */
+  y: number
+}
+
 /** One slot of the lineup as the board draws it. */
 export interface SlotView {
   /** The number of the slot, from 1 to 19. */
@@ -288,11 +300,29 @@ export interface SlotView {
   /** The full name of the slot's position, or `null` on a reserve slot. */
   positionName: string | null
 
-  /** How far across the screen the slot sits, in percent, or `null` when it is not placed. */
+  /**
+   * How far across the board the slot sits, in percent of its width, or `null` when it is not
+   * placed.
+   */
   screenX: number | null
 
-  /** How far down the screen the slot sits, in percent, or `null` when it is not placed. */
+  /**
+   * How far down the board the slot sits, in percent of its height, or `null` when it is not
+   * placed.
+   */
   screenY: number | null
+
+  /**
+   * How wide the slot's marker may be, in percent of the board's width, or `null` when it is not
+   * placed.
+   */
+  room: number | null
+
+  /**
+   * How well the player suits the slot's position, or `null` when the slot has no fit: a bench slot
+   * or an empty one.
+   */
+  fit: PositionFit | null
 
   /** The player in the slot, or `null` when it is empty. */
   player: SlotPlayerView | null

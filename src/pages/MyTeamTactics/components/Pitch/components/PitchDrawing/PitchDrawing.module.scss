@@ -1,0 +1,99 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * The pitch as one SVG over the whole board. Its coordinates are percent of the board, the same
+ * space the markers are placed in, so the board may take another shape per breakpoint and the
+ * drawing stretches with it. Every colour derives from the existing tokens; the near edge fades
+ * into `--body`, the page's own tone, so it always matches the page.
+ */
+.drawing {
+    --band-dark: color-mix(in srgb, var(--grass) 30%, var(--green));
+    --band-light: color-mix(in srgb, var(--grass) 45%, var(--green));
+    --line: color-mix(in srgb, var(--widget-light) 94%, transparent);
+
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.band_dark {
+    fill: var(--band-dark);
+}
+
+.band_light {
+    fill: var(--band-light);
+}
+
+/* Evenodd, so only the grass outside the lines darkens and the pitch itself stays clear. */
+.run_off {
+    fill: color-mix(in srgb, var(--black-2) 16%, transparent);
+    fill-rule: evenodd;
+}
+
+.spots {
+    fill: var(--line);
+}
+
+/* The stroke keeps one width however the board is stretched. */
+.lines {
+    fill: none;
+    stroke: var(--line);
+    stroke-width: 1.2px;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+
+    @include bp-up(md) {
+        stroke-width: 1.6px;
+    }
+}
+
+/* Light, then shade, then haze: the sun's pool in the middle, darker sides, a bright far end. */
+.sun {
+    mix-blend-mode: soft-light;
+}
+
+.sun_stop {
+    stop-color: color-mix(in srgb, var(--grass) 20%, transparent);
+}
+
+.shade_stop {
+    stop-color: color-mix(in srgb, var(--black-2) 14%, transparent);
+}
+
+.haze_stop {
+    stop-color: color-mix(in srgb, var(--light-azure) 46%, transparent);
+}
+
+.clear_stop {
+    stop-color: transparent;
+}
+
+.fade_part_stop {
+    stop-color: color-mix(in srgb, var(--body) 72%, transparent);
+}
+
+.fade_stop {
+    stop-color: var(--body);
+}
+
+.goal_net {
+    fill: color-mix(in srgb, var(--black-2) 22%, transparent);
+}
+
+.goal_net_lines {
+    fill: none;
+    stroke: color-mix(in srgb, var(--widget-light) 58%, transparent);
+    stroke-width: 0.6px;
+    vector-effect: non-scaling-stroke;
+}
+
+.goal_frame {
+    fill: none;
+    stroke: var(--widget-light);
+    stroke-width: 1.5px;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}

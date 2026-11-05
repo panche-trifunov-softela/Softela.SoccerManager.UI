@@ -11,7 +11,7 @@ import type { TeamInstructionsProps } from './types'
  * - Below sm: one select to a row.
  * - From sm up to md: two to a row.
  * - From md up to lg: three to a row.
- * - From lg: two to a row again, as the card then sits in the board's 480px column.
+ * - From lg: two to a row again, as the card then sits in the board's 560px column.
  * - A wide select takes a whole row at every width.
  * - While the board is locked every select is `aria-disabled` rather than `disabled`, so the one
  *   that was changed keeps focus; the editor refuses the change, and the select keeps showing the

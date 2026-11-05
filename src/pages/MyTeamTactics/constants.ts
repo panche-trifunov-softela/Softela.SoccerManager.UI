@@ -1,6 +1,6 @@
 import type { InstructionField } from '@/types/instructionField'
 
-import type { SaveState } from './types'
+import type { PositionFit, SaveState } from './types'
 
 /** What shows when the address names no valid league team id. */
 export const CLUB_NOT_FOUND_MESSAGE = 'This club could not be found.'
@@ -60,6 +60,49 @@ export const BENCH_SLOT_LABEL = 'Sub'
 
 /** The number of the last starter slot: slots 1 to this number are the starting eleven. */
 export const LAST_STARTER_SLOT = 11
+
+/** The quality from which a player is a natural in a position. */
+export const FIT_GOOD_MIN_QUALITY = 90
+
+/** The quality from which a player can play a position without being a natural in it. */
+export const FIT_OK_MIN_QUALITY = 75
+
+/**
+ * The words for how well a player suits a slot's position, shown in the legend and announced on a
+ * marker.
+ */
+export const POSITION_FIT_LABELS: Readonly<Record<PositionFit, string>> = {
+  good: 'Natural position',
+  ok: 'Can play here',
+  poor: 'Poor fit',
+}
+
+/** How wide the pitch is drawn at its far goal line, as a share of its near goal line. */
+export const PITCH_FAR_WIDTH_RATIO = 0.74
+
+/** The share of the board's width left free on each side of the near goal line. */
+export const PITCH_SIDE_MARGIN = 0.03
+
+/**
+ * The share of the board's height left free above the far goal line: just enough for the grass
+ * beyond that line to reach the board's top edge, with the goal standing on it.
+ */
+export const PITCH_TOP_MARGIN = 0.045
+
+/** The share of the board's height left free under the near goal line. */
+export const PITCH_BOTTOM_MARGIN = 0.02
+
+/**
+ * How far apart two markers may sit down the board, in percent of its height, and still count as
+ * one line.
+ */
+export const PITCH_LINE_BAND = 8
+
+/**
+ * The room of a marker alone in its line, in percent of the board's width; the stylesheet's maximum
+ * takes over from it.
+ */
+export const PITCH_FULL_ROOM = 100
 
 /** The instructions whose select spans the card's full width, because their choices read long. */
 export const WIDE_INSTRUCTION_FIELDS: readonly InstructionField[] = ['attackingSide']

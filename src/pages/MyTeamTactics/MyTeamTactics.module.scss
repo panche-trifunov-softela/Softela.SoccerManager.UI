@@ -4,7 +4,7 @@
  * The board is one column on a phone: header, toolbar, lineup (the pitch with the bench under it),
  * squad, and last the team instructions. From lg the squad list takes the left column beside the
  * lineup, and the header and the toolbar span the width above them. The right column stops at
- * 480px, the pitch's own widest size, and holds the lineup with the team instructions right under
+ * 560px, the pitch's own widest size, and holds the lineup with the team instructions right under
  * it. The squad spans both right-hand rows and the last row takes what is left (`1fr`), so the
  * third row is the lineup's own height and the card stays right under the bench however long the
  * squad list is. The pitch and the bench share one grid area, so the gap between them is the
@@ -22,7 +22,7 @@
     gap: 20px;
 
     @include bp-up(lg) {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
         grid-template-rows: auto auto auto 1fr;
         grid-template-areas:
             'header header'
@@ -41,11 +41,26 @@
     grid-area: toolbar;
 }
 
+/*
+ * `--disc` is the size of the round icon of every marker in the lineup, on the pitch and on the
+ * bench: 40px below sm, 44px from sm and 60px from md. The pitch's stylesheet reads it too, to
+ * centre the icon on the slot's point.
+ */
 .lineup {
+    --disc: 40px;
+
     display: flex;
     flex-direction: column;
     grid-area: lineup;
     gap: 20px;
+
+    @include bp-up(sm) {
+        --disc: 44px;
+    }
+
+    @include bp-up(md) {
+        --disc: 60px;
+    }
 }
 
 .squad {

@@ -5,6 +5,7 @@ import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
 import type { MatchInstructionsDto } from '@/types/matchInstructionsDto'
 import type { MatchLineupDto } from '@/types/matchLineupDto'
 import type { NextMatchDto } from '@/types/nextMatchDto'
+import type { PositionFit } from '@/types/positionFit'
 
 import type { BenchProps } from './components/Bench'
 import type { LineupSquadListProps, SquadRowView } from './components/LineupSquadList'
@@ -276,9 +277,6 @@ export interface SlotPlayerView {
   /** Whether the player is suspended. */
   isSuspended: boolean
 }
-
-/** How well a player suits the position of the slot they are in. */
-export type PositionFit = 'good' | 'ok' | 'poor'
 
 /** A point on the board. */
 export interface ScreenPoint {

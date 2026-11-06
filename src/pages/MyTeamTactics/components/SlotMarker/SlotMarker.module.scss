@@ -98,15 +98,17 @@ button.marker:focus-visible {
     }
 }
 
-.fit--good {
+/* The class is the API's fit. A main position and another natural one look the same on purpose. */
+.fit--1,
+.fit--2 {
     --fit-colour: var(--fit-good);
 }
 
-.fit--ok {
+.fit--3 {
     --fit-colour: var(--fit-ok);
 }
 
-.fit--poor {
+.fit--4 {
     --fit-colour: var(--fit-poor);
 }
 

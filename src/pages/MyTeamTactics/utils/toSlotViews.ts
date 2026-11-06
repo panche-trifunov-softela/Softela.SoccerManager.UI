@@ -8,15 +8,15 @@ import {
 } from '../constants'
 
 import { toMarkerName } from './toMarkerName'
-import { toPositionFit } from './toPositionFit'
 import { toScreenPoint } from './toScreenPoint'
 import { toSlotRooms } from './toSlotRooms'
 
 import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
 import type { MatchLineupDto } from '@/types/matchLineupDto'
 import type { MatchLineupSlotDto } from '@/types/matchLineupSlotDto'
+import type { PositionFit } from '@/types/positionFit'
 
-import type { LineupSelection, PositionFit, ScreenPoint, SlotPlayerView, SlotView } from '../types'
+import type { LineupSelection, ScreenPoint, SlotPlayerView, SlotView } from '../types'
 
 /**
  * Joins the player in a slot to the squad.
@@ -119,7 +119,8 @@ function toSlotView(
 
   const point = points.get(slot.slotNumber)
 
-  const fit = toPositionFit(slot)
+  // An API older than this field sends no fit, which has to read as no colour, not break the page.
+  const fit = slot.fit ?? null
 
   const isStarter = slot.slotNumber <= LAST_STARTER_SLOT
 

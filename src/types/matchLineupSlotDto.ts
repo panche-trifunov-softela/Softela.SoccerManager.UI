@@ -1,3 +1,5 @@
+import type { PositionFit } from './positionFit'
+
 /**
  * One slot of a club's lineup for a match, filled or empty, as the lineup endpoints return it.
  *
@@ -46,9 +48,16 @@ export interface MatchLineupSlotDto {
   conditionOnMatch: number | null
 
   /**
-   * The quality of the used rating when the row was written, or `null` when the slot is empty.
+   * The player's quality in the slot's position when the row was written, or `null` when the slot
+   * is empty. A reserve slot asks for no position, so it holds the quality of their main rating.
    */
   qualityAtPositionOnMatch: number | null
+
+  /**
+   * How well the player suits the slot's position, or `null` for an empty slot and for a reserve
+   * slot, which asks for no position.
+   */
+  fit: PositionFit | null
 
   /**
    * Whether the player was suspended when the row was written, or `null` when the slot is empty.

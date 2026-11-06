@@ -78,15 +78,15 @@
 .dot {
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--black-2) 30%, transparent);
 
-    &--good {
+    &--2 {
         background: var(--fit-good);
     }
 
-    &--ok {
+    &--3 {
         background: var(--fit-ok);
     }
 
-    &--poor {
+    &--4 {
         background: var(--fit-poor);
     }
 }

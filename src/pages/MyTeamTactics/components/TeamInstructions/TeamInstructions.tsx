@@ -16,16 +16,14 @@ import type { TeamInstructionsProps } from './types'
  * - While the board is locked every select is `aria-disabled` rather than `disabled`, so the one
  *   that was changed keeps focus; the editor refuses the change, and the select keeps showing the
  *   instruction as the server last said it.
- * - The heading echoes the save status for the eye only; the toolbar's live region announces it.
  *
- * @param props The selects to show, the instructions' values, the save status, whether the board
- * is locked, and what to call on a change.
+ * @param props The selects to show, the instructions' values, whether the board is locked, and
+ * what to call on a change.
  * @returns The rendered card.
  */
 export function TeamInstructions({
   controls,
   values,
-  saveStatus,
   isLocked,
   onChange,
 }: TeamInstructionsProps) {
@@ -34,13 +32,7 @@ export function TeamInstructions({
       aria-label={TEAM_INSTRUCTIONS_TITLE}
       className="card card-padded d-flex flex-column g-16"
     >
-      <div className={styles.heading}>
-        <h2 className="label h6">{TEAM_INSTRUCTIONS_TITLE}</h2>
-
-        <p aria-hidden="true" className="label text-10">
-          {saveStatus}
-        </p>
-      </div>
+      <h2 className="label h6">{TEAM_INSTRUCTIONS_TITLE}</h2>
 
       <div className={styles.controls}>
         {controls.map(({ field, label, options, isWide }) => (

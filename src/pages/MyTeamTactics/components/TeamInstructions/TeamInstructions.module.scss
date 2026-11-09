@@ -1,17 +1,6 @@
 @use '@/styles/breakpoints' as *;
 
 /*
- * The title sits at one end of the heading row and the save status echo at the other, on one
- * baseline.
- */
-.heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-}
-
-/*
  * The grid by breakpoint:
  *
  * - Below sm: one select to a row.

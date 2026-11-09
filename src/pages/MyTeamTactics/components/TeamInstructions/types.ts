@@ -19,9 +19,6 @@ export interface TeamInstructionsProps {
   /** The instructions as the server last said them. */
   values: InstructionValues
 
-  /** Where the latest save stands, in words, or `null` to say nothing. */
-  saveStatus: string | null
-
   /** Whether the board refuses input, because a request is in flight. */
   isLocked: boolean
 

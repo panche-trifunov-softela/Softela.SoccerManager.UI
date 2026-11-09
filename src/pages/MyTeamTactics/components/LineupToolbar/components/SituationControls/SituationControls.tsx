@@ -93,7 +93,7 @@ export function SituationControls({
 
       <button
         type="button"
-        className="btn focus-ring"
+        className={`btn focus-ring ${styles.close}`}
         aria-disabled={isLocked}
         onClick={() => {
           onClose()

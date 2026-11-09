@@ -2,8 +2,6 @@ import type { InstructionField } from '@/types/instructionField'
 import type { PositionFit } from '@/types/positionFit'
 import type { SubstitutionDirection } from '@/types/substitutionDirection'
 
-import type { SaveState } from './types'
-
 /** What shows when the address names no valid league team id. */
 export const CLUB_NOT_FOUND_MESSAGE = 'This club could not be found.'
 
@@ -48,14 +46,6 @@ export const SITUATION_DELETE_REFRESH_MESSAGE =
 
 /** Joins a situation's minute and its situation in its name, for example `60 · Losing`. */
 export const SITUATION_LABEL_SEPARATOR = ' · '
-
-/** How each save state reads in the toolbar and the team instructions card; `null` says nothing. */
-export const SAVE_STATUS_LABELS: Readonly<Record<SaveState, string | null>> = {
-  idle: null,
-  saving: 'Saving…',
-  saved: 'Saved',
-  failed: 'Not saved',
-}
 
 /** Names the opponent of a match that has no second participant yet. */
 export const OPPONENT_TO_BE_DECIDED = 'Opponent to be decided'

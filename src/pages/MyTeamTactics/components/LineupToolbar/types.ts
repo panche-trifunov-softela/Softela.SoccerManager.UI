@@ -19,9 +19,6 @@ export interface LineupToolbarProps {
   /** Whether the board refuses input, because a request is in flight. */
   isLocked: boolean
 
-  /** Where the latest save stands, in words, or `null` to say nothing. */
-  saveStatus: string | null
-
   /** What the next tap does, or an invitation to start while nothing is selected. */
   selectionHint: string
 

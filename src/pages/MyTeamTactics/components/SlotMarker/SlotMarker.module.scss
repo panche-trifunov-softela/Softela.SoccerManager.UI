@@ -44,6 +44,12 @@
     }
 }
 
+/* A slot that cannot be tapped is faded, as a squad row that cannot be picked is. */
+.marker:disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+
 /*
  * The global focus ring is drawn inside the control, where it would sit on the photo. Drawn
  * outside, with a halo of the widget colour behind it, it reads on the pitch's green and on the
@@ -172,6 +178,40 @@ button.marker:focus-visible {
     color: var(--black-2);
     font-size: calc(var(--chip-height) * 0.65);
     line-height: 1;
+}
+
+/*
+ * A substitution: a white disc with a dark arrow on the icon's bottom-right corner, just above the
+ * name's pill. White, not green or red, because those colours mean the fit. The class is the API's
+ * direction: it turns the arrow up for a player coming on and down for one going off.
+ */
+.substitution {
+    position: absolute;
+    bottom: var(--name-overlap);
+    inset-inline-end: calc(var(--disc) * -0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--chip-height);
+    height: var(--chip-height);
+    border-radius: 50%;
+    background: var(--widget-light);
+    box-shadow: 0 0 0 1px var(--black-2);
+    color: var(--black-2);
+    font-size: calc(var(--chip-height) * 0.6);
+    line-height: 1;
+
+    svg {
+        transform: rotate(var(--substitution-turn, 0turn));
+    }
+}
+
+.substitution--1 {
+    --substitution-turn: 0turn;
+}
+
+.substitution--2 {
+    --substitution-turn: 0.5turn;
 }
 
 /* Empty: a dashed circle naming the position the slot asks for. */

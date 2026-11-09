@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { autoPickMatchLineup, saveMatchLineup } from '@/services/api'
+import { autoPickMatchLineup, saveMatchLineup, saveMatchLineupSubstitution } from '@/services/api'
 
 import {
   AUTO_PICK_FAILED_MESSAGE,
@@ -11,14 +11,9 @@ import {
 import { resolveTap, toLineupIndex } from '../utils'
 
 import type { MatchLineupDto } from '@/types/matchLineupDto'
+import type { SaveMatchLineupRequest } from '@/types/saveMatchLineupRequest'
 
-import type {
-  LineupEditorOptions,
-  LineupEditorState,
-  LineupTap,
-  MatchSelection,
-  SlotChange,
-} from '../types'
+import type { LineupEditorOptions, LineupEditorState, LineupTap, MatchSelection } from '../types'
 
 /**
  * Edits the lineup of the club's next match, one request per action. A tap changes one slot, and
@@ -28,15 +23,19 @@ import type {
  *   locks every control while one is outstanding or the page's data is read again, reports where
  *   the save stands, and reads the data again after a 400, 403, 404 or 500. The response replaces
  *   the shown lineup.
+ * - While a substitution is open, the slot and formation changes go to its lineup instead of the
+ *   main one, and the saved list the API returns replaces the shown one. Emptying a slot and auto
+ *   pick, which only the main lineup has, do nothing, and neither does the first visit's pick.
  * - Any request drops the selection. Tapping works in two steps: the first tap selects, the second
  *   moves, swaps, places or clears (see `resolveTap`). Escape drops the selection too.
- * - A selection belongs to one match, and reads as empty for any other.
+ * - A selection belongs to one match and one situation view, and reads as empty for any other: a
+ *   substitution opened, switched or closed clears it.
  * - On a first visit, when the viewer runs the club and the lineup has a formation but nobody in
  *   it, the lineup is picked automatically. A match is judged once, the first time its lineup is
  *   seen while the board is unlocked, so emptying a lineup by hand never brings a pick.
  *
- * @param options The club, the match whose lineup is edited, the board's shared save, and what to
- * call to swap in a lineup the API returned.
+ * @param options The club, the match whose lineup is edited, the board's shared save, the open
+ * substitution, and what to call to swap in a lineup or a saved list the API returned.
  * @returns The selection and the actions.
  */
 export function useLineupEditor({
@@ -45,6 +44,9 @@ export function useLineupEditor({
   nextMatch,
   save,
   replaceLineup,
+  situation,
+  selectionEpoch,
+  replaceSituations,
 }: LineupEditorOptions): LineupEditorState {
   const [selected, setSelected] = useState<MatchSelection | null>(null)
 
@@ -68,7 +70,12 @@ export function useLineupEditor({
 
   const matchId = lineup?.matchId ?? null
 
-  const selection = selected !== null && selected.matchId === matchId ? selected.selection : null
+  const isSituationOpen = situation !== null
+
+  const selection =
+    selected !== null && selected.matchId === matchId && selected.epoch === selectionEpoch
+      ? selected.selection
+      : null
 
   const send = useCallback(
     (call: () => Promise<MatchLineupDto>, failedMessage: string) => {
@@ -80,7 +87,8 @@ export function useLineupEditor({
   )
 
   const autoPick = useCallback(() => {
-    if (lineup === null || isLocked) return
+    // An auto pick only replaces the main lineup.
+    if (lineup === null || isLocked || isSituationOpen) return
 
     const { formationId } = lineup
 
@@ -93,7 +101,7 @@ export function useLineupEditor({
         }),
       AUTO_PICK_FAILED_MESSAGE,
     )
-  }, [lineup, isLocked, send])
+  }, [lineup, isLocked, isSituationOpen, send])
 
   const isFirstVisitCheckable = canAutoPickOnFirstVisit && leagueTeamId !== null && lineup !== null
 
@@ -103,6 +111,10 @@ export function useLineupEditor({
     lineup.slots.every((slot) => slot.playerId === null)
 
   useEffect(() => {
+    // While a substitution is open the match is not judged either, so the visit is still judged
+    // once the substitution closes.
+    if (isSituationOpen) return
+
     // While a request is outstanding or the data is read again, the match is not judged, so a pick
     // skipped for that reason happens when the board unlocks and this effect runs again.
     if (!isFirstVisitCheckable || matchId === null || isLocked || isSending()) return
@@ -117,20 +129,57 @@ export function useLineupEditor({
     // it is the same as for any other request.
     // oxlint-disable-next-line react/set-state-in-effect
     if (needsFirstPick) autoPick()
-  }, [isFirstVisitCheckable, matchId, isLocked, isSending, needsFirstPick, autoPick])
+  }, [
+    isSituationOpen,
+    isFirstVisitCheckable,
+    matchId,
+    isLocked,
+    isSending,
+    needsFirstPick,
+    autoPick,
+  ])
 
-  const saveSlot = (current: MatchLineupDto, { slotNumber, playerId }: SlotChange) => {
-    send(
-      () =>
-        saveMatchLineup({
-          matchId: current.matchId,
-          leagueTeamId: current.leagueTeamId,
-          formationId: current.formationId,
-          slotNumber,
-          playerId,
-        }),
-      LINEUP_SAVE_FAILED_MESSAGE,
-    )
+  // Every slot and formation change goes to the lineup the board shows: the main one, or the open
+  // situation's, whose answer is the whole list of saved situations.
+  const saveLineup = (
+    current: MatchLineupDto,
+    change: Pick<SaveMatchLineupRequest, 'formationId' | 'slotNumber' | 'playerId'>,
+  ) => {
+    const { matchId: currentMatchId, leagueTeamId: currentLeagueTeamId } = current
+
+    const messages = {
+      failedMessage: LINEUP_SAVE_FAILED_MESSAGE,
+      refreshMessage: LINEUP_REFRESH_MESSAGE,
+    }
+
+    const started =
+      situation === null
+        ? saveSend(
+            () =>
+              saveMatchLineup({
+                matchId: currentMatchId,
+                leagueTeamId: currentLeagueTeamId,
+                ...change,
+              }),
+            replaceLineup,
+            messages,
+          )
+        : saveSend(
+            () =>
+              saveMatchLineupSubstitution({
+                matchId: currentMatchId,
+                leagueTeamId: currentLeagueTeamId,
+                minuteAt: situation.minuteAt,
+                situation: situation.situation,
+                ...change,
+              }),
+            (list) => {
+              replaceSituations(currentMatchId, currentLeagueTeamId, list)
+            },
+            messages,
+          )
+
+    if (started) setSelected(null)
   }
 
   const tap = (target: LineupTap) => {
@@ -139,12 +188,18 @@ export function useLineupEditor({
     const { selection: next, change } = resolveTap(selection, target, lineup)
 
     if (change !== null) {
-      saveSlot(lineup, change)
+      saveLineup(lineup, {
+        formationId: lineup.formationId,
+        slotNumber: change.slotNumber,
+        playerId: change.playerId,
+      })
 
       return
     }
 
-    setSelected(next === null ? null : { matchId: lineup.matchId, selection: next })
+    setSelected(
+      next === null ? null : { matchId: lineup.matchId, epoch: selectionEpoch, selection: next },
+    )
   }
 
   const tapSlot = (slotNumber: number) => {
@@ -156,13 +211,14 @@ export function useLineupEditor({
   }
 
   const removeSelected = () => {
-    if (lineup === null || isLocked || selection?.kind !== 'slot') return
+    // A situation's slot is never emptied.
+    if (lineup === null || isLocked || isSituationOpen || selection?.kind !== 'slot') return
 
     const { slotNumber } = selection
 
     if (!toLineupIndex(lineup).playerBySlot.has(slotNumber)) return
 
-    saveSlot(lineup, { slotNumber, playerId: null })
+    saveLineup(lineup, { formationId: lineup.formationId, slotNumber, playerId: null })
   }
 
   const clearSelection = () => {
@@ -172,15 +228,7 @@ export function useLineupEditor({
   const changeFormation = (formationId: number) => {
     if (lineup === null || isLocked || formationId === lineup.formationId) return
 
-    send(
-      () =>
-        saveMatchLineup({
-          matchId: lineup.matchId,
-          leagueTeamId: lineup.leagueTeamId,
-          formationId,
-        }),
-      LINEUP_SAVE_FAILED_MESSAGE,
-    )
+    saveLineup(lineup, { formationId })
   }
 
   return {

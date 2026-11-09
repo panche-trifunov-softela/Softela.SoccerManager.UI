@@ -1,0 +1,32 @@
+/* A wrapping row of items, so a narrow screen puts them on further lines. */
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-block: 4px;
+    padding-inline: 12px 4px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+/*
+ * The open situation: the highlight colour on its edge and a tint of it behind, so it reads in
+ * both themes without resting on colour alone, as the item also carries `aria-current`.
+ */
+.open {
+    border-color: var(--highlight);
+    background: color-mix(in srgb, var(--highlight) 12%, transparent);
+}
+
+.name {
+    white-space: nowrap;
+}

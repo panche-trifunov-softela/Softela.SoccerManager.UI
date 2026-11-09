@@ -86,6 +86,30 @@ export const API_ROUTES = {
 
     /** The instructions a club gives for a match, each with its choices, for the page to offer. */
     instructionOptions: '/api/matches/instruction-options',
+
+    /**
+     * One match's substitutions for a club, by the match's id: a `GET` with `?leagueTeamId=` lists
+     * them, and a `DELETE` with `?leagueTeamId=&minuteAt=&situation=` removes one.
+     */
+    substitutions: (id: number) => `/api/matches/${id}/substitutions`,
+
+    /**
+     * One match's substitution lineup for a club, by the match's id; a `PUT` changes its formation,
+     * one slot, or both.
+     */
+    substitutionLineup: (id: number) => `/api/matches/${id}/substitutions/lineup`,
+
+    /**
+     * One match's substitution instructions for a club, by the match's id; a `PUT` changes one or
+     * more of the seven.
+     */
+    substitutionInstructions: (id: number) => `/api/matches/${id}/substitutions/instructions`,
+
+    /**
+     * The minutes and the situations a club picks a substitution by, each with its choices, for the
+     * page to offer.
+     */
+    substitutionOptions: '/api/matches/substitution-options',
   },
   players: {
     /** Searches the players; every query parameter narrows, sorts or pages the result. */

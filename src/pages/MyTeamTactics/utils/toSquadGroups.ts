@@ -66,12 +66,14 @@ function toSelectedPlayerId(selection: LineupSelection | null, index: LineupInde
  * @param lineupLabel The label of the slot the player is in, or `null` when they are not in the
  * lineup.
  * @param selectedPlayerId The selected player, or `null` when there is none.
+ * @param isSelectable Whether the row can be picked.
  * @returns The row, with its texts already written.
  */
 function toSquadRowView(
   member: LeagueTeamSquadMemberDto,
   lineupLabel: string | null,
   selectedPlayerId: number | null,
+  isSelectable: boolean,
 ): SquadRowView {
   const condition = `${member.condition}%`
 
@@ -85,7 +87,7 @@ function toSquadRowView(
     condition,
     isSuspended: member.isSuspended,
     lineupLabel,
-    isSelectable: lineupLabel !== null || !member.isSuspended,
+    isSelectable,
     isSelected: selectedPlayerId === member.playerId,
     ariaLabel: toRowAriaLabel(member, condition, lineupLabel),
   }
@@ -99,11 +101,14 @@ function toSquadRowView(
  * - A lineup player the squad does not list is left out.
  * - A suspended player outside the lineup cannot be picked; one already in the lineup still can,
  *   to be removed or replaced.
+ * - While a situation is open only the lineup's players can be picked, and a suspended one on the
+ *   bench not at all, because neither a player outside the lineup nor a suspended one can come on.
  *
  * @param squad The squad, as the API returned it.
  * @param index The lineup's players.
  * @param selection What is selected now, or `null` when nothing is.
  * @param slotViews The lineup's slots as the board draws them, which name each slot.
+ * @param isSituationOpen Whether a situation is open.
  * @returns The three groups of rows.
  */
 export function toSquadGroups(
@@ -111,6 +116,7 @@ export function toSquadGroups(
   index: LineupIndex,
   selection: LineupSelection | null,
   slotViews: readonly SlotView[],
+  isSituationOpen: boolean,
 ): SquadGroups {
   const memberById = new Map<number, LeagueTeamSquadMemberDto>(
     squad.map((member) => [member.playerId, member]),
@@ -133,9 +139,14 @@ export function toSquadGroups(
 
     const label = labelBySlot.get(slotNumber) ?? BENCH_SLOT_LABEL
 
-    const row = toSquadRowView(member, label, selectedPlayerId)
+    const isStarter = slotNumber <= LAST_STARTER_SLOT
 
-    if (slotNumber <= LAST_STARTER_SLOT) {
+    // A lineup player can always be picked, except a suspended reserve while a situation is open.
+    const isSelectable = !isSituationOpen || isStarter || !member.isSuspended
+
+    const row = toSquadRowView(member, label, selectedPlayerId, isSelectable)
+
+    if (isStarter) {
       starters.push(row)
     } else {
       bench.push(row)
@@ -144,7 +155,9 @@ export function toSquadGroups(
 
   const notSelected = squad
     .filter((member) => !index.slotByPlayer.has(member.playerId))
-    .map((member) => toSquadRowView(member, null, selectedPlayerId))
+    .map((member) =>
+      toSquadRowView(member, null, selectedPlayerId, !isSituationOpen && !member.isSuspended),
+    )
 
   return { starters, bench, notSelected }
 }

@@ -1,8 +1,10 @@
 import { LAST_STARTER_SLOT, SAVE_STATUS_LABELS, WIDE_INSTRUCTION_FIELDS } from '../constants'
 
+import { isSameSituation } from './isSameSituation'
 import { toLineupIndex } from './toLineupIndex'
 import { toNextMatchHeader } from './toNextMatchHeader'
 import { toSelectionHint } from './toSelectionHint'
+import { toSituationLabel } from './toSituationLabel'
 import { toSlotViews } from './toSlotViews'
 import { toSquadGroups } from './toSquadGroups'
 
@@ -18,8 +20,13 @@ import type { TacticsBoard, TacticsEditors, TacticsRead } from '../types'
  * - The formations and the instructions keep the API's order.
  * - Every control hands its action to its editor.
  * - The team instructions share the save status and the lock with the lineup.
+ * - While a situation is open Auto pick and Remove are gone, and only the lineup's players can be
+ *   tapped.
+ * - The saved situations are listed in the API's order, named by its labels, with the open one
+ *   marked.
  *
- * @param nextMatch The club's next match, whose lineup and instructions the board shows.
+ * @param nextMatch The club's next match as the board shows it: the open situation's saved lineup
+ * and instructions in place of the main ones.
  * @param read The finished read for the club, which holds its squad, the formations and the
  * instructions on offer.
  * @param editors The board's shared save and the editors' state and actions.
@@ -32,9 +39,13 @@ export function toTacticsBoard(
 ): TacticsBoard {
   const { lineup } = nextMatch
 
-  const { save, lineup: editor, instructions } = editors
+  const { save, lineup: editor, instructions, situation } = editors
 
   const { selection } = editor
+
+  const { window: situationWindow } = situation
+
+  const isSituationOpen = situation.open !== null
 
   const { isLocked } = save
 
@@ -46,7 +57,7 @@ export function toTacticsBoard(
 
   const index = toLineupIndex(lineup)
 
-  const slotViews = toSlotViews(lineup, squadById, selection)
+  const slotViews = toSlotViews(lineup, squadById, selection, isSituationOpen)
 
   return {
     header: toNextMatchHeader(nextMatch),
@@ -56,8 +67,38 @@ export function toTacticsBoard(
       isLocked,
       saveStatus,
       selectionHint: toSelectionHint(selection, index, squadById, slotViews),
-      canRemove: selection?.kind === 'slot' && index.playerBySlot.has(selection.slotNumber),
+      canRemove:
+        !isSituationOpen &&
+        selection?.kind === 'slot' &&
+        index.playerBySlot.has(selection.slotNumber),
       hasSelection: selection !== null,
+      canAutoPick: !isSituationOpen,
+      situationControls: {
+        isOpen: isSituationOpen,
+        canAdd: situationWindow.canAdd,
+        isLocked,
+        minuteLabel: situationWindow.minuteLabel,
+        minuteOptions: situationWindow.minuteOptions,
+        minuteAt: situation.open?.minuteAt ?? null,
+        situationLabel: situationWindow.situationLabel,
+        situationOptions: situationWindow.situationOptions,
+        situation: situation.open?.situation ?? null,
+        onAdd: situation.add,
+        onClose: situation.close,
+        onMinuteChange: situation.changeMinute,
+        onSituationChange: situation.changeSituation,
+      },
+      savedSituations: {
+        items: read.situations.map((saved) => ({
+          minuteAt: saved.minuteAt,
+          situation: saved.situation,
+          label: toSituationLabel(saved, situationWindow),
+          isOpen: situation.open !== null && isSameSituation(situation.open, saved),
+        })),
+        isLocked,
+        onEdit: situation.edit,
+        onDelete: situation.remove,
+      },
       onFormationChange: editor.changeFormation,
       onAutoPick: editor.autoPick,
       onRemove: editor.removeSelected,
@@ -74,7 +115,7 @@ export function toTacticsBoard(
       onSlotTap: editor.tapSlot,
     },
     squad: {
-      ...toSquadGroups(read.squad, index, selection, slotViews),
+      ...toSquadGroups(read.squad, index, selection, slotViews, isSituationOpen),
       isLocked,
       onPlayerTap: editor.tapPlayer,
     },

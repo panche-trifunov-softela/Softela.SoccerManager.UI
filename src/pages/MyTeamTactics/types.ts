@@ -133,9 +133,6 @@ export interface TapOutcome {
   change: SlotChange | null
 }
 
-/** Where a save stands. */
-export type SaveState = 'idle' | 'saving' | 'saved' | 'failed'
-
 /** A selection kept with the match it was made on. */
 export interface MatchSelection {
   /** The id of the match the selection belongs to. */
@@ -149,15 +146,6 @@ export interface MatchSelection {
 
   /** What was selected. */
   selection: LineupSelection
-}
-
-/** A settled save state kept with the match it belongs to. */
-export interface MatchSaveStatus {
-  /** The id of the match the save belongs to. */
-  matchId: number
-
-  /** How the save ended. */
-  saveState: Exclude<SaveState, 'idle' | 'saving'>
 }
 
 /** A lineup's players, found from either side. */
@@ -213,9 +201,6 @@ export interface BoardSaveOptions {
 
 /** What `useBoardSave` exposes to the board's editors. */
 export interface BoardSaveState {
-  /** Where the latest save stands: saving while any request is outstanding. */
-  saveState: SaveState
-
   /**
    * Whether a request is outstanding, for any match, or the page's data is being read again, so
    * every control refuses input.

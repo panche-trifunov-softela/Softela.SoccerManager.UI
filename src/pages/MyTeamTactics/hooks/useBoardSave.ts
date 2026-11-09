@@ -5,28 +5,24 @@ import { toast } from '@/store/toast'
 
 import { RELOAD_STATUSES, SERVER_ERROR_STATUS } from '../constants'
 
-import type { BoardSaveOptions, BoardSaveState, MatchSaveStatus, SaveMessages } from '../types'
+import type { BoardSaveOptions, BoardSaveState, SaveMessages } from '../types'
 
 /**
- * Sends the board's saves, the lineup's and the instructions' alike, one request at a time, and
- * says where they stand.
+ * Sends the board's saves, the lineup's and the instructions' alike, one request at a time.
  *
  * - While a request is outstanding, for any match, or while the page's data is being read again,
  *   every control refuses input. A second request is never sent, and nothing on screen changes
  *   until the response arrives.
- * - A settled save state belongs to one match, and reads as idle for any other. The save state
- *   reads `saving` for as long as any request is outstanding.
- * - Success shows only in the save state. A failure says why in a toast, and a 400, 403, 404 or
- *   500 also reads the page's data again, since the server's state may have moved on. A 500, as
- *   when another device's save of the same thing won, is toasted as the caller's fixed sentence.
+ * - Success shows nothing. A failure says why in a toast, and a 400, 403, 404 or 500 also reads
+ *   the page's data again, since the server's state may have moved on. A 500, as when another
+ *   device's save of the same thing won, is toasted as the caller's fixed sentence.
  *
  * @param options The match the board edits, whether its data is being read again, and what to
  * call to read it again.
- * @returns The save state, whether the board is locked, and what to send a request with.
+ * @returns Whether the board is locked, whether a request is outstanding at this moment, and what
+ * to send a request with.
  */
 export function useBoardSave({ matchId, isReloading, reload }: BoardSaveOptions): BoardSaveState {
-  const [outcome, setOutcome] = useState<MatchSaveStatus | null>(null)
-
   const [pendingMatchId, setPendingMatchId] = useState<number | null>(null)
 
   const inFlight = useRef(false)
@@ -43,10 +39,6 @@ export function useBoardSave({ matchId, isReloading, reload }: BoardSaveOptions)
 
   const hasPendingRequest = pendingMatchId !== null
 
-  const settledState = outcome !== null && outcome.matchId === matchId ? outcome.saveState : 'idle'
-
-  const saveState = hasPendingRequest ? 'saving' : settledState
-
   const isLocked = hasPendingRequest || isReloading
 
   const isSending = useCallback(() => inFlight.current, [])
@@ -59,12 +51,10 @@ export function useBoardSave({ matchId, isReloading, reload }: BoardSaveOptions)
 
       setPendingMatchId(matchId)
 
-      const settle = (saveState: MatchSaveStatus['saveState']) => {
+      const settle = () => {
         inFlight.current = false
 
         if (!isMounted.current) return
-
-        setOutcome({ matchId, saveState })
 
         setPendingMatchId(null)
       }
@@ -75,7 +65,7 @@ export function useBoardSave({ matchId, isReloading, reload }: BoardSaveOptions)
         try {
           onDone(result)
         } finally {
-          settle('saved')
+          settle()
         }
       }
 
@@ -90,7 +80,7 @@ export function useBoardSave({ matchId, isReloading, reload }: BoardSaveOptions)
 
         toast.error(message)
 
-        settle('failed')
+        settle()
 
         // The board's data, the match or the caller's access may have changed since the board was
         // read, or another device's save of the same thing won the race.
@@ -104,5 +94,5 @@ export function useBoardSave({ matchId, isReloading, reload }: BoardSaveOptions)
     [matchId, reload],
   )
 
-  return { saveState, isLocked, isSending, send }
+  return { isLocked, isSending, send }
 }

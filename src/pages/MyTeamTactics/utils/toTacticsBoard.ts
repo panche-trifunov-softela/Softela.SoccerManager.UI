@@ -1,4 +1,4 @@
-import { LAST_STARTER_SLOT, SAVE_STATUS_LABELS, WIDE_INSTRUCTION_FIELDS } from '../constants'
+import { LAST_STARTER_SLOT, WIDE_INSTRUCTION_FIELDS } from '../constants'
 
 import { isSameSituation } from './isSameSituation'
 import { toLineupIndex } from './toLineupIndex'
@@ -19,7 +19,7 @@ import type { TacticsBoard, TacticsEditors, TacticsRead } from '../types'
  * - Slots 1 to 11 go to the pitch and the rest to the bench.
  * - The formations and the instructions keep the API's order.
  * - Every control hands its action to its editor.
- * - The team instructions share the save status and the lock with the lineup.
+ * - The team instructions share the lock with the lineup.
  * - While a situation is open Auto pick and Remove are gone, and only the lineup's players can be
  *   tapped.
  * - The saved situations are listed in the API's order, named by its labels, with the open one
@@ -49,8 +49,6 @@ export function toTacticsBoard(
 
   const { isLocked } = save
 
-  const saveStatus = SAVE_STATUS_LABELS[save.saveState]
-
   const squadById = new Map<number, LeagueTeamSquadMemberDto>(
     read.squad.map((member) => [member.playerId, member]),
   )
@@ -65,7 +63,6 @@ export function toTacticsBoard(
       formations: read.formations.map(({ id, name }) => ({ id, name })),
       formationId: lineup.formationId,
       isLocked,
-      saveStatus,
       selectionHint: toSelectionHint(selection, index, squadById, slotViews),
       canRemove:
         !isSituationOpen &&
@@ -125,7 +122,6 @@ export function toTacticsBoard(
         isWide: WIDE_INSTRUCTION_FIELDS.includes(definition.field),
       })),
       values: nextMatch.instructions,
-      saveStatus,
       isLocked,
       onChange: instructions.change,
     },

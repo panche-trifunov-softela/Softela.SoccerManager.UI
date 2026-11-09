@@ -1,24 +1,37 @@
+@use '@/styles/breakpoints' as *;
+
 /*
- * The first row holds the formation select, Auto pick while no situation is open, the situation
- * controls and the status. The controls sit on the bottom edge, as each select has its label above
- * it, and the status is centred against them.
+ * The first row: the formation select, Auto pick while no situation is open, and the situation
+ * controls, on the bottom edge, as each select has its label above it.
+ *
+ * - Below md it is a grid of two equal columns across the card. The formation select spans both,
+ *   the buttons and the dropdowns after it pair up, and Close Situation takes a row of its own.
+ * - From md it is one wrapping row.
  */
 .controls {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: flex-end;
     gap: 12px;
+
+    @include bp-up(md) {
+        display: flex;
+        flex-wrap: wrap;
+    }
 }
 
-/* Takes the spare width up to 240px, and may shrink below its content. */
+/*
+ * Below md it spans both columns. From md it takes the spare width up to 240px, and may shrink
+ * below its content.
+ */
 .formation {
-    flex: 1 1 160px;
+    grid-column: 1 / -1;
     min-width: 0;
-    max-width: 240px;
-}
 
-.status {
-    align-self: center;
+    @include bp-up(md) {
+        flex: 1 1 160px;
+        max-width: 240px;
+    }
 }
 
 /*

@@ -8,10 +8,10 @@ import styles from './LineupToolbar.module.scss'
 import type { LineupToolbarProps } from './types'
 
 /**
- * The lineup's controls: the formation select, the auto pick button, the situation controls and
- * the save status, then the list of saved situations, and under them a line that always says what
- * the next tap does, with a button to empty a filled slot and one to drop the selection while
- * something is selected.
+ * The lineup's controls: the formation select, the auto pick button and the situation controls,
+ * then the list of saved situations, and under them a line that always says what the next tap
+ * does, with a button to empty a filled slot and one to drop the selection while something is
+ * selected.
  *
  * - While the board is locked every control is `aria-disabled` rather than `disabled`, so the one
  *   that was pressed keeps focus; the editor refuses the input.
@@ -22,8 +22,7 @@ import type { LineupToolbarProps } from './types'
  * - When Remove, Cancel, Add situation, Close Situation or a Delete is pressed focus moves to the
  *   formation select, since the button pressed goes away, so it does not fall back to the top of
  *   the page.
- * - The save status and the hint are separate polite live regions, so a screen reader hears
- *   either change.
+ * - The hint is a polite live region, so a screen reader hears it change.
  *
  * @param props The formations and the lineup's, the situation controls and the saved list, the
  * board's state, and what each control calls.
@@ -33,7 +32,6 @@ export function LineupToolbar({
   formations,
   formationId,
   isLocked,
-  saveStatus,
   selectionHint,
   canRemove,
   hasSelection,
@@ -101,10 +99,6 @@ export function LineupToolbar({
           onAdd={handleAddSituation}
           onClose={handleCloseSituation}
         />
-
-        <p role="status" aria-live="polite" className={`label ${styles.status}`}>
-          {saveStatus}
-        </p>
       </div>
 
       {savedSituations.items.length > 0 ? (

@@ -21,7 +21,7 @@ import type { MyTeamTacticsState } from './types'
  *   the API decides who may see it. Only a manager who runs the club has an empty lineup picked
  *   for them on a first visit.
  * - The lineup and the team instructions are edited through one shared save, so a request for
- *   either locks the whole board and shares one save status.
+ *   either locks the whole board.
  * - A situation, once open, is what the board shows and what every change goes to: its saved
  *   lineup and instructions, or the main ones while nothing is saved for it.
  * - While the data loads, when it could not be read, and when the club has no match to come or no

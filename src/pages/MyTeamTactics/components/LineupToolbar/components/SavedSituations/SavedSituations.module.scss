@@ -1,11 +1,20 @@
-/* A wrapping row of items, so a narrow screen puts them on further lines. */
+@use '@/styles/breakpoints' as *;
+
+/*
+ * A grid of equal boxes: below md one to a row, full width; from md as many 256px boxes as fit in
+ * a row, so a narrower screen puts them on further rows.
+ */
 .list {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 8px;
     margin: 0;
     padding: 0;
     list-style: none;
+
+    @include bp-up(md) {
+        grid-template-columns: repeat(auto-fill, 256px);
+    }
 }
 
 .item {
@@ -27,6 +36,14 @@
     background: color-mix(in srgb, var(--highlight) 12%, transparent);
 }
 
+/*
+ * Takes the box's spare width, so Edit and Delete sit at its end, and ends in an ellipsis when the
+ * name is too long for the box, rather than spill out of it.
+ */
 .name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
 }

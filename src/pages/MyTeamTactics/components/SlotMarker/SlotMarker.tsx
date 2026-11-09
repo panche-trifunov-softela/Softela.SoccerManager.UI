@@ -1,4 +1,4 @@
-import { faBan } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUp, faBan } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { PlayerPhoto } from '@/components/PlayerPhoto'
@@ -17,6 +17,10 @@ import type { SlotMarkerProps } from './types'
  * - A selected marker has a white ring and an inverted name.
  * - A suspended player has a greyed photo and a ban sign, hidden from assistive technology because
  *   the button's label already says the player is suspended.
+ * - A player a substitution moves has a chip on the bottom-right of the photo, an arrow up for one
+ *   coming on and down for one going off, hidden from assistive technology because the button's
+ *   label already says it.
+ * - A marker that cannot be tapped is `disabled` and faded.
  * - While the board is locked the button is `aria-disabled` rather than `disabled`, so it keeps
  *   focus; the editor refuses the tap.
  *
@@ -36,6 +40,7 @@ export function SlotMarker({ slot, isLocked, onTap }: SlotMarkerProps) {
       className={`${styles.marker} focus-ring ${slot.isSelected ? styles.selected : ''}`}
       aria-pressed={slot.isSelected}
       aria-label={slot.ariaLabel}
+      disabled={!slot.isSelectable}
       aria-disabled={isLocked}
       onClick={() => {
         onTap(slot.slotNumber)
@@ -59,6 +64,15 @@ export function SlotMarker({ slot, isLocked, onTap }: SlotMarkerProps) {
                 <FontAwesomeIcon icon={faBan} />
               </span>
             ) : null}
+
+            {slot.substitution === null ? null : (
+              <span
+                className={`${styles.substitution} ${styles[`substitution--${slot.substitution}`]}`}
+                aria-hidden="true"
+              >
+                <FontAwesomeIcon icon={faArrowUp} />
+              </span>
+            )}
           </span>
 
           <span className={`text-overflow ${styles.name}`}>{player.markerName}</span>

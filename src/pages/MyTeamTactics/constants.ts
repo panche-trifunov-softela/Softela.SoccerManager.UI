@@ -1,5 +1,6 @@
 import type { InstructionField } from '@/types/instructionField'
 import type { PositionFit } from '@/types/positionFit'
+import type { SubstitutionDirection } from '@/types/substitutionDirection'
 
 import type { SaveState } from './types'
 
@@ -35,6 +36,18 @@ export const INSTRUCTIONS_SAVE_FAILED_MESSAGE = 'The instructions could not be s
  */
 export const INSTRUCTIONS_REFRESH_MESSAGE =
   'The instructions could not be saved, so they are being refreshed.'
+
+/** Toasted when a situation's delete got no reply from the API. */
+export const SITUATION_DELETE_FAILED_MESSAGE = 'The situation could not be deleted.'
+
+/**
+ * Toasted when a situation's delete fails inside the server, while the page reads its data again.
+ */
+export const SITUATION_DELETE_REFRESH_MESSAGE =
+  'The situation could not be deleted, so the situations are being refreshed.'
+
+/** Joins a situation's minute and its situation in its name, for example `60 · Losing`. */
+export const SITUATION_LABEL_SEPARATOR = ' · '
 
 /** How each save state reads in the toolbar and the team instructions card; `null` says nothing. */
 export const SAVE_STATUS_LABELS: Readonly<Record<SaveState, string | null>> = {
@@ -125,6 +138,12 @@ export const EMPTY_SLOT_DESCRIPTION = 'empty'
 
 /** What a screen reader announces after a suspended player's name. */
 export const SUSPENDED_DESCRIPTION = 'suspended'
+
+/** What a screen reader announces after the name of a player a substitution moves. */
+export const SUBSTITUTION_DESCRIPTIONS: Readonly<Record<SubstitutionDirection, string>> = {
+  1: 'coming on',
+  2: 'going off',
+}
 
 /** What a screen reader announces before a player's shirt number. */
 export const NUMBER_DESCRIPTION = 'number'

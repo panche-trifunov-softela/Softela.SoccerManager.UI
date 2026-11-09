@@ -1,4 +1,5 @@
 export { useBoardSave } from './useBoardSave'
 export { useInstructionsEditor } from './useInstructionsEditor'
 export { useLineupEditor } from './useLineupEditor'
+export { useSituationEditor } from './useSituationEditor'
 export { useTacticsRead } from './useTacticsRead'

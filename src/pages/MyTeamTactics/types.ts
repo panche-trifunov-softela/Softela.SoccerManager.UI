@@ -4,12 +4,15 @@ import type { InstructionField } from '@/types/instructionField'
 import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
 import type { MatchInstructionsDto } from '@/types/matchInstructionsDto'
 import type { MatchLineupDto } from '@/types/matchLineupDto'
+import type { MatchSubstitutionDto } from '@/types/matchSubstitutionDto'
 import type { NextMatchDto } from '@/types/nextMatchDto'
 import type { PositionFit } from '@/types/positionFit'
+import type { SubstitutionDirection } from '@/types/substitutionDirection'
+import type { SubstitutionField } from '@/types/substitutionField'
 
 import type { BenchProps } from './components/Bench'
 import type { LineupSquadListProps, SquadRowView } from './components/LineupSquadList'
-import type { LineupToolbarProps } from './components/LineupToolbar'
+import type { LineupToolbarProps, SituationOption } from './components/LineupToolbar'
 import type { NextMatchHeaderProps } from './components/NextMatchHeader'
 import type { PitchProps } from './components/Pitch'
 import type { TeamInstructionsProps } from './components/TeamInstructions'
@@ -30,6 +33,18 @@ export interface TacticsRead {
 
   /** Every instruction the API offers, in its order, empty when the read failed. */
   instructionDefinitions: InstructionDefinitionDto[]
+
+  /**
+   * The minute and the situation a substitution is picked by, each with its choices, in the API's
+   * order, empty when the read failed.
+   */
+  substitutionDefinitions: InstructionDefinitionDto<SubstitutionField>[]
+
+  /**
+   * The club's saved substitutions for its next match, ordered by minute then situation, empty when
+   * it has none, has no match, or the read failed.
+   */
+  situations: MatchSubstitutionDto[]
 
   /** The fixed sentence that says the read failed, or `null` when it did not. */
   error: string | null
@@ -62,6 +77,16 @@ export interface TacticsReadState {
    * Swaps the shown match's instructions for ones the API returned, when they still belong to it.
    */
   replaceInstructions: (instructions: MatchInstructionsDto) => void
+
+  /**
+   * Swaps the shown match's saved substitutions for the list the API returned, when the shown read
+   * is still the club and the match named.
+   */
+  replaceSituations: (
+    matchId: number,
+    leagueTeamId: number,
+    situations: MatchSubstitutionDto[],
+  ) => void
 }
 
 /** What the manager has picked up on the board: a slot, or a player who is not in the lineup. */
@@ -71,6 +96,24 @@ export type LineupSelection =
 
 /** What the manager tapped: a slot, or a player. */
 export type LineupTap = LineupSelection
+
+/** One substitution of a match, by the minute and the situation it is for. */
+export interface SituationKey {
+  /** The minute of the match it takes effect at, by the number the API uses for it. */
+  minuteAt: number
+
+  /** The state of the score it is for, by the number the API uses for it. */
+  situation: number
+}
+
+/** An open substitution kept with the match it was opened on. */
+export interface MatchSituation {
+  /** The id of the match the substitution belongs to. */
+  matchId: number
+
+  /** Which substitution is open. */
+  key: SituationKey
+}
 
 /** One "put the player in the slot" change to send. */
 export interface SlotChange {
@@ -97,6 +140,12 @@ export type SaveState = 'idle' | 'saving' | 'saved' | 'failed'
 export interface MatchSelection {
   /** The id of the match the selection belongs to. */
   matchId: number
+
+  /**
+   * The situation editor's switch count when the selection was made; a later open, switch or close
+   * makes the selection read as empty.
+   */
+  epoch: number
 
   /** What was selected. */
   selection: LineupSelection
@@ -130,6 +179,12 @@ export interface TacticsViewInput {
 
   /** The finished read for this club, or `null` while there is none. */
   read: TacticsRead | null
+
+  /**
+   * The club's next match as the board shows it: the open substitution's saved lineup and
+   * instructions in place of the main ones, or `null` when there is no match.
+   */
+  shownMatch: NextMatchDto | null
 
   /** The board's shared save and its editors, which the board hands to its controls. */
   editors: TacticsEditors
@@ -180,6 +235,95 @@ export interface BoardSaveState {
   send: <T>(call: () => Promise<T>, onDone: (result: T) => void, messages: SaveMessages) => boolean
 }
 
+/** What the club's saved substitutions leave open, worked out by `toSituationWindow`. */
+export interface SituationWindow {
+  /**
+   * The minute every saved substitution shares, or `null` while none is saved, so every minute is
+   * free.
+   */
+  minuteAt: number | null
+
+  /** What the minute's dropdown is called, as the API names it. */
+  minuteLabel: string
+
+  /** The minutes to choose from, in the API's order; outside the window they cannot be picked. */
+  minuteOptions: SituationOption[]
+
+  /** What the situation's dropdown is called, as the API names it. */
+  situationLabel: string
+
+  /** The situations to choose from, in the API's order. */
+  situationOptions: SituationOption[]
+
+  /**
+   * What Add situation opens: the first situation with nothing saved at the window's minute, or the
+   * first situation at the first minute while none is saved; `null` when every situation is saved.
+   */
+  nextFree: SituationKey | null
+
+  /**
+   * Whether Add situation can open one: a situation is free, and the main lineup has a player in
+   * every starter slot, which the API needs to create one.
+   */
+  canAdd: boolean
+}
+
+/** What `useSituationEditor` is handed. */
+export interface SituationEditorOptions {
+  /** The club's next match with its main lineup, or `null` when there is none. */
+  nextMatch: NextMatchDto | null
+
+  /** The club's saved substitutions for that match. */
+  situations: MatchSubstitutionDto[]
+
+  /** The minute and the situation a substitution is picked by, each with its choices. */
+  definitions: InstructionDefinitionDto<SubstitutionField>[]
+
+  /**
+   * The board's shared save, which the delete goes through and whose lock every action respects.
+   */
+  save: BoardSaveState
+
+  /** Reads the page's data again. */
+  reload: () => void
+
+  /** Swaps in the saved substitutions the API returned. */
+  replaceSituations: TacticsReadState['replaceSituations']
+}
+
+/** What `useSituationEditor` exposes to the page. */
+export interface SituationEditorState {
+  /**
+   * The open substitution, its minute always the window's while one is saved, or `null` while the
+   * main lineup is edited.
+   */
+  open: SituationKey | null
+
+  /** How many times a substitution has been opened, switched or closed. */
+  epoch: number
+
+  /** What the saved substitutions leave open. */
+  window: SituationWindow
+
+  /** Opens the window's next free substitution and reads the page's data again. */
+  add: () => void
+
+  /** Opens a saved substitution and reads the page's data again. */
+  edit: (key: SituationKey) => void
+
+  /** Closes the open substitution, back to the main lineup. */
+  close: () => void
+
+  /** Moves the open substitution to another minute, while none is saved. */
+  changeMinute: (minuteAt: number) => void
+
+  /** Moves the open substitution to another situation at its minute. */
+  changeSituation: (situation: number) => void
+
+  /** Deletes a saved substitution at once, closing it when it is the open one. */
+  remove: (key: SituationKey) => void
+}
+
 /** What `useLineupEditor` is handed. */
 export interface LineupEditorOptions {
   /** The league team the address names, or `null` when it names none. */
@@ -198,6 +342,18 @@ export interface LineupEditorOptions {
 
   /** Swaps the shown match's lineup for one the API returned. */
   replaceLineup: (lineup: MatchLineupDto) => void
+
+  /** The open substitution, whose lineup the board edits instead of the main one, or `null`. */
+  situation: SituationKey | null
+
+  /**
+   * The situation editor's switch count, so a selection made before the latest switch reads as
+   * empty.
+   */
+  selectionEpoch: number
+
+  /** Swaps in the saved substitutions the API returned after a change to one. */
+  replaceSituations: TacticsReadState['replaceSituations']
 }
 
 /** What `useLineupEditor` exposes to the page. */
@@ -237,6 +393,14 @@ export interface InstructionsEditorOptions {
 
   /** Swaps the shown match's instructions for ones the API returned. */
   replaceInstructions: (instructions: MatchInstructionsDto) => void
+
+  /**
+   * The open substitution, whose instructions the board edits instead of the main ones, or `null`.
+   */
+  situation: SituationKey | null
+
+  /** Swaps in the saved substitutions the API returned after a change to one. */
+  replaceSituations: TacticsReadState['replaceSituations']
 }
 
 /** What `useInstructionsEditor` exposes to the page. */
@@ -255,6 +419,9 @@ export interface TacticsEditors {
 
   /** The team instructions' editor. */
   instructions: InstructionsEditorState
+
+  /** The substitutions' editor: which one is open, and the actions on them. */
+  situation: SituationEditorState
 }
 
 /** A lineup player joined to the squad, as a slot shows them. */
@@ -328,6 +495,15 @@ export interface SlotView {
   /** Whether the slot is the selected one. */
   isSelected: boolean
 
+  /** How the open substitution moves the slot's player compared with the main lineup, or `null`. */
+  substitution: SubstitutionDirection | null
+
+  /**
+   * Whether the slot can be tapped. While a substitution is open, an empty bench slot and a
+   * suspended bench player cannot be: neither can ever come on.
+   */
+  isSelectable: boolean
+
   /** What a screen reader announces for the slot. */
   ariaLabel: string
 }
@@ -349,7 +525,7 @@ export interface TacticsBoard {
   /** The next match's header. */
   header: NextMatchHeaderProps
 
-  /** The formation, auto pick and selection controls. */
+  /** The formation, auto pick, situation and selection controls. */
   toolbar: LineupToolbarProps
 
   /** The starting eleven on the pitch. */

@@ -20,15 +20,19 @@ import type { TacticsView, TacticsViewInput } from '../types'
  * 4. The club has no match to come: that there is none.
  * 5. The match's lineup has no formation or no slots: that no formation is available.
  *
- * When none holds, the board is built from the match, the read and the editors.
+ * Every check runs on the main match, so an empty substitution lineup never hides the toolbar that
+ * closes it. When none holds, the board is built from the match as shown, the read and the
+ * editors.
  *
- * @param input Whether the address names a club, the state of the read, and the editors.
+ * @param input Whether the address names a club, the state of the read, the match as shown, and the
+ * editors.
  * @returns The sentence to show, or the props of every part of the board.
  */
 export function toTacticsView({
   hasLeagueTeamId,
   isLoading,
   read,
+  shownMatch,
   editors,
 }: TacticsViewInput): TacticsView {
   if (!hasLeagueTeamId) return { kind: 'message', message: CLUB_NOT_FOUND_MESSAGE }
@@ -47,5 +51,5 @@ export function toTacticsView({
     return { kind: 'message', message: NO_FORMATION_MESSAGE }
   }
 
-  return { kind: 'board', board: toTacticsBoard(nextMatch, read, editors) }
+  return { kind: 'board', board: toTacticsBoard(shownMatch ?? nextMatch, read, editors) }
 }

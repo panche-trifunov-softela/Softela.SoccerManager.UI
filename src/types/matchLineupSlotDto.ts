@@ -1,4 +1,5 @@
 import type { PositionFit } from './positionFit'
+import type { SubstitutionDirection } from './substitutionDirection'
 
 /**
  * One slot of a club's lineup for a match, filled or empty, as the lineup endpoints return it.
@@ -63,4 +64,11 @@ export interface MatchLineupSlotDto {
    * Whether the player was suspended when the row was written, or `null` when the slot is empty.
    */
   isSuspended: boolean | null
+
+  /**
+   * How a substitution moves the slot's player compared with the club's main lineup, or `null`:
+   * always on a main lineup and on an empty slot, and on a slot whose player stands where the main
+   * lineup has them.
+   */
+  substitution: SubstitutionDirection | null
 }

@@ -24,9 +24,14 @@ export {
 } from './managerPlayerRatingVoteApi'
 export {
   autoPickMatchLineup,
+  deleteMatchSubstitution,
   getInstructionOptions,
+  getMatchSubstitutions,
+  getSubstitutionOptions,
   saveMatchInstructions,
+  saveMatchInstructionsSubstitution,
   saveMatchLineup,
+  saveMatchLineupSubstitution,
 } from './matchApi'
 export { getNationalTeams } from './nationalTeamApi'
 export { searchPlayers } from './playerApi'

@@ -1,6 +1,7 @@
 /*
- * The first row holds the select, the auto pick button and the status. The controls sit on the
- * bottom edge, as the select has its label above it, and the status is centred against them.
+ * The first row holds the formation select, Auto pick while no situation is open, the situation
+ * controls and the status. The controls sit on the bottom edge, as each select has its label above
+ * it, and the status is centred against them.
  */
 .controls {
     display: flex;

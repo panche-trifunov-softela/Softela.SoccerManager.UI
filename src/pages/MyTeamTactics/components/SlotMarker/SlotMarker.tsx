@@ -17,9 +17,9 @@ import type { SlotMarkerProps } from './types'
  * - A selected marker has a white ring and an inverted name.
  * - A suspended player has a greyed photo and a ban sign, hidden from assistive technology because
  *   the button's label already says the player is suspended.
- * - A player a substitution moves has a chip on the bottom-right of the photo, an arrow up for one
- *   coming on and down for one going off, hidden from assistive technology because the button's
- *   label already says it.
+ * - A player a substitution moves has a chip on the bottom-right of the photo, a green arrow up
+ *   for one coming on and a red arrow down for one going off, hidden from assistive technology
+ *   because the button's label already says it.
  * - A marker that cannot be tapped is `disabled` and faded.
  * - While the board is locked the button is `aria-disabled` rather than `disabled`, so it keeps
  *   focus; the editor refuses the tap.

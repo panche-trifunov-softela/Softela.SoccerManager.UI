@@ -181,9 +181,10 @@ button.marker:focus-visible {
 }
 
 /*
- * A substitution: a white disc with a dark arrow on the icon's bottom-right corner, just above the
- * name's pill. White, not green or red, because those colours mean the fit. The class is the API's
- * direction: it turns the arrow up for a player coming on and down for one going off.
+ * A substitution: a white disc with an arrow on the icon's bottom-right corner, just above the
+ * name's pill. The class is the API's direction: a green arrow up for a player coming on, a red
+ * one down for a player going off. The green is the dark `--green`, because the fit's neon green
+ * is too pale on white.
  */
 .substitution {
     position: absolute;
@@ -197,7 +198,6 @@ button.marker:focus-visible {
     border-radius: 50%;
     background: var(--widget-light);
     box-shadow: 0 0 0 1px var(--black-2);
-    color: var(--black-2);
     font-size: calc(var(--chip-height) * 0.6);
     line-height: 1;
 
@@ -208,10 +208,14 @@ button.marker:focus-visible {
 
 .substitution--1 {
     --substitution-turn: 0turn;
+
+    color: var(--green);
 }
 
 .substitution--2 {
     --substitution-turn: 0.5turn;
+
+    color: var(--red);
 }
 
 /* Empty: a dashed circle naming the position the slot asks for. */

@@ -1,4 +1,4 @@
-import { faChessBoard, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faChalkboardUser } from '@fortawesome/free-solid-svg-icons'
 
 import { ROUTES } from '@/constants/routes'
 
@@ -10,5 +10,5 @@ export const SIDEBAR_LABEL = 'Club'
 /** The sidebar's entries, in the order they show. */
 export const SIDEBAR_ITEMS: readonly SidebarItemDefinition[] = [
   { label: 'Squad', route: ROUTES.myTeamSquad, icon: faUsers },
-  { label: 'Tactics', route: ROUTES.myTeamTactics, icon: faChessBoard },
+  { label: 'Tactics', route: ROUTES.myTeamTactics, icon: faChalkboardUser },
 ]

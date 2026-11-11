@@ -66,9 +66,8 @@ export const BENCH_SLOT_LABEL = 'Sub'
 export const LAST_STARTER_SLOT = 11
 
 /**
- * The words for how well a player suits a slot's position, shown in the legend and announced on a
- * marker. A main position and another natural one read the same, so the user sees no difference
- * between them.
+ * The words for how well a player suits a slot's position, announced on a marker. A main position
+ * and another natural one read the same, so the user sees no difference between them.
  */
 export const POSITION_FIT_LABELS: Readonly<Record<PositionFit, string>> = {
   1: 'Natural position',

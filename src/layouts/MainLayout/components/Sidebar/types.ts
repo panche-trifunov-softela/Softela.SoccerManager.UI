@@ -33,4 +33,13 @@ export interface SidebarState {
 
   /** The entries to link; empty until the URL's club is known to be one the user manages. */
   items: readonly SidebarItem[]
+
+  /** Whether the links are collapsed behind the phone toggle; from the md breakpoint they always show. */
+  isCollapsed: boolean
+
+  /** The id of the links' column, which the phone toggle controls. */
+  navId: string
+
+  /** Collapses the sidebar when it is open and opens it when collapsed, remembering the choice on this device. */
+  toggleCollapsed: () => void
 }

@@ -1,11 +1,15 @@
 @use '@/styles/breakpoints' as *;
 
 /*
- * The club menu has two modes, both the same column of links:
+ * The club menu has three looks, all the same column of links:
  *
- * - Below lg it is a 56px strip of icons. Each label stays in the accessibility
- *   tree (and the link's title shows it on hover) but is visually hidden.
+ * - Below md (phones) it is a 56px strip of icons with a toggle on top, which
+ *   collapses it to a 24px strip holding only the toggle.
+ * - From md to lg it is the same 56px strip, always open, with no toggle.
  * - From lg it is the template's 250px panel, with the icon and its label in a row.
+ *
+ * Below lg each label stays in the accessibility tree (and the link's title shows
+ * it on hover) but is visually hidden.
  *
  * Row recipe, from the Liga template: 40px tall rows with a 4px radius, an 18px
  * icon centred in a 20px box, a 12px gap, the h4 label, and the active row on the
@@ -13,23 +17,69 @@
  */
 .sidebar {
     flex: none;
-    width: 56px;
     /* The same top padding as the page (15px, then 30px from xxl), so the first
        row lines up with the page title. */
     padding-block: 15px;
-    padding-inline: 8px;
     background: var(--widget);
     box-shadow: var(--widget-shadow);
+
+    @include bp-up(xxl) {
+        padding-block: 30px;
+    }
+}
+
+/* The column's width lives here, not on .sidebar, so a phone collapse only has
+   to hide this box: the strip then shrinks to the toggle. */
+.nav {
+    width: 56px;
+    padding-inline: 8px;
 
     /* The template panel's 30px side padding. */
     @include bp-up(lg) {
         width: var(--sidebar-width);
         padding-inline: 30px;
     }
+}
 
-    @include bp-up(xxl) {
-        padding-block: 30px;
+/* Only phones collapse: from md the column always shows, so this is the one
+   rule to undo there. */
+.sidebar--collapsed .nav {
+    display: none;
+
+    @include bp-up(md) {
+        display: block;
     }
+}
+
+/* The phone toggle, a 40px row like the links and above them. */
+.toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-inline: 8px;
+    margin-block-end: 8px;
+    border-radius: 4px;
+    color: var(--text);
+    transition: color var(--transition);
+
+    &:hover,
+    &:focus-visible {
+        color: var(--header);
+    }
+
+    @include bp-up(md) {
+        display: none;
+    }
+}
+
+/* Collapsed, the toggle is the whole strip. It is hidden from md, so nothing
+   here needs undoing. */
+.sidebar--collapsed .toggle {
+    width: 24px;
+    margin-inline: 0;
+    margin-block-end: 0;
 }
 
 .list {

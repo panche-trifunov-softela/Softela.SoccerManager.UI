@@ -60,37 +60,6 @@
     }
 }
 
-.legend_list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 4px 12px;
-
-    /* Tighter than the global legend, so the three fit on one line on the narrowest board. */
-    > li {
-        gap: 5px;
-        font-size: 0.6875rem;
-        letter-spacing: 0;
-    }
-}
-
-/* The legend's dots take the rings' colours; the hairline keeps the yellow off a white page. */
-.dot {
-    box-shadow: 0 0 0 1px color-mix(in srgb, var(--black-2) 30%, transparent);
-
-    &--2 {
-        background: var(--fit-good);
-    }
-
-    &--3 {
-        background: var(--fit-ok);
-    }
-
-    &--4 {
-        background: var(--fit-poor);
-    }
-}
-
 /* Each marker keeps the width of an unplaced slot, as there is no line for it to share. */
 .unplaced {
     display: flex;

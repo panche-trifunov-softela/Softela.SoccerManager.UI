@@ -1,14 +1,7 @@
-import { POSITION_FIT_LABELS } from '../../constants'
 import { SlotMarker } from '../SlotMarker'
 
 import { PitchDrawing } from './components/PitchDrawing'
-import {
-  LEGEND_FITS,
-  LEGEND_LABEL,
-  PITCH_LABEL,
-  STARTERS_LIST_LABEL,
-  UNPLACED_SLOTS_LABEL,
-} from './constants'
+import { PITCH_LABEL, STARTERS_LIST_LABEL, UNPLACED_SLOTS_LABEL } from './constants'
 
 import styles from './Pitch.module.scss'
 
@@ -21,7 +14,6 @@ import type { PitchProps } from './types'
  *   `width` is the room the slot's marker may take, set inline because a slot's place is data.
  * - A slot without coordinates, from a formation not placed yet, is drawn in a row under the
  *   pitch instead of at a corner.
- * - A legend under the pitch names the three ring colours.
  * - The pitch's drawing is decorative and hidden from assistive technology.
  *
  * @param props The starting slots, whether the board is locked, and what to call on a tap.
@@ -53,19 +45,6 @@ export function Pitch({ slots, isLocked, onSlotTap }: PitchProps) {
           ))}
         </ol>
       </div>
-
-      <ul className={styles.legend_list} aria-label={LEGEND_LABEL}>
-        {LEGEND_FITS.map((fit) => (
-          <li key={fit} className="legend">
-            <span
-              className={`legend_color ${styles.dot} ${styles[`dot--${fit}`]}`}
-              aria-hidden="true"
-            />
-
-            {POSITION_FIT_LABELS[fit]}
-          </li>
-        ))}
-      </ul>
 
       {unplaced.length > 0 ? (
         <div className="d-flex flex-column align-items-center g-8">

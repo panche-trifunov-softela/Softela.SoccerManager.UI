@@ -580,21 +580,6 @@ a {
     }
 }
 
-.legend {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    line-height: 1;
-    letter-spacing: 0.45px;
-
-    &_color {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-    }
-}
-
-
 .tag {
     text-transform: uppercase;
     height: 25px;

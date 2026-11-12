@@ -1,3 +1,4 @@
+import { SquadInfoButton } from './components/SquadInfoButton'
 import { SquadListRow } from './components/SquadListRow'
 import {
   BENCH_CAPACITY,
@@ -16,7 +17,11 @@ import type { LineupSquadListProps } from './types'
  * The squad as a list in three titled groups: the starting eleven, the bench, and everyone else.
  * The starting eleven and the bench show how many of their places are filled.
  *
- * @param props The three groups of rows, whether the board is locked, and what to call on a tap.
+ * Each row has an info button beside it that opens the player's profile. It is a button of its
+ * own, so it never changes the lineup's selection, and it stays enabled while the board is locked.
+ *
+ * @param props The three groups of rows, whether the board is locked, and what to call on a tap
+ * and on a press of an info button.
  * @returns The rendered squad card.
  */
 export function LineupSquadList({
@@ -25,6 +30,7 @@ export function LineupSquadList({
   notSelected,
   isLocked,
   onPlayerTap,
+  onPlayerInfo,
 }: LineupSquadListProps) {
   const groups = [
     {
@@ -53,8 +59,13 @@ export function LineupSquadList({
           {rows.length > 0 ? (
             <ul className={styles.rows}>
               {rows.map((row) => (
-                <li key={row.playerId}>
+                <li
+                  key={row.playerId}
+                  className={row.isSelected ? `${styles.item} ${styles['item--selected']}` : styles.item}
+                >
                   <SquadListRow row={row} isLocked={isLocked} onTap={onPlayerTap} />
+
+                  <SquadInfoButton playerId={row.playerId} name={row.name} onInfo={onPlayerInfo} />
                 </li>
               ))}
             </ul>

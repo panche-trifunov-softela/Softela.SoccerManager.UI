@@ -11,6 +11,9 @@ export interface SquadMemberRow {
   /** The squad entry's id, unique per row. */
   id: number
 
+  /** The player's id, which the profile panel opens by. */
+  playerId: number
+
   /** The player's shirt number in this squad. */
   squadNumber: number
 
@@ -58,4 +61,7 @@ export interface SquadMemberRow {
 export interface SquadTableState {
   /** The rows to show, in the API's order. */
   rows: readonly SquadMemberRow[]
+
+  /** Opens a row's player in the profile panel. */
+  showProfile: (row: SquadMemberRow) => void
 }

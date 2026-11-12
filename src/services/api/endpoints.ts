@@ -49,6 +49,14 @@ export const API_ROUTES = {
      * may read it, and the API answers 204 with no body when the club has no match to come.
      */
     nextMatch: (id: number) => `/api/league-teams/${id}/next-match`,
+
+    /**
+     * One player as the club's game world has them, by the club's id and the player's id: the
+     * club's own registration, or else one at another club of the same league; only the club's
+     * current manager or an operator may read it.
+     */
+    gameWorldPlayer: (id: number, playerId: number) =>
+      `/api/league-teams/${id}/game-world/players/${playerId}`,
   },
   leagues: {
     /** The leagues the signed-in caller does not manage a club in; `?searchTerm=` narrows them by name. */
@@ -114,6 +122,9 @@ export const API_ROUTES = {
   players: {
     /** Searches the players; every query parameter narrows, sorts or pages the result. */
     search: '/api/players/search',
+
+    /** One player's profile, by the player's id: their own record, with their positions. */
+    profile: (id: number) => `/api/players/${id}/profile`,
   },
   positions: {
     /** Every position, ordered by name. */

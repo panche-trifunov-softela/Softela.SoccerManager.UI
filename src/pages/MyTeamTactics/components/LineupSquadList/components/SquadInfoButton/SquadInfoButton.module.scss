@@ -1,0 +1,14 @@
+/* The icon is small, the hit area is about 40px square, as tall as the row it sits in. */
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    min-height: 40px;
+    color: var(--label);
+    transition: color var(--transition);
+
+    &:hover {
+        color: var(--highlight);
+    }
+}

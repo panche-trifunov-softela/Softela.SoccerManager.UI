@@ -6,6 +6,7 @@ import type { MatchInstructionsDto } from '@/types/matchInstructionsDto'
 import type { MatchLineupDto } from '@/types/matchLineupDto'
 import type { MatchSubstitutionDto } from '@/types/matchSubstitutionDto'
 import type { NextMatchDto } from '@/types/nextMatchDto'
+import type { PlayerProfileTarget } from '@/types/playerProfileTarget'
 import type { PositionFit } from '@/types/positionFit'
 import type { SubstitutionDirection } from '@/types/substitutionDirection'
 import type { SubstitutionField } from '@/types/substitutionField'
@@ -394,7 +395,10 @@ export interface InstructionsEditorState {
   change: (field: InstructionField, value: number) => void
 }
 
-/** The board's shared save and its two editors, which the board hands to its controls. */
+/**
+ * The board's shared save, its editors and the call that opens a player's profile, which the board
+ * hands to its controls.
+ */
 export interface TacticsEditors {
   /** The save both editors send their requests through. */
   save: BoardSaveState
@@ -407,6 +411,9 @@ export interface TacticsEditors {
 
   /** The substitutions' editor: which one is open, and the actions on them. */
   situation: SituationEditorState
+
+  /** Opens a player's profile in the side panel; it never touches the lineup or the selection. */
+  openPlayerProfile: (target: PlayerProfileTarget) => void
 }
 
 /** A lineup player joined to the squad, as a slot shows them. */

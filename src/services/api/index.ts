@@ -5,6 +5,7 @@ export { getFormations } from './formationApi'
 export { getLeague, getLeagues } from './leagueApi'
 export {
   getAvailableLeagueTeams,
+  getGameWorldPlayerProfile,
   getLeagueTeamNextMatch,
   getLeagueTeamSquad,
   getLeagueTeamSquadMembers,
@@ -34,7 +35,7 @@ export {
   saveMatchLineupSubstitution,
 } from './matchApi'
 export { getNationalTeams } from './nationalTeamApi'
-export { searchPlayers } from './playerApi'
+export { getPlayerProfile, searchPlayers } from './playerApi'
 export { getPositions } from './positionApi'
 export { getTeams } from './teamApi'
 export type * from './types'

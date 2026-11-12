@@ -19,7 +19,8 @@ import type { PlayersTableProps } from './types'
  * or changes page.
  * @returns The rendered table and pager. The table, its headings and the pager
  * always render: a loading, error or empty state shows as a message under the
- * headings, in a live region. How a vote went is put into words in a toast.
+ * headings, in a live region. How a vote went is put into words in a toast. A player's name is a
+ * button that opens their profile.
  */
 export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps) {
   const {
@@ -33,6 +34,7 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
     canGoForward,
     goToPrevious,
     goToNext,
+    showProfile,
   } = usePlayersTable(query, onPageChange)
 
   const { voteButtonsFor } = usePlayerVotes()
@@ -116,7 +118,16 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
               </td>
 
               <td>
-                <span className="h4 text-overflow d-block">{row.name}</span>
+                <button
+                  type="button"
+                  className={`h4 text-overflow d-block focus-ring ${styles.name}`}
+                  aria-haspopup="dialog"
+                  onClick={() => {
+                    showProfile(row)
+                  }}
+                >
+                  {row.name}
+                </button>
 
                 <span className={`label text-10 text-overflow ${styles.position_inline}`}>
                   <abbr title={row.positionName}>{row.positionShortName}</abbr>

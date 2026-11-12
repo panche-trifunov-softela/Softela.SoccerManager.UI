@@ -25,7 +25,8 @@ import type { OffCanvasHostState, OpenSession, ShownPanel } from './types'
  * 5. Opening another panel while one is open replaces it, and the new content
  *    mounts afresh.
  *
- * @returns The panel to draw, whether it is open, the panel's ref and the handlers.
+ * @returns The panel to draw, whether it is open, whether the drawn panel is the wide one
+ * (`isWide`), the panel's ref and the handlers.
  */
 export function useOffCanvasHost(): OffCanvasHostState {
   const current = useSyncExternalStore(offCanvasStore.subscribe, offCanvasStore.getSnapshot)
@@ -155,5 +156,14 @@ export function useOffCanvasHost(): OffCanvasHostState {
     setShown(null)
   }
 
-  return { panel: shown?.panel ?? null, isOpen, titleId, panelRef, onClose, onKeyDown, onTransitionEnd }
+  return {
+    panel: shown?.panel ?? null,
+    isOpen,
+    isWide: shown?.panel.size === 'wide',
+    titleId,
+    panelRef,
+    onClose,
+    onKeyDown,
+    onTransitionEnd,
+  }
 }

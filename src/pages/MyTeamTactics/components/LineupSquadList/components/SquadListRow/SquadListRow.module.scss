@@ -22,7 +22,7 @@
     width: 100%;
     min-height: 52px;
     padding-block: 6px;
-    padding-inline: calc(var(--card-padding) - 3px) var(--card-padding);
+    padding-inline: calc(var(--card-padding) - 3px) 8px;
     border-inline-start: 3px solid transparent;
     text-align: start;
     transition: background var(--transition);
@@ -42,9 +42,9 @@
         cursor: default;
     }
 
+    /* The tint of the selected row is on its list item, which also holds the info button. */
     &[aria-pressed='true'] {
         border-inline-start-color: var(--accent);
-        background: color-mix(in srgb, var(--accent) 16%, transparent);
     }
 }
 

@@ -15,6 +15,7 @@ import type { SquadMemberRow } from '../types'
 export function toSquadMemberRow(member: LeagueTeamSquadMemberDto, today: Date): SquadMemberRow {
   return {
     id: member.id,
+    playerId: member.playerId,
     squadNumber: member.squadNumber,
     name: member.name,
     imageUrl: member.imageUrl,

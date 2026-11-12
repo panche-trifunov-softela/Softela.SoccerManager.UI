@@ -1,0 +1,38 @@
+/* The section sits under the header and the pitch, set off by a line. */
+.status {
+    margin-block-start: 24px;
+    padding-block-start: 16px;
+}
+
+/* The facts are label and value pairs: the labels take the width of the longest, the values the rest. */
+.facts {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 8px 16px;
+
+    dd {
+        margin: 0;
+        min-width: 0;
+    }
+}
+
+/* A pill beside its neighbours in the facts keeps its own width, not the column's. */
+.morale {
+    justify-self: start;
+    padding-inline: 12px;
+}
+
+/* Red outline and words, so a suspension never rests on colour alone. */
+.suspended {
+    margin-block-start: 12px;
+    padding: 0 4px;
+    border: 1px solid var(--red);
+    border-radius: 4px;
+    color: var(--header);
+    font-size: 0.625rem;
+    font-weight: 700;
+    line-height: 14px;
+    white-space: nowrap;
+    width: fit-content;
+}

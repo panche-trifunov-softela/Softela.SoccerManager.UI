@@ -107,6 +107,9 @@ export interface PlayersTableState {
 
   /** Moves to the page after this one. */
   goToNext: () => void
+
+  /** Opens a row's player in the profile panel. */
+  showProfile: (row: PlayerRow) => void
 }
 
 /**

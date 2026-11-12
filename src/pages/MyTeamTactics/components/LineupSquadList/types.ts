@@ -56,4 +56,7 @@ export interface LineupSquadListProps {
 
   /** Called with a player's id when their row is tapped. */
   onPlayerTap: (playerId: number) => void
+
+  /** Called with a player's id and name when the info button beside their row is pressed. */
+  onPlayerInfo: (playerId: number, name: string) => void
 }

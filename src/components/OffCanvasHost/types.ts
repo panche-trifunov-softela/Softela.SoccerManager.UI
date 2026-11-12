@@ -30,6 +30,12 @@ export interface OffCanvasHostState {
   /** Whether a panel is open right now. */
   isOpen: boolean
 
+  /**
+   * Whether the panel being drawn is the wide one. It follows the drawn panel, not the open one, so
+   * the width holds while the panel slides out.
+   */
+  isWide: boolean
+
   /** The id that ties the dialog's name to the panel's heading. */
   titleId: string
 

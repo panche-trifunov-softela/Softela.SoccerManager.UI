@@ -1,0 +1,25 @@
+/* The club's name may ellipsize instead of stretching the flex row. */
+.club {
+    min-width: 0;
+}
+
+/* The facts are label and value pairs: the labels take the width of the longest, the values the rest. */
+.facts {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 8px 16px;
+
+    dd {
+        margin: 0;
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+}
+
+/* A value with a crest beside it. */
+.nationality {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

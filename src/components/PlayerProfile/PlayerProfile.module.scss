@@ -1,0 +1,15 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * The header and the pitch are stacked below md, the pitch under the header, and side by side from
+ * md: the header takes what is left and the pitch the width it needs.
+ */
+.top {
+    display: grid;
+    gap: 24px;
+
+    @include bp-up(md) {
+        grid-template-columns: minmax(0, 1fr) 220px;
+        align-items: start;
+    }
+}

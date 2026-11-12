@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 
+import { useOpenPlayerProfile } from '@/hooks/useOpenPlayerProfile'
 import { searchPlayers, toErrorMessage } from '@/services/api'
 import { toast } from '@/store/toast'
 
 import { PLAYERS_LOAD_FAILED_MESSAGE } from './constants'
 import { pagerSummary, tableMessage, toPlayerRow } from './utils'
 
-import type { PlayersRead, PlayersTableProps, PlayersTableState } from './types'
+import type { PlayerRow, PlayersRead, PlayersTableProps, PlayersTableState } from './types'
 
 /**
  * Reads the page of players the query asks for, and works out what the table
@@ -22,17 +23,20 @@ import type { PlayersRead, PlayersTableProps, PlayersTableState } from './types'
  * - The pager reflects the page asked for at once.
  * - A failed read raises an error toast with the reason, and the table keeps a fixed line saying
  *   the players could not be loaded. A read that was aborted raises nothing.
+ * - `showProfile` opens a row's player in the profile panel.
  *
  * @param query The search to read: its name, filters, sort and page.
  * @param onPageChange Called with the page the reader asked for.
  * @returns The rows, whether they are still loading, what the body says in
- * place of rows, the sort, and the pager's state.
+ * place of rows, the sort, the pager's state, and the call that opens a player's profile.
  */
 export function usePlayersTable(
   query: PlayersTableProps['query'],
   onPageChange: PlayersTableProps['onPageChange'],
 ): PlayersTableState {
   const [read, setRead] = useState<PlayersRead | null>(null)
+
+  const { openPlayerProfile } = useOpenPlayerProfile()
 
   useEffect(() => {
     const controller = new AbortController()
@@ -82,6 +86,10 @@ export function usePlayersTable(
     if (canGoForward) onPageChange(page + 1)
   }
 
+  const showProfile = (row: PlayerRow) => {
+    openPlayerProfile({ playerId: row.id, name: row.name })
+  }
+
   return {
     rows,
     isLoading,
@@ -98,5 +106,6 @@ export function usePlayersTable(
     canGoForward,
     goToPrevious,
     goToNext,
+    showProfile,
   }
 }

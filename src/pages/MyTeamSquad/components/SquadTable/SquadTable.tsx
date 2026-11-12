@@ -1,7 +1,7 @@
+import { NationalityLogo } from '@/components/NationalityLogo'
 import { PlayerPhoto } from '@/components/PlayerPhoto'
 import { MISSING } from '@/constants/missing'
 
-import { NationalityLogo } from './components/NationalityLogo'
 import { useSquadTable } from './useSquadTable'
 
 import styles from './SquadTable.module.scss'
@@ -15,11 +15,13 @@ import type { SquadTableProps } from './types'
  * The narrower the screen, the fewer columns show: the smallest keeps the photo, name and
  * rating, a medium one adds value, wage, morale and condition, and a wide one shows them all.
  *
+ * A player's name is a button that opens their profile.
+ *
  * @param props The squad to show, in order.
  * @returns The rendered table.
  */
 export function SquadTable({ players }: SquadTableProps) {
-  const { rows } = useSquadTable(players)
+  const { rows, showProfile } = useSquadTable(players)
 
   return (
     <div className="card">
@@ -83,7 +85,16 @@ export function SquadTable({ players }: SquadTableProps) {
               <td className={`text-12 ${styles.number}`}>{row.squadNumber}</td>
 
               <td>
-                <span className="h4 text-overflow d-block">{row.name}</span>
+                <button
+                  type="button"
+                  className={`h4 text-overflow d-block focus-ring ${styles.name}`}
+                  aria-haspopup="dialog"
+                  onClick={() => {
+                    showProfile(row)
+                  }}
+                >
+                  {row.name}
+                </button>
               </td>
 
               <td className={`text-12 text-overflow ${styles.position}`}>

@@ -14,8 +14,8 @@ import type { SquadListRowProps } from './types'
  * - A suspended player carries a "Suspended" tag, so it never rests on colour alone.
  * - A row that cannot be picked is disabled. While the board is locked every row is
  *   `aria-disabled` instead, so the row that was pressed keeps focus; the editor refuses the tap.
- * - The selected row has an accent bar on its start edge, a tinted background and a bolder name,
- *   so the selection never rests on the accent colour alone.
+ * - The selected row's button has an accent bar on its start edge and a bolder name, and the list
+ *   item around it carries the tint, so the selection never rests on the accent colour alone.
  * - A screen reader hears the row's `ariaLabel` in place of its cells.
  *
  * @param props The row to show, whether the board is locked, and what to call on a tap.

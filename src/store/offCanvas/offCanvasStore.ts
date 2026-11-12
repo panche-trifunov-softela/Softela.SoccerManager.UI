@@ -25,7 +25,8 @@ export const offCanvas = {
    * Opens a panel, replacing any panel already open. The replacement gets a new
    * id, so its content mounts afresh.
    *
-   * @param options The panel's title and content.
+   * @param options The panel's title and content, and optionally its `size`; omitted, it is the
+   * default panel.
    * @returns The id of the panel that was opened.
    */
   open(options: OffCanvasOptions): number {

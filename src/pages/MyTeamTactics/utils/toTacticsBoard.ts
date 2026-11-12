@@ -19,6 +19,7 @@ import type { TacticsBoard, TacticsEditors, TacticsRead } from '../types'
  * - Slots 1 to 11 go to the pitch and the rest to the bench.
  * - The formations and the instructions keep the API's order.
  * - Every control hands its action to its editor.
+ * - The squad list's info buttons hand the player to the call that opens their profile.
  * - The team instructions share the lock with the lineup.
  * - While a situation is open Auto pick and Remove are gone, and only the lineup's players can be
  *   tapped.
@@ -39,7 +40,7 @@ export function toTacticsBoard(
 ): TacticsBoard {
   const { lineup } = nextMatch
 
-  const { save, lineup: editor, instructions, situation } = editors
+  const { save, lineup: editor, instructions, situation, openPlayerProfile } = editors
 
   const { selection } = editor
 
@@ -115,6 +116,9 @@ export function toTacticsBoard(
       ...toSquadGroups(read.squad, index, selection, slotViews, isSituationOpen),
       isLocked,
       onPlayerTap: editor.tapPlayer,
+      onPlayerInfo: (playerId, name) => {
+        openPlayerProfile({ playerId, name })
+      },
     },
     instructions: {
       controls: read.instructionDefinitions.map((definition) => ({

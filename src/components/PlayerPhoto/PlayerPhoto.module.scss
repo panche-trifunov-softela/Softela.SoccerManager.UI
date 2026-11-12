@@ -1,0 +1,12 @@
+/* The large photo is the 80px square of a panel header. The selectors name the global classes too,
+   so they outrank the 40px the global .square and .square-avatar set whatever the load order. */
+.lg:global(.square),
+.lg:global(.square-avatar) {
+    width: 80px;
+    height: 80px;
+}
+
+/* The person icon grows with its box. */
+.lg:global(.square--icon) {
+    font-size: 2.5rem;
+}

@@ -29,6 +29,18 @@
         display: none;
     }
 
+    /* The player's name opens their profile. It ellipsizes inside its cell. */
+    .name {
+        max-width: 100%;
+        min-width: 0;
+        text-align: start;
+        padding-block: 2px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     .number,
     .age,
     .value,

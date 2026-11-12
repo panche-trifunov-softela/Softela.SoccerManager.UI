@@ -15,7 +15,16 @@ import type { OffCanvasHostProps } from './types'
  * @returns The page, the backdrop and the panel.
  */
 export function OffCanvasHost({ children }: OffCanvasHostProps) {
-  const { panel, isOpen, titleId, panelRef, onClose, onKeyDown, onTransitionEnd } = useOffCanvasHost()
+  const { panel, isOpen, isWide, titleId, panelRef, onClose, onKeyDown, onTransitionEnd } =
+    useOffCanvasHost()
+
+  const panelClass = [
+    styles.panel,
+    isWide ? styles['panel--wide'] : null,
+    isOpen ? styles['panel--open'] : null,
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   return (
     <>
@@ -34,7 +43,7 @@ export function OffCanvasHost({ children }: OffCanvasHostProps) {
         aria-labelledby={titleId}
         tabIndex={-1}
         inert={!isOpen}
-        className={isOpen ? `${styles.panel} ${styles['panel--open']}` : styles.panel}
+        className={panelClass}
         onKeyDown={onKeyDown}
         onTransitionEnd={onTransitionEnd}
       >

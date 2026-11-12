@@ -6,6 +6,7 @@ import type { AvailableLeagueTeamDto } from '@/types/availableLeagueTeamDto'
 import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
 import type { LeagueTeamSquadPlayerDto } from '@/types/leagueTeamSquadPlayerDto'
 import type { NextMatchDto } from '@/types/nextMatchDto'
+import type { SquadPlayerProfileDto } from '@/types/squadPlayerProfileDto'
 
 /**
  * Reads every club on one league's roster, with whether each has a current manager and whether
@@ -80,4 +81,25 @@ export async function getLeagueTeamNextMatch(
   const nextMatch = await request<NextMatchDto | undefined>(path, { signal })
 
   return nextMatch ?? null
+}
+
+/**
+ * Reads one player as a club's game world has them: the club's own registration, or else one at
+ * another club of the same league, with the contract, morale, condition and suspension there.
+ *
+ * @param leagueTeamId The selected club's league team id.
+ * @param playerId The player's id.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The player's profile in that game world.
+ * @throws {ApiError} When the API answers with an error status: 403 for a caller who does not
+ * manage the club, or 404 for a player with no registration in the club's league.
+ */
+export function getGameWorldPlayerProfile(
+  leagueTeamId: number,
+  playerId: number,
+  signal?: AbortSignal,
+): Promise<SquadPlayerProfileDto> {
+  const path = API_ROUTES.leagueTeams.gameWorldPlayer(leagueTeamId, playerId)
+
+  return request<SquadPlayerProfileDto>(path, { signal })
 }

@@ -1,0 +1,64 @@
+/*
+ * A flat, upright pitch 68 wide by 105 high, the proportions of a full-size one, so the drawing's
+ * viewBox needs no stretching. The own goal is at the bottom. The pitch is green in every theme, so
+ * the white it sets does not follow the theme.
+ *
+ * The chips are placed in percent of this box, and nothing clips them.
+ */
+.pitch {
+    position: relative;
+    width: 100%;
+    max-width: 220px;
+    margin-inline: auto;
+    aspect-ratio: 68 / 105;
+    border-radius: 4px;
+    background: var(--green);
+    color: var(--widget-light);
+}
+
+.drawing {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.line {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 0.5;
+    opacity: 0.8;
+}
+
+.dot {
+    fill: currentColor;
+    opacity: 0.8;
+}
+
+/* A position's chip, centred on its place. The main one is the accent colour and heavier, and the
+   words stay, so it never rests on the colour alone. */
+.chip {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 20px;
+    padding-inline: 4px;
+    border: 1px solid currentColor;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--black-2) 55%, transparent);
+    font-size: 0.625rem;
+    font-weight: 600;
+    line-height: 1;
+    transform: translate(-50%, -50%);
+
+    // The main chip is drawn above a neighbouring chip it overlaps.
+    &--main {
+        z-index: 1;
+        border-color: var(--accent);
+        background: var(--accent);
+        color: var(--black-2);
+        font-weight: 800;
+    }
+}

@@ -1,3 +1,4 @@
+import { useOpenPlayerProfile } from '@/hooks/useOpenPlayerProfile'
 import { useSelectedClub } from '@/hooks/useSelectedClub'
 import { toClubSubtitle } from '@/utils/toClubSubtitle'
 
@@ -22,6 +23,7 @@ import type { MyTeamTacticsState } from './types'
  *   for them on a first visit.
  * - The lineup and the team instructions are edited through one shared save, so a request for
  *   either locks the whole board.
+ * - The squad list's info buttons open a player's profile in the side panel.
  * - A situation, once open, is what the board shows and what every change goes to: its saved
  *   lineup and instructions, or the main ones while nothing is saved for it.
  * - While the data loads, when it could not be read, and when the club has no match to come or no
@@ -31,6 +33,8 @@ import type { MyTeamTacticsState } from './types'
  */
 export function useMyTeamTactics(): MyTeamTacticsState {
   const { leagueTeamId, club } = useSelectedClub()
+
+  const { openPlayerProfile } = useOpenPlayerProfile()
 
   const {
     read,
@@ -87,7 +91,13 @@ export function useMyTeamTactics(): MyTeamTacticsState {
       isLoading,
       read,
       shownMatch,
-      editors: { save, lineup: editor, instructions: instructionsEditor, situation },
+      editors: {
+        save,
+        lineup: editor,
+        instructions: instructionsEditor,
+        situation,
+        openPlayerProfile,
+      },
     }),
   }
 }

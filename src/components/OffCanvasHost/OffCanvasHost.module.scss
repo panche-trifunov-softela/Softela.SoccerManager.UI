@@ -1,3 +1,5 @@
+@use '@/styles/breakpoints' as *;
+
 /*
  * Above the header drawer (backdrop 30, drawer 40) and below ToastHost (50), so a
  * toast raised from the panel stays on top.
@@ -17,26 +19,50 @@
     }
 }
 
+/*
+ * The panel rests off-screen by its own width, through a transform. A transform's percentage
+ * follows the panel's current width at every frame, so a wide panel that opens while the width
+ * jumps from 414px to 720px starts fully hidden, and a default panel slides exactly as before
+ * (same distance, same timing). The panel sits at the inline end, so it rests off to the right,
+ * or to the left in RTL.
+ */
 .panel {
+    --panel-width: min(100%, var(--off-canvas-width));
+
     position: fixed;
     inset-block: 0;
-    inset-inline-end: calc(-1 * min(100%, var(--off-canvas-width)));
+    inset-inline-end: 0;
     z-index: 46;
     display: flex;
     flex-direction: column;
-    width: min(100%, var(--off-canvas-width));
+    width: var(--panel-width);
     background: var(--widget);
     box-shadow: var(--widget-shadow);
     visibility: hidden;
-    transition: inset-inline-end var(--transition), visibility var(--transition);
+    transform: translateX(100%);
+    transition: transform var(--transition), visibility var(--transition);
 
     // Opening shows the panel at once so the hook's focus() call finds it
     // focusable; closing keeps the base rule's delayed hide for the slide-out.
     &--open {
-        inset-inline-end: 0;
+        transform: none;
         visibility: visible;
-        transition: inset-inline-end var(--transition), visibility 0s;
+        transition: transform var(--transition), visibility 0s;
     }
+
+    &--wide {
+        --panel-width: 100%;
+
+        @include bp-up(md) {
+            --panel-width: var(--off-canvas-width-wide);
+        }
+    }
+}
+
+// The inline end is the left in RTL, so a closed panel rests off to the left there. An open panel
+// is left out, so its `transform: none` still wins.
+:global(html[dir='rtl']) .panel:not(.panel--open) {
+    transform: translateX(-100%);
 }
 
 .header {

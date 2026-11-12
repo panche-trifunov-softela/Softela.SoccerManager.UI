@@ -15,3 +15,17 @@
         border-top: 1px solid var(--border);
     }
 }
+
+/*
+ * A row is the row's button and, at its end, the info button, in a column each. The selected row's
+ * tint is on the item, so it runs under the info button too; the accent bar stays on the button.
+ */
+.item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+
+    &--selected {
+        background: color-mix(in srgb, var(--accent) 16%, transparent);
+    }
+}

@@ -6,6 +6,8 @@ import type { AvailableLeagueTeamDto } from '@/types/availableLeagueTeamDto'
 import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
 import type { LeagueTeamSquadPlayerDto } from '@/types/leagueTeamSquadPlayerDto'
 import type { NextMatchDto } from '@/types/nextMatchDto'
+import type { PlayerInjuryDto } from '@/types/playerInjuryDto'
+import type { PlayerTransferDto } from '@/types/playerTransferDto'
 import type { SquadPlayerProfileDto } from '@/types/squadPlayerProfileDto'
 
 /**
@@ -84,22 +86,62 @@ export async function getLeagueTeamNextMatch(
 }
 
 /**
- * Reads one player as a club's game world has them: the club's own registration, or else one at
+ * Reads one player as a club's league has them: the club's own registration, or else one at
  * another club of the same league, with the contract, morale, condition and suspension there.
  *
  * @param leagueTeamId The selected club's league team id.
  * @param playerId The player's id.
  * @param signal Aborts the request, normally from the calling hook's cleanup.
- * @returns The player's profile in that game world.
+ * @returns The player's profile in that league.
  * @throws {ApiError} When the API answers with an error status: 403 for a caller who does not
  * manage the club, or 404 for a player with no registration in the club's league.
  */
-export function getGameWorldPlayerProfile(
+export function getLeaguePlayerProfile(
   leagueTeamId: number,
   playerId: number,
   signal?: AbortSignal,
 ): Promise<SquadPlayerProfileDto> {
-  const path = API_ROUTES.leagueTeams.gameWorldPlayer(leagueTeamId, playerId)
+  const path = API_ROUTES.leagueTeams.leaguePlayer(leagueTeamId, playerId)
 
   return request<SquadPlayerProfileDto>(path, { signal })
+}
+
+/**
+ * Reads one player's transfers into the clubs of a club's league, newest first.
+ *
+ * @param leagueTeamId The selected club's league team id.
+ * @param playerId The player's id.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The transfers, newest first; an empty list when the player has none.
+ * @throws {ApiError} When the API answers with an error status: 403 for a caller who does not
+ * manage the club, or 404 for a player with no registration in the club's league.
+ */
+export function getLeaguePlayerTransfers(
+  leagueTeamId: number,
+  playerId: number,
+  signal?: AbortSignal,
+): Promise<PlayerTransferDto[]> {
+  const path = API_ROUTES.leagueTeams.leaguePlayerTransfers(leagueTeamId, playerId)
+
+  return request<PlayerTransferDto[]>(path, { signal })
+}
+
+/**
+ * Reads one player's injuries in a club's league, newest first.
+ *
+ * @param leagueTeamId The selected club's league team id.
+ * @param playerId The player's id.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The injuries, newest first; an empty list when the player has none.
+ * @throws {ApiError} When the API answers with an error status: 403 for a caller who does not
+ * manage the club, or 404 for a player with no registration in the club's league.
+ */
+export function getLeaguePlayerInjuries(
+  leagueTeamId: number,
+  playerId: number,
+  signal?: AbortSignal,
+): Promise<PlayerInjuryDto[]> {
+  const path = API_ROUTES.leagueTeams.leaguePlayerInjuries(leagueTeamId, playerId)
+
+  return request<PlayerInjuryDto[]>(path, { signal })
 }

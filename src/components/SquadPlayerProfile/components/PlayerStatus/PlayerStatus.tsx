@@ -11,7 +11,7 @@ import styles from './PlayerStatus.module.scss'
 import type { PlayerStatusProps } from './types'
 
 /**
- * A player's condition and morale in a club's game world, with what worries them when something
+ * A player's condition and morale in a club's league, with what worries them when something
  * does, and a note when they are suspended.
  *
  * - The morale is a pill coloured by its level, and its words always stay.

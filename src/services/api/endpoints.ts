@@ -51,12 +51,26 @@ export const API_ROUTES = {
     nextMatch: (id: number) => `/api/league-teams/${id}/next-match`,
 
     /**
-     * One player as the club's game world has them, by the club's id and the player's id: the
+     * One player as the club's league has them, by the club's id and the player's id: the
      * club's own registration, or else one at another club of the same league; only the club's
      * current manager or an operator may read it.
      */
-    gameWorldPlayer: (id: number, playerId: number) =>
-      `/api/league-teams/${id}/game-world/players/${playerId}`,
+    leaguePlayer: (id: number, playerId: number) =>
+      `/api/league-teams/${id}/league-players/${playerId}`,
+
+    /**
+     * One player's transfers into clubs of the club's league, newest first, by the club's id and
+     * the player's id; only the club's current manager or an operator may read them.
+     */
+    leaguePlayerTransfers: (id: number, playerId: number) =>
+      `/api/league-teams/${id}/league-players/${playerId}/transfers`,
+
+    /**
+     * One player's injuries in the club's league, newest first, by the club's id and the
+     * player's id; only the club's current manager or an operator may read them.
+     */
+    leaguePlayerInjuries: (id: number, playerId: number) =>
+      `/api/league-teams/${id}/league-players/${playerId}/injuries`,
   },
   leagues: {
     /** The leagues the signed-in caller does not manage a club in; `?searchTerm=` narrows them by name. */

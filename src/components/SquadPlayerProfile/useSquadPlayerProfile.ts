@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { toSquadPlayerHeader } from '@/components/PlayerHeader'
 import { toPositionsPitch } from '@/components/PositionsPitch'
-import { getGameWorldPlayerProfile, toErrorMessage } from '@/services/api'
+import { getLeaguePlayerProfile, toErrorMessage } from '@/services/api'
 import { toast } from '@/store/toast'
 
 import {
@@ -15,7 +15,7 @@ import { toFailure, toPlayerStatus } from './utils'
 import type { SquadPlayerProfileRead, SquadPlayerProfileState } from './types'
 
 /**
- * Reads one player as a club's game world has them and works out what the panel shows.
+ * Reads one player as a club's league has them and works out what the panel shows.
  *
  * - Each finished read is kept with the club and the player it was made for, and a read made for
  *   another pair counts as still loading. State is written only when a read settles.
@@ -39,7 +39,7 @@ export function useSquadPlayerProfile(
   useEffect(() => {
     const controller = new AbortController()
 
-    getGameWorldPlayerProfile(leagueTeamId, playerId, controller.signal)
+    getLeaguePlayerProfile(leagueTeamId, playerId, controller.signal)
       .then((profile) => {
         setRead({ leagueTeamId, playerId, profile, failure: null })
       })

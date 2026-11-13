@@ -12,7 +12,7 @@ import type { PlayerProfileTarget } from '@/types/playerProfileTarget'
 /**
  * Gives a page the call that opens a player's profile in the wide side panel.
  *
- * - With a club selected, the panel shows the player as that club's game world has them.
+ * - With a club selected, the panel shows the player as that club's league has them.
  * - With none, it shows the player's own record.
  * - The panel's title is the player's name.
  *

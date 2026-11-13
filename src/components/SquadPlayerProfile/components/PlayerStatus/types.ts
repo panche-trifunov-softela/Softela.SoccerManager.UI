@@ -1,4 +1,4 @@
-/** What `PlayerStatus` is handed: a player's state in a club's game world, texts already written. */
+/** What `PlayerStatus` is handed: a player's state in a club's league, texts already written. */
 export interface PlayerStatusProps {
   /** The player's condition as a percentage, for example `87%`. */
   condition: string

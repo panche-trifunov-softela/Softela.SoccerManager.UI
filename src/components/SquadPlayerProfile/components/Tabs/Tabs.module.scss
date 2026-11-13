@@ -1,0 +1,33 @@
+/* The tabs share the strip's width, set off from the panel by a line. */
+.strip {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+}
+
+/*
+ * A tab is plain text over a 3px bottom border that only the selected tab shows. An unselected tab is in
+ * the body text colour; the selected one and its border take the theme's highlight colour.
+ */
+.tab {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 12px 8px;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    background: none;
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+
+    &[aria-selected='true'] {
+        border-bottom-color: var(--highlight);
+        color: var(--highlight);
+    }
+}
+
+/* Never set display here: it would defeat the hidden attribute of a panel that is not selected. */
+.panel {
+    padding-block-start: 8px;
+}

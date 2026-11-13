@@ -5,7 +5,9 @@ export { getFormations } from './formationApi'
 export { getLeague, getLeagues } from './leagueApi'
 export {
   getAvailableLeagueTeams,
-  getGameWorldPlayerProfile,
+  getLeaguePlayerInjuries,
+  getLeaguePlayerProfile,
+  getLeaguePlayerTransfers,
   getLeagueTeamNextMatch,
   getLeagueTeamSquad,
   getLeagueTeamSquadMembers,

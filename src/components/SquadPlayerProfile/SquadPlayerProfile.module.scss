@@ -13,3 +13,8 @@
         align-items: start;
     }
 }
+
+/* The history tabs sit under the status section, the same 24px below it as the sections above. */
+.history {
+    margin-block-start: 24px;
+}

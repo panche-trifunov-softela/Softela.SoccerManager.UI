@@ -6,7 +6,7 @@ import type { PlayerStatusProps } from './components/PlayerStatus'
 
 /** What `SquadPlayerProfile` is handed. */
 export interface SquadPlayerProfileProps {
-  /** The selected club: the league team whose game world the player is read in. */
+  /** The selected club: the league team whose league the player is read in. */
   leagueTeamId: number
 
   /** The player whose profile is shown. */
@@ -32,6 +32,49 @@ export interface SquadPlayerProfileRead {
 
   /** Why the read failed, or `null` when it did not. */
   failure: SquadPlayerProfileFailure | null
+}
+
+/**
+ * What reads one tab's list for a player in a club's league; each of the panel's `get…` reads
+ * of that shape is one.
+ */
+export type PlayerTabReader<T> = (
+  leagueTeamId: number,
+  playerId: number,
+  signal: AbortSignal,
+) => Promise<T>
+
+/** The two sentences a tab's read says, both fixed. */
+export interface PlayerTabReadMessages {
+  /** What shows while the read is under way. */
+  loading: string
+
+  /** What shows, and is toasted when no better reason is known, when the read failed. */
+  failed: string
+}
+
+/** One finished tab read, kept with the club and the player it was made for. */
+export interface PlayerTabSettledRead<T> {
+  /** The league team the read was made for. */
+  leagueTeamId: number
+
+  /** The player the read was made for. */
+  playerId: number
+
+  /** What was read, or `null` when the read failed. */
+  data: T | null
+
+  /** The sentence to show when the read failed, or `null` when it did not. */
+  message: string | null
+}
+
+/** What `usePlayerTabRead` exposes to a tab's panel. */
+export interface PlayerTabReadState<T> {
+  /** What was read, or `null` while it loads or when the read failed. */
+  data: T | null
+
+  /** What shows instead of the data: that it is loading or why it could not be read, else `null`. */
+  message: string | null
 }
 
 /** What `useSquadPlayerProfile` exposes to the panel. */

@@ -9,7 +9,7 @@ import type { SquadPlayerProfileDto } from '@/types/squadPlayerProfileDto'
 import type { PlayerHeaderProps } from '../types'
 
 /**
- * Writes a player's registration in a club's game world as the header shows it.
+ * Writes a player's registration in a club's league as the header shows it.
  *
  * @param profile The player, as the API returned them.
  * @param today The day the age is counted to.

@@ -1,0 +1,57 @@
+/* No bullets and no padding; the rows are set apart by a line between them. */
+.list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* The crest and the end column keep their width; the text takes what is left, and wraps. */
+.row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding-block: 12px;
+
+    & + & {
+        border-top: 1px solid var(--border);
+    }
+}
+
+/* A row with no crest has two columns: the text, which takes what is left, and the end column. */
+.plain {
+    grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.text {
+    min-width: 0;
+}
+
+/* The title is in the header colour, like the club's name in the panel's header, so it reads darker than the line under it. */
+.title {
+    margin: 0;
+    color: var(--header);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+/* The line under the title is smaller and in the body text colour. */
+.meta {
+    margin: 2px 0 0;
+    color: var(--text);
+}
+
+/* The value and its note are right-aligned and green, the note the smaller. */
+.end {
+    text-align: end;
+    color: var(--success);
+}
+
+.value {
+    margin: 0;
+    font-weight: 600;
+}
+
+.note {
+    margin: 2px 0 0;
+}

@@ -2,8 +2,8 @@ import type { PlayerProfilePositionDto } from './playerProfilePositionDto'
 
 /**
  * A player as the profile panel shows them when a club is selected, as
- * `GET /api/league-teams/{id}/game-world/players/{playerId}` returns it: the player's registration
- * in that club's game world, which is the club's own or, failing that, one at another club of the
+ * `GET /api/league-teams/{id}/league-players/{playerId}` returns it: the player's registration
+ * in that club's league, which is the club's own or, failing that, one at another club of the
  * same league.
  *
  * Mirrors `SquadPlayerProfileDto` on the backend. The date of birth arrives as `yyyy-MM-dd`.
@@ -60,7 +60,7 @@ export interface SquadPlayerProfileDto {
   /** The player's current rating, or `null` when they have none. */
   rating: number | null
 
-  /** The player's transfer value in this game world, in euros. */
+  /** The player's transfer value in this league, in euros. */
   value: number
 
   /** The player's contract wage at that club, in euros per week. */

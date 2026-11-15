@@ -10,62 +10,19 @@
     border-bottom: 1px solid var(--border);
 }
 
-.backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 30;
-    background: var(--backdrop);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity var(--transition), visibility var(--transition);
-
-    &--open {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    @include bp-up(md) {
-        display: none;
-    }
-}
-
+/* The shared .drawer slides this in below md; from md (.drawer--below-md) it is
+   the header's inline row. */
 .menu {
-    position: fixed;
-    inset-block: 0;
-    inset-inline-start: calc(-1 * var(--sidebar-width));
-    z-index: 40;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: var(--sidebar-width);
     padding: 30px;
-    overflow-y: auto;
-    background: var(--widget);
-    box-shadow: var(--widget-shadow);
-    visibility: hidden;
-    transition: inset-inline-start var(--transition), visibility var(--transition);
-
-    // Opening shows the drawer at once so the effect's focus() call finds it
-    // focusable; closing keeps the base rule's delayed hide for the slide-out.
-    &--open {
-        inset-inline-start: 0;
-        visibility: visible;
-        transition: inset-inline-start var(--transition), visibility 0s;
-    }
 
     @include bp-up(md) {
-        position: static;
-        z-index: auto;
         flex-direction: row;
         align-items: center;
-        gap: 20px;
         width: auto;
         padding: 0;
-        overflow: visible;
-        background: none;
-        box-shadow: none;
-        visibility: visible;
-        transition: none;
     }
 }
 

@@ -356,6 +356,79 @@ select.field {
     }
 }
 
+// A panel that slides in over the page from the inline start edge, over a dimmed
+// .drawer-backdrop (backdrop 30, drawer 40). Closed, it leaves the tab order and the
+// accessibility tree once the slide-out ends. No specificity: the component's own
+// module sets the layout.
+:where(.drawer) {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: calc(-1 * var(--sidebar-width));
+    z-index: 40;
+    width: var(--sidebar-width);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--widget);
+    box-shadow: var(--widget-shadow);
+    visibility: hidden;
+    transition: inset-inline-start var(--transition), visibility var(--transition);
+}
+
+// Opening shows the drawer at once so a focus() call right after finds it
+// focusable; closing keeps the base rule's delayed hide for the slide-out.
+:where(.drawer--open) {
+    inset-inline-start: 0;
+    visibility: visible;
+    transition: inset-inline-start var(--transition), visibility 0s;
+}
+
+// touch-action pinch-zoom: a drag on the dimmed page does not pan it, but
+// zooming still works.
+:where(.drawer-backdrop) {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background: var(--backdrop);
+    opacity: 0;
+    visibility: hidden;
+    touch-action: pinch-zoom;
+    transition: opacity var(--transition), visibility var(--transition);
+}
+
+:where(.drawer-backdrop--open) {
+    opacity: 1;
+    visibility: visible;
+}
+
+// From its breakpoint a .drawer--below-md or --below-lg is part of the page: the
+// overlay rules are undone (the module sets the width; the insets do nothing on a
+// static box) and its backdrop is gone.
+@each $breakpoint in md, lg {
+    @include bp-up($breakpoint) {
+        :where(.drawer--below-#{$breakpoint}) {
+            position: static;
+            z-index: auto;
+            overflow: visible;
+            background: none;
+            box-shadow: none;
+            visibility: visible;
+            transition: none;
+        }
+
+        :where(.drawer-backdrop--below-#{$breakpoint}) {
+            display: none;
+        }
+    }
+}
+
+// Without a transition the closed state, visibility included, applies at once;
+// nothing waits for a transitionend event.
+@media (prefers-reduced-motion: reduce) {
+    :where(.drawer, .drawer-backdrop) {
+        transition: none;
+    }
+}
+
 a {
     &.h1, &.h2, &.h3, &.h4, &.h5, &.h6 {
         transition: color var(--transition);

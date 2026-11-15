@@ -139,7 +139,7 @@ export function useOffCanvasHost(): OffCanvasHostState {
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key !== 'Escape') return
 
-    // The header drawer, its dropdowns and the toast listen for Escape on the
+    // The drawers, the header's dropdowns and the toast listen for Escape on the
     // document; the key has closed the panel and must not reach them.
     event.stopPropagation()
 

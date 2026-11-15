@@ -1,85 +1,80 @@
 @use '@/styles/breakpoints' as *;
 
 /*
- * The club menu has three looks, all the same column of links:
+ * The club menu is one column of links in two looks:
  *
- * - Below md (phones) it is a 56px strip of icons with a toggle on top, which
- *   collapses it to a 24px strip holding only the toggle.
- * - From md to lg it is the same 56px strip, always open, with no toggle.
- * - From lg it is the template's 250px panel, with the icon and its label in a row.
+ * - Below lg (phones and tablets) it is the shared .drawer, which slides over the
+ *   page, so the sidebar takes no width. An edge tab at the bottom opens it.
+ * - From lg it is the template's 250px panel beside the page.
  *
- * Below lg each label stays in the accessibility tree (and the link's title shows
- * it on hover) but is visually hidden.
- *
- * Row recipe, from the Liga template: 40px tall rows with a 4px radius, an 18px
- * icon centred in a 20px box, a 12px gap, the h4 label, and the active row on the
- * --border colour.
+ * Both show the icon and its label in a row. Row recipe, from the Liga template:
+ * 40px tall rows with a 4px radius, an 18px icon centred in a 20px box, a 12px gap,
+ * the h4 label, and the active row on the --border colour.
  */
 .sidebar {
-    flex: none;
-    /* The same top padding as the page (15px, then 30px from xxl), so the first
-       row lines up with the page title. */
-    padding-block: 15px;
-    background: var(--widget);
-    box-shadow: var(--widget-shadow);
+    /* Below lg the root has no box: the drawer, tab and backdrop are all fixed. */
+    display: contents;
+
+    @include bp-up(lg) {
+        display: block;
+        flex: none;
+        /* The same top padding as the page (15px, then 30px from xxl), so the
+           first row lines up with the page title. */
+        padding-block: 15px;
+        background: var(--widget);
+        box-shadow: var(--widget-shadow);
+    }
 
     @include bp-up(xxl) {
         padding-block: 30px;
     }
 }
 
-/* The column's width lives here, not on .sidebar, so a phone collapse only has
-   to hide this box: the strip then shrinks to the toggle. */
-.nav {
-    width: 56px;
-    padding-inline: 8px;
-
-    /* The template panel's 30px side padding. */
-    @include bp-up(lg) {
-        width: var(--sidebar-width);
-        padding-inline: 30px;
-    }
-}
-
-/* Only phones collapse: from md the column always shows, so this is the one
-   rule to undo there. */
-.sidebar--collapsed .nav {
-    display: none;
-
-    @include bp-up(md) {
-        display: block;
-    }
-}
-
-/* The phone toggle, a 40px row like the links and above them. */
+/* The edge tab. Above the backdrops (30) and below the drawers (40), and it rides
+   the drawer's edge so it stays reachable while the drawer is open. */
 .toggle {
+    position: fixed;
+    inset-inline-start: 0;
+    inset-block-end: 24px;
+    z-index: 35;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    margin-inline: 8px;
-    margin-block-end: 8px;
-    border-radius: 4px;
+    width: 28px;
+    height: 44px;
+    border-start-end-radius: 4px;
+    border-end-end-radius: 4px;
+    background: var(--widget);
+    box-shadow: var(--widget-shadow);
     color: var(--text);
-    transition: color var(--transition);
+    transition: inset-inline-start var(--transition), color var(--transition);
 
     &:hover,
     &:focus-visible {
         color: var(--header);
     }
 
-    @include bp-up(md) {
+    &--open {
+        inset-inline-start: var(--sidebar-width);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+
+    @include bp-up(lg) {
         display: none;
     }
 }
 
-/* Collapsed, the toggle is the whole strip. It is hidden from md, so nothing
-   here needs undoing. */
-.sidebar--collapsed .toggle {
-    width: 24px;
-    margin-inline: 0;
-    margin-block-end: 0;
+/* The drawer's own padding; from lg the root's block padding takes over. */
+.nav {
+    width: var(--sidebar-width);
+    padding: 15px 30px;
+
+    @include bp-up(lg) {
+        padding-block: 0;
+    }
 }
 
 .list {
@@ -88,12 +83,15 @@
     gap: 8px;
 }
 
+/* The row reaches 10px into the column's side padding, as in the template, so the
+   highlight is wider than the icon and label. */
 .link {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 12px;
     height: 40px;
+    padding-inline: 10px;
+    margin-inline: -10px;
     border-radius: 4px;
     color: var(--text);
     transition: background-color var(--transition), color var(--transition);
@@ -107,14 +105,6 @@
         background: var(--border);
         color: var(--header);
     }
-
-    /* From lg the row reaches 10px into the panel's side padding, as in the
-       template, so the highlight is wider than the icon and label. */
-    @include bp-up(lg) {
-        justify-content: flex-start;
-        padding-inline: 10px;
-        margin-inline: -10px;
-    }
 }
 
 .icon {
@@ -124,27 +114,7 @@
 }
 
 /* Nested under .link so it outranks the global .h4 colour; the label follows the
-   link's own colour. Below lg these are the global .visually-hidden rules. */
+   link's own colour. */
 .link .label {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
     color: inherit;
-
-    /* From lg the label shows again: every visually-hidden rule is undone. */
-    @include bp-up(lg) {
-        position: static;
-        width: auto;
-        height: auto;
-        margin: 0;
-        overflow: visible;
-        clip: auto;
-        white-space: normal;
-    }
 }

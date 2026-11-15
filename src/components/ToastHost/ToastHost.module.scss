@@ -1,7 +1,7 @@
 @use '@/styles/breakpoints' as *;
 
 /*
- * Above the mobile drawer (40) and its backdrop (30). It never blocks the page
+ * Above the drawers (40) and their backdrop (30). It never blocks the page
  * behind it: only the toast itself takes pointer events.
  */
 .container {

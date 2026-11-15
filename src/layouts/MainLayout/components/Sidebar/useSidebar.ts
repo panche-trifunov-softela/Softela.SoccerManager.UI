@@ -1,44 +1,35 @@
-import { useId, useState } from 'react'
 import { generatePath } from 'react-router'
 
+import { useDrawer } from '@/hooks/useDrawer'
 import { useSelectedClub } from '@/hooks/useSelectedClub'
 
 import { SIDEBAR_ITEMS } from './constants'
-import { readCollapsed, writeCollapsed } from './utils'
 
 import type { SidebarState } from './types'
 
 /**
  * Decides whether the sidebar shows, resolves its entries to the club in the URL
- * and keeps the phone collapse choice. The column is kept while the user's clubs
- * load, so the page does not jump once they arrive.
+ * and wires its drawer to the shared drawer behaviour. The column is kept while
+ * the user's clubs load, so the page does not jump once they arrive.
  *
- * @returns Whether the sidebar is visible, the entries to link, and the collapse
- * state with its toggle.
+ * @returns Whether the sidebar is visible, the entries to link, and the drawer's
+ * state, refs and handlers.
  */
 export function useSidebar(): SidebarState {
   const { club, isPending } = useSelectedClub()
-  const [isCollapsed, setIsCollapsed] = useState(readCollapsed)
-  const navId = useId()
 
   const isVisible = club !== null || isPending
 
-  const toggleCollapsed = () => {
-    const next = !isCollapsed
+  const items =
+    club === null
+      ? []
+      : SIDEBAR_ITEMS.map(({ label, route, icon }) => ({
+          label,
+          icon,
+          to: generatePath(route, { leagueTeamId: String(club.leagueTeamId) }),
+        }))
 
-    setIsCollapsed(next)
-    writeCollapsed(next)
-  }
+  const { isOpen, id, toggleRef, panelRef, toggle, close } = useDrawer({ isEnabled: items.length > 0 })
 
-  if (club === null) {
-    return { isVisible, items: [], isCollapsed, navId, toggleCollapsed }
-  }
-
-  const items = SIDEBAR_ITEMS.map(({ label, route, icon }) => ({
-    label,
-    icon,
-    to: generatePath(route, { leagueTeamId: String(club.leagueTeamId) }),
-  }))
-
-  return { isVisible, items, isCollapsed, navId, toggleCollapsed }
+  return { isVisible, items, isOpen, navId: id, toggleRef, rootRef: panelRef, toggle, close }
 }

@@ -135,7 +135,7 @@ export function useToastHost(): ToastHostState {
     }
 
     // Focus is usually on the page, not in the toast, so Escape is also
-    // heard on the document. It does not stop the key: the header drawer
+    // heard on the document. It does not stop the key: an open drawer
     // closes on the same press.
     document.addEventListener('keydown', onDocumentKeyDown)
 
@@ -183,7 +183,7 @@ export function useToastHost(): ToastHostState {
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key !== 'Escape') return
 
-    // The header listens for Escape on the document to close its drawer; the
+    // A drawer listens for Escape on the document to close itself; the
     // key has done its job here and must not reach it.
     event.stopPropagation()
 

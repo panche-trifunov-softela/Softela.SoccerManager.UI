@@ -1,7 +1,7 @@
 @use '@/styles/breakpoints' as *;
 
 /*
- * Above the header drawer (backdrop 30, drawer 40) and below ToastHost (50), so a
+ * Above the drawers (backdrop 30, drawer 40) and below ToastHost (50), so a
  * toast raised from the panel stays on top.
  */
 .backdrop {

@@ -1,6 +1,7 @@
 /*
  * The header sits on top, then the club sidebar (when one shows) beside the page.
- * The body row fills the rest of the viewport, so the sidebar reaches the bottom.
+ * The body row fills the rest of the viewport, so from lg the sidebar reaches the
+ * bottom; below lg the sidebar is a drawer over the page and takes no room here.
  * The page's min-width of 0 lets its fixed-layout tables shrink inside the flex
  * row instead of pushing it wider than the screen.
  */

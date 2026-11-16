@@ -1,0 +1,1 @@
+export { toInputAttributes } from './toInputAttributes'

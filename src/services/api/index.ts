@@ -11,6 +11,8 @@ export {
   getLeagueTeamNextMatch,
   getLeagueTeamSquad,
   getLeagueTeamSquadMembers,
+  placeLoanBid,
+  placeTransferBid,
 } from './leagueTeamApi'
 export { getMyLeagueTeamManagers } from './leagueTeamManagerApi'
 export {

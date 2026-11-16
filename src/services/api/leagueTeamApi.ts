@@ -3,9 +3,12 @@ import { request } from './http'
 import { toQueryString } from './utils'
 
 import type { AvailableLeagueTeamDto } from '@/types/availableLeagueTeamDto'
+import type { CreatedResourceDto } from '@/types/createdResourceDto'
 import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
 import type { LeagueTeamSquadPlayerDto } from '@/types/leagueTeamSquadPlayerDto'
 import type { NextMatchDto } from '@/types/nextMatchDto'
+import type { PlaceLoanBidRequest } from '@/types/placeLoanBidRequest'
+import type { PlaceTransferBidRequest } from '@/types/placeTransferBidRequest'
 import type { PlayerInjuryDto } from '@/types/playerInjuryDto'
 import type { PlayerTransferDto } from '@/types/playerTransferDto'
 import type { SquadPlayerProfileDto } from '@/types/squadPlayerProfileDto'
@@ -144,4 +147,46 @@ export function getLeaguePlayerInjuries(
   const path = API_ROUTES.leagueTeams.leaguePlayerInjuries(leagueTeamId, playerId)
 
   return request<PlayerInjuryDto[]>(path, { signal })
+}
+
+/**
+ * Places, as the signed-in caller, a transfer bid for a player registered at another club of the
+ * league. The bidding club is the route's club.
+ *
+ * @param leagueTeamId The bidding club's league team id.
+ * @param playerId The player's id.
+ * @param bid The fee offered, the optional buyback and the squad players offered in swap.
+ * @returns The new bid's id.
+ * @throws {ApiError} When the API answers with an error status. A 400 carries its reasons in
+ * `validationErrors`.
+ */
+export function placeTransferBid(
+  leagueTeamId: number,
+  playerId: number,
+  bid: PlaceTransferBidRequest,
+): Promise<CreatedResourceDto> {
+  const path = API_ROUTES.leagueTeams.leaguePlayerTransferBids(leagueTeamId, playerId)
+
+  return request<CreatedResourceDto>(path, { method: 'POST', body: bid })
+}
+
+/**
+ * Places, as the signed-in caller, a loan bid for a player registered at another club of the
+ * league. The bidding club is the route's club.
+ *
+ * @param leagueTeamId The bidding club's league team id.
+ * @param playerId The player's id.
+ * @param bid The fee offered, the loan's length and the optional buy option.
+ * @returns The new bid's id.
+ * @throws {ApiError} When the API answers with an error status. A 400 carries its reasons in
+ * `validationErrors`.
+ */
+export function placeLoanBid(
+  leagueTeamId: number,
+  playerId: number,
+  bid: PlaceLoanBidRequest,
+): Promise<CreatedResourceDto> {
+  const path = API_ROUTES.leagueTeams.leaguePlayerLoanBids(leagueTeamId, playerId)
+
+  return request<CreatedResourceDto>(path, { method: 'POST', body: bid })
 }

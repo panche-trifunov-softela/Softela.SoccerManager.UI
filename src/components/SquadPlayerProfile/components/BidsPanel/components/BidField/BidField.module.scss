@@ -1,0 +1,18 @@
+/*
+ * The label's box is as tall as a field and centres its text, so the text sits level with the
+ * control even when a hint or an error line follows the control and the row grows.
+ */
+.label {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+}
+
+/* The control may shrink below its content, so a long value never widens the grid's column. */
+.control {
+    min-width: 0;
+}
+
+.error {
+    color: var(--error);
+}

@@ -1,16 +1,30 @@
 import type { KeyboardEvent, ReactNode } from 'react'
 
-/** One tab: its button's label and the panel it shows. */
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+
+/** One tab: its button's label, optionally an icon, and the panel it shows. */
 export interface TabItem {
   /** What tells the tab from the others; unique among the tabs, and part of the elements' ids. */
   id: string
 
-  /** The words on the tab's button. */
+  /** The words on the tab's button, which name it even where only its icon shows. */
   label: string
+
+  /**
+   * The icon that stands for the label on a narrow screen, or `undefined` for a tab that always
+   * shows its words. The `segmented` variant never shows it.
+   */
+  icon?: IconDefinition
 
   /** What the tab shows, rendered once the tab was first selected. */
   panel: ReactNode
 }
+
+/**
+ * How the tab strip looks: `line` is plain text tabs over a line, `segmented` is a strip of small
+ * buttons side by side, the selected one filled.
+ */
+export type TabsVariant = 'line' | 'segmented'
 
 /** What `Tabs` is handed. */
 export interface TabsProps {
@@ -19,6 +33,9 @@ export interface TabsProps {
 
   /** The tabs, in order; at least one. */
   tabs: TabItem[]
+
+  /** How the tab strip looks; `line` when omitted. */
+  variant?: TabsVariant
 }
 
 /** What `useTabs` exposes to the view. */

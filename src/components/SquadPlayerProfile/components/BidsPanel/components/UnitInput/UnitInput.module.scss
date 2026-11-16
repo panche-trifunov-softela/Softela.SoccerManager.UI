@@ -1,0 +1,29 @@
+/* The unit sits inside the field, centred on it, and never takes a click meant for the input. */
+.unit {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 12px;
+    display: flex;
+    align-items: center;
+    color: var(--label);
+    pointer-events: none;
+}
+
+/*
+ * The input is padded at its start so the digits clear the unit. The element in the selector
+ * outweighs the global field's own padding, whichever stylesheet comes first. A read-only input
+ * takes the page's own background and a plain cursor, and keeps its plain border under the
+ * pointer, so it reads as not editable; it still shows focus.
+ */
+input.input {
+    padding-inline-start: 28px;
+
+    &[readonly] {
+        background: var(--body);
+        cursor: default;
+
+        &:hover:not(:focus) {
+            border-color: var(--border);
+        }
+    }
+}

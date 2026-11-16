@@ -77,6 +77,18 @@ export interface PlayerTabReadState<T> {
   message: string | null
 }
 
+/** A player a bid can be placed for, with the player's transfer value and weekly wage. */
+export interface BidsTarget {
+  /** The player's name. */
+  playerName: string
+
+  /** The player's transfer value in this league, in euros. */
+  value: number
+
+  /** The player's contract wage at their club, in euros per week. */
+  wage: number
+}
+
 /** What `useSquadPlayerProfile` exposes to the panel. */
 export interface SquadPlayerProfileState {
   /** The header's props, or `null` while the profile is not there to show. */
@@ -93,6 +105,12 @@ export interface SquadPlayerProfileState {
    * own profile instead.
    */
   isNotFound: boolean
+
+  /**
+   * The player a bid can be placed for, or `null` when the player is at the panel's own club, so
+   * there is nothing to bid on.
+   */
+  bids: BidsTarget | null
 
   /** What shows instead of the profile: that it is loading or why it could not be read. */
   message: string | null

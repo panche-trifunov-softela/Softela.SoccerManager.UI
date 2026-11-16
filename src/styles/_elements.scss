@@ -86,7 +86,7 @@
         border-color: var(--highlight);
     }
 
-    &--error {
+    &--error, &--error:hover, &--error:focus {
         border-color: var(--red);
     }
 

@@ -71,6 +71,21 @@ export const API_ROUTES = {
      */
     leaguePlayerInjuries: (id: number, playerId: number) =>
       `/api/league-teams/${id}/league-players/${playerId}/injuries`,
+
+    /**
+     * The transfer bids a club places for a player registered at another club, by the bidding
+     * club's id and the player's id; takes a `POST`. PROPOSED: the backend route does not
+     * exist yet.
+     */
+    leaguePlayerTransferBids: (id: number, playerId: number) =>
+      `/api/league-teams/${id}/league-players/${playerId}/transfer-bids`,
+
+    /**
+     * The loan bids a club places for a player registered at another club, by the bidding club's
+     * id and the player's id; takes a `POST`. PROPOSED: the backend route does not exist yet.
+     */
+    leaguePlayerLoanBids: (id: number, playerId: number) =>
+      `/api/league-teams/${id}/league-players/${playerId}/loan-bids`,
   },
   leagues: {
     /** The leagues the signed-in caller does not manage a club in; `?searchTerm=` narrows them by name. */

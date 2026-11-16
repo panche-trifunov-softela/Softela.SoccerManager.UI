@@ -1,3 +1,5 @@
+@use '@/styles/breakpoints' as *;
+
 /* The tabs share the strip's width, set off from the panel by a line. */
 .strip {
     display: flex;
@@ -6,9 +8,11 @@
 
 /*
  * A tab is plain text over a 3px bottom border that only the selected tab shows. An unselected tab is in
- * the body text colour; the selected one and its border take the theme's highlight colour.
+ * the body text colour; the selected one and its border take the theme's highlight colour. It is
+ * positioned so the label hidden below md stays inside it.
  */
 .tab {
+    position: relative;
     flex: 1 1 0;
     min-width: 0;
     padding: 12px 8px;
@@ -25,6 +29,54 @@
         border-bottom-color: var(--highlight);
         color: var(--highlight);
     }
+}
+
+/* A tab's icon stands for its words below md and gives way to them from md. */
+.icon {
+    font-size: 1.125rem;
+
+    @include bp-up(md) {
+        display: none;
+    }
+}
+
+/*
+ * A tab's words are hidden from the eye below md, with the same clip as the global
+ * .visually-hidden, and stay in the accessibility tree to name the tab. From md they are back in
+ * normal flow.
+ */
+.label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+
+    @include bp-up(md) {
+        position: static;
+        width: auto;
+        height: auto;
+        margin: 0;
+        overflow: visible;
+        clip: auto;
+        white-space: normal;
+    }
+}
+
+/*
+ * The segmented strip takes the global tab-nav look and the small button of the tabs it holds: the
+ * tabs share the strip's width in one row, the strip is short, and it sits 16px under what is
+ * above.
+ */
+.strip--segmented {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    max-width: 20rem;
+    margin-block-start: 16px;
 }
 
 /* Never set display here: it would defeat the hidden attribute of a panel that is not selected. */

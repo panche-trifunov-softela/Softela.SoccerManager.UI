@@ -1,0 +1,19 @@
+/*
+ * One grid per form: a fixed label column, so the controls of every form start at the same x, and
+ * a column for the controls that takes the rest. The fields are pairs of grid items, a label and
+ * its control, so a hint or an error under a control never moves the label beside it.
+ */
+.form {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr);
+    column-gap: 16px;
+    row-gap: 12px;
+    align-items: start;
+    max-width: 30rem;
+    margin-block-start: 16px;
+}
+
+/* The submit button sits in the controls' column, on their left edge. */
+.actions {
+    grid-column: 2;
+}

@@ -1,16 +1,8 @@
 import type { LeagueTeamSquadPlayerDto } from '@/types/leagueTeamSquadPlayerDto'
+import type { TeamSquadTarget } from '@/types/teamSquadTarget'
 
-/** What `TeamSquad` is handed. */
-export interface TeamSquadProps {
-  /** The league team whose squad is shown. */
-  leagueTeamId: number
-
-  /** The club's name. */
-  name: string
-
-  /** The address of the club's logo, or `null` when it has none. */
-  logoUrl: string | null
-}
+/** The club an opener asks the panel to show. */
+export type TeamSquadProps = TeamSquadTarget
 
 /** One row of the squad table: a player as the view shows them. */
 export interface SquadPlayerRow {
@@ -52,4 +44,7 @@ export interface TeamSquadState {
 
   /** What shows under the table, or `null` when the table shows players. */
   message: string | null
+
+  /** Opens a row's player, or `null` when the names are plain text. */
+  openPlayer: ((row: SquadPlayerRow) => void) | null
 }

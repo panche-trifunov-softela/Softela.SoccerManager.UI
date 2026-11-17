@@ -8,15 +8,16 @@ import styles from './PlayerProfile.module.scss'
 import type { PlayerProfileProps } from './types'
 
 /**
- * A player's profile from the players table, as the side panel shows it when no club is selected:
- * the header beside a pitch with the player's positions, the pitch under it on a phone.
+ * A player's profile from the players table, as the side panel shows it when no club is selected or
+ * the player is a free agent: the header beside a pitch with the player's positions, the pitch
+ * under it on a phone.
  *
- * @param props The player whose profile to show.
+ * @param props The player whose profile to show, and whether they are a free agent.
  * @returns The rendered profile. While it loads, or when it could not be read, a message shows in
  * a live region instead.
  */
-export function PlayerProfile({ playerId }: PlayerProfileProps) {
-  const { header, pitch, message } = usePlayerProfile(playerId)
+export function PlayerProfile({ playerId, isFreeAgent = false }: PlayerProfileProps) {
+  const { header, pitch, message } = usePlayerProfile(playerId, isFreeAgent)
 
   return (
     <div>

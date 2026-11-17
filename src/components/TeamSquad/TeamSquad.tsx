@@ -12,12 +12,14 @@ import type { TeamSquadProps } from './types'
  * A club's squad, as the side panel shows it: the club's crest and name, then one row per
  * player with their photo, name, main position and rating.
  *
- * @param props The league team whose squad to show, and the club's name and logo.
+ * @param props The league team whose squad to show, the club's name and logo, and what opens a
+ * player's profile when a name is pressed (the names are plain text without it).
  * @returns The rendered crest, name and table. The table and its headings always render: a
- * loading, error or empty state shows as a message under the headings, in a live region.
+ * loading, error or empty state shows as a message under the headings, in a live region. With
+ * `onOpenPlayer`, a player's name is a button that opens their profile.
  */
-export function TeamSquad({ leagueTeamId, name, logoUrl }: TeamSquadProps) {
-  const { rows, message } = useTeamSquad(leagueTeamId)
+export function TeamSquad({ leagueTeamId, name, logoUrl, onOpenPlayer }: TeamSquadProps) {
+  const { rows, message, openPlayer } = useTeamSquad(leagueTeamId, onOpenPlayer)
 
   return (
     <div className="d-flex flex-column g-16">
@@ -57,7 +59,20 @@ export function TeamSquad({ leagueTeamId, name, logoUrl }: TeamSquadProps) {
                 </td>
 
                 <td>
-                  <span className="h4 text-overflow d-block">{row.name}</span>
+                  {openPlayer === null ? (
+                    <span className="h4 text-overflow d-block">{row.name}</span>
+                  ) : (
+                    <button
+                      type="button"
+                      className={`h4 text-overflow d-block focus-ring ${styles.player_name}`}
+                      aria-haspopup="dialog"
+                      onClick={() => {
+                        openPlayer(row)
+                      }}
+                    >
+                      {row.name}
+                    </button>
+                  )}
                 </td>
 
                 <td className={`text-12 text-overflow ${styles.position}`}>

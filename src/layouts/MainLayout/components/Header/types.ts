@@ -5,6 +5,12 @@ export interface HeaderState {
   /** The signed-in user's name; empty when nobody is signed in. */
   username: string
 
+  /**
+   * The league team id of the club the address selects, or `null` when the page has no club the
+   * signed-in manager currently runs.
+   */
+  selectedClubId: number | null
+
   /** Ends the session. */
   signOut: () => void
 

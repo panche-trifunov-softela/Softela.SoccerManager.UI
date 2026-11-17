@@ -1,0 +1,25 @@
+@use '../../option' as *;
+
+.option {
+    @include option-row;
+}
+
+/* The two text lines take what the photo and the rating leave, and cut the rest with an
+   ellipsis, so every row is as tall as the photo whatever the names are. */
+.text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.name {
+    color: var(--header);
+    font-weight: 600;
+    transition: color var(--transition);
+}
+
+.no_rating {
+    flex-shrink: 0;
+    color: var(--text);
+}

@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import { useDismissOnOutsidePress } from '@/hooks/useDismissOnOutsidePress'
+
 import type { HeaderDropdownProps, HeaderDropdownState } from './types'
 
 /**
@@ -23,22 +25,18 @@ export function useHeaderDropdown(onSelect: HeaderDropdownProps['onSelect']): He
     triggerRef.current?.focus()
   }
 
+  useDismissOnOutsidePress(containerRef, isOpen, close)
+
   useEffect(() => {
     if (!isOpen) return
-
-    const handlePointerDown = (event: PointerEvent) => {
-      if (event.target instanceof Node && !containerRef.current?.contains(event.target)) close()
-    }
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') close()
     }
 
-    document.addEventListener('pointerdown', handlePointerDown)
     document.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      document.removeEventListener('pointerdown', handlePointerDown)
       document.removeEventListener('keydown', handleKeyDown)
     }
   }, [isOpen, close])

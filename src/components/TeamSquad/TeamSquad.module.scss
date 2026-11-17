@@ -1,9 +1,11 @@
 @use '@/styles/breakpoints' as *;
+@use '@/styles/player-name' as *;
 
 /*
  * The generic table look lives in _elements.scss as .table. This keeps only what
- * is particular to the squad panel: the table's column widths and padding, the
- * club's name and the message under the table.
+ * is particular to the squad panel: the table's column widths and padding, a
+ * player's name when it is a button, the club's name and the message under the
+ * table.
  *
  * The panel body already pads its content by --card-padding, so the first
  * column's start and the last column's end drop the extra card padding .table
@@ -47,6 +49,11 @@
     .rating {
         width: 60px;
         text-align: end;
+    }
+
+    /* A player's name opens their profile. It ellipsizes inside its cell. */
+    .player_name {
+        @include player-name-button;
     }
 
     @include bp-up(sm) {

@@ -4,6 +4,7 @@ import { toQueryString } from './utils'
 
 import type { AvailableLeagueTeamDto } from '@/types/availableLeagueTeamDto'
 import type { CreatedResourceDto } from '@/types/createdResourceDto'
+import type { LeagueSearchResultDto } from '@/types/leagueSearchResultDto'
 import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
 import type { LeagueTeamSquadPlayerDto } from '@/types/leagueTeamSquadPlayerDto'
 import type { NextMatchDto } from '@/types/nextMatchDto'
@@ -147,6 +148,29 @@ export function getLeaguePlayerInjuries(
   const path = API_ROUTES.leagueTeams.leaguePlayerInjuries(leagueTeamId, playerId)
 
   return request<PlayerInjuryDto[]>(path, { signal })
+}
+
+/**
+ * Searches a club's league by name for players, registered or free agents, and for clubs, ignoring
+ * case and accents. A name matches when it contains the term, and names that start with the term,
+ * or a word of it, come first.
+ *
+ * @param leagueTeamId The selected club's league team id.
+ * @param searchTerm The text to look for in the names, at least two characters once trimmed.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The best five players, each with the club the player is registered at if any, the best
+ * five clubs, and for each group how many matched in all.
+ * @throws {ApiError} When the API answers with an error status: 400 for a term that is too short
+ * or too long, or 403 for a caller who does not manage the club.
+ */
+export function searchLeague(
+  leagueTeamId: number,
+  searchTerm: string,
+  signal?: AbortSignal,
+): Promise<LeagueSearchResultDto> {
+  const path = API_ROUTES.leagueTeams.search(leagueTeamId) + toQueryString({ searchTerm })
+
+  return request<LeagueSearchResultDto>(path, { signal })
 }
 
 /**

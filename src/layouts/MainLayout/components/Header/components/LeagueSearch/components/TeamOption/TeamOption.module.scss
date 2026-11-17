@@ -1,0 +1,14 @@
+@use '../../option' as *;
+
+.option {
+    @include option-row;
+}
+
+/* The name takes what the crest leaves, and cuts the rest with an ellipsis. */
+.name {
+    flex: 1;
+    min-width: 0;
+    color: var(--header);
+    font-weight: 600;
+    transition: color var(--transition);
+}

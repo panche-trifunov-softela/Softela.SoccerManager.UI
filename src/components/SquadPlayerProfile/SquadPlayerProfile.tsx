@@ -36,7 +36,8 @@ import type { SquadPlayerProfileProps } from './types'
  * transfer history, their injury history in the club's league, their rating history, and, for a
  * player registered at another club, the bids the selected club can place for them.
  *
- * A player with no registration in the club's league is shown as their own profile instead.
+ * A player with no registration in the club's league is shown as their own profile instead, as a
+ * free agent.
  *
  * @param props The selected club and the player whose profile to show.
  * @returns The rendered profile. While it loads, or when it could not be read, a message shows in
@@ -48,7 +49,7 @@ export function SquadPlayerProfile({ leagueTeamId, playerId }: SquadPlayerProfil
     playerId,
   )
 
-  if (isNotFound) return <PlayerProfile playerId={playerId} />
+  if (isNotFound) return <PlayerProfile playerId={playerId} isFreeAgent />
 
   return (
     <div>

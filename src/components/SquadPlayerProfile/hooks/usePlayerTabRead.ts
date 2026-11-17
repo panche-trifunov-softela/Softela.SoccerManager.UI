@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
+import { CLUB_NOT_MANAGED_MESSAGE } from '@/constants/clubNotManaged'
 import { toErrorMessage } from '@/services/api'
 import { toast } from '@/store/toast'
 
-import { CLUB_NOT_MANAGED_MESSAGE } from '../constants'
 import { toFailure } from '../utils'
 
 import type {

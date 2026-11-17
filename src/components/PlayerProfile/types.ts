@@ -6,6 +6,12 @@ import type { PlayerProfileDto } from '@/types/playerProfileDto'
 export interface PlayerProfileProps {
   /** The player whose profile is shown. */
   playerId: number
+
+  /**
+   * Whether the player is registered at no club of the league, so the header says "Free agent"
+   * where the club would be; `false` when it is left out.
+   */
+  isFreeAgent?: boolean
 }
 
 /** One finished read, kept with the player it was made for. */

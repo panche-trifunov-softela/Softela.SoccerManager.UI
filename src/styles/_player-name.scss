@@ -1,0 +1,11 @@
+// A player's name shown as a button that opens their profile. It ellipsizes inside its cell.
+@mixin player-name-button {
+    max-width: 100%;
+    min-width: 0;
+    text-align: start;
+    padding-block: 2px;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

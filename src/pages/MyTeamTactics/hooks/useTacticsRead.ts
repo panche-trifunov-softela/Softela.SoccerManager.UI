@@ -29,7 +29,7 @@ import type { TacticsRead, TacticsReadState } from '../types'
  * - The saved substitutions are read right after the next match, with the match's id; a club with
  *   no match has none, and no request is made for them.
  * - An address that names no valid id reads nothing.
- * - A failure to read, a refusal for a caller who does not manage the club included, says why in a
+ * - A failure to read, a refusal from the API included, says why in a
  *   toast and is kept as a fixed sentence. A read that was aborted says nothing.
  * - `reload` reads again and keeps the old read on screen until the new one lands. Each read is
  *   tagged with the reload count it was started for, so `isReloading` holds while the shown read

@@ -1,7 +1,8 @@
 /**
  * A player in a club's squad, as `GET /api/league-teams/{id}/squad` returns it to the club's
- * manager: the squad entry's contract, morale, condition and suspension in that game world, with
- * the player's current rating, main position and national team.
+ * manager, to a manager of another club in its league, or to an operator: the squad entry's
+ * contract, morale, condition and suspension in that game world, with the player's current
+ * rating, main position and national team.
  *
  * The date of birth arrives as `yyyy-MM-dd`.
  */

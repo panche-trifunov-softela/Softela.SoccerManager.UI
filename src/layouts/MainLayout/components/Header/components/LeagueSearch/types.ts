@@ -6,7 +6,7 @@ import type { LeagueSearchTeamItemDto } from '@/types/leagueSearchTeamItemDto'
 
 /** Props of `LeagueSearch`. */
 export interface LeagueSearchProps {
-  /** The selected club's league team id, which the search is made for. */
+  /** The league team id of the club the search is made for, one the signed-in manager runs. */
   leagueTeamId: number
 }
 
@@ -174,6 +174,6 @@ export interface LeagueSearchState {
   /** Opens the chosen player's profile and closes the popup. */
   onPickPlayer: (player: LeagueSearchPlayerItemDto) => void
 
-  /** Opens the chosen team's squad and closes the popup. */
+  /** Opens the chosen team's Squad page and closes the popup. */
   onPickTeam: (team: LeagueSearchTeamItemDto) => void
 }

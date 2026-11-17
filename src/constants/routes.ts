@@ -12,13 +12,16 @@ export const ROUTES = {
   /** Application settings. */
   settings: '/settings',
 
-  /** The news feed of one team the signed-in user manages, in one league. */
+  /** The news feed of one team the signed-in user manages, in one league; managers only. */
   myTeamNewsFeed: '/league-teams/:leagueTeamId/news',
 
-  /** The squad of one team the signed-in user manages, in one league. */
+  /**
+   * The squad of one club, in one league: its manager's, or that of a manager of another club in
+   * the same league.
+   */
   myTeamSquad: '/league-teams/:leagueTeamId/squad',
 
-  /** The tactics of one team the signed-in user manages, in one league. */
+  /** The tactics of one team the signed-in user manages, in one league; managers only. */
   myTeamTactics: '/league-teams/:leagueTeamId/tactics',
 
   /** Adding a team for the signed-in user to manage. */

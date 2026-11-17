@@ -7,15 +7,13 @@ import type { TransferBidDraft } from '../types'
  *
  * @param draft What the reader has typed, already checked.
  * @returns The fee, the buyback value and period, each `null` when no buyback is set, and the
- * squad row ids of the swap players chosen, in the order of their fields.
+ * squad row ids of the swap players chosen, in row order.
  */
 export function toTransferBidRequest(draft: TransferBidDraft): PlaceTransferBidRequest {
   return {
     transferFee: Number(draft.fee),
     buybackValue: draft.buybackValue === '' ? null : Number(draft.buybackValue),
     buybackValidSeasons: draft.buybackSeasons === '' ? null : Number(draft.buybackSeasons),
-    swapLeagueTeamPlayerIds: [draft.firstSwap, draft.secondSwap]
-      .filter((id) => id !== '')
-      .map(Number),
+    swapLeagueTeamPlayerIds: draft.swaps.filter((id) => id !== '').map(Number),
   }
 }

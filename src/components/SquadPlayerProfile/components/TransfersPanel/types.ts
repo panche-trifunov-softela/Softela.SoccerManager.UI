@@ -2,7 +2,7 @@ import type { HistoryItem } from '../HistoryList'
 
 /** What `TransfersPanel` is handed. */
 export interface TransfersPanelProps {
-  /** The selected club: the league team whose league the transfers are read in. */
+  /** The acting club: the league team whose league the transfers are read in. */
   leagueTeamId: number
 
   /** The player whose transfers are shown. */

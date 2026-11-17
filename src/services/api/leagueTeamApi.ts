@@ -5,6 +5,7 @@ import { toQueryString } from './utils'
 import type { AvailableLeagueTeamDto } from '@/types/availableLeagueTeamDto'
 import type { CreatedResourceDto } from '@/types/createdResourceDto'
 import type { LeagueSearchResultDto } from '@/types/leagueSearchResultDto'
+import type { LeagueTeamProfileDto } from '@/types/leagueTeamProfileDto'
 import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
 import type { LeagueTeamSquadPlayerDto } from '@/types/leagueTeamSquadPlayerDto'
 import type { NextMatchDto } from '@/types/nextMatchDto'
@@ -50,6 +51,23 @@ export function getLeagueTeamSquad(
 }
 
 /**
+ * Reads one league team's names and its league, the same for every signed-in caller.
+ *
+ * @param leagueTeamId The league team's id.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The club's profile.
+ * @throws {ApiError} When the API answers with an error status, such as 404 for an unknown club.
+ */
+export function getLeagueTeamProfile(
+  leagueTeamId: number,
+  signal?: AbortSignal,
+): Promise<LeagueTeamProfileDto> {
+  const path = API_ROUTES.leagueTeams.profile(leagueTeamId)
+
+  return request<LeagueTeamProfileDto>(path, { signal })
+}
+
+/**
  * Reads one league team's squad as its manager sees it: each player's contract, morale and
  * condition in that game world, with their current rating, main position and national team.
  *
@@ -57,7 +75,7 @@ export function getLeagueTeamSquad(
  * @param signal Aborts the request, normally from the calling hook's cleanup.
  * @returns The players, in the order the API returns them.
  * @throws {ApiError} When the API answers with an error status, such as 403 for a caller who
- * does not manage the club.
+ * manages neither the club nor another club in its league.
  */
 export function getLeagueTeamSquadMembers(
   leagueTeamId: number,
@@ -93,7 +111,7 @@ export async function getLeagueTeamNextMatch(
  * Reads one player as a club's league has them: the club's own registration, or else one at
  * another club of the same league, with the contract, morale, condition and suspension there.
  *
- * @param leagueTeamId The selected club's league team id.
+ * @param leagueTeamId The acting club's league team id.
  * @param playerId The player's id.
  * @param signal Aborts the request, normally from the calling hook's cleanup.
  * @returns The player's profile in that league.
@@ -113,7 +131,7 @@ export function getLeaguePlayerProfile(
 /**
  * Reads one player's transfers into the clubs of a club's league, newest first.
  *
- * @param leagueTeamId The selected club's league team id.
+ * @param leagueTeamId The acting club's league team id.
  * @param playerId The player's id.
  * @param signal Aborts the request, normally from the calling hook's cleanup.
  * @returns The transfers, newest first; an empty list when the player has none.
@@ -133,7 +151,7 @@ export function getLeaguePlayerTransfers(
 /**
  * Reads one player's injuries in a club's league, newest first.
  *
- * @param leagueTeamId The selected club's league team id.
+ * @param leagueTeamId The acting club's league team id.
  * @param playerId The player's id.
  * @param signal Aborts the request, normally from the calling hook's cleanup.
  * @returns The injuries, newest first; an empty list when the player has none.
@@ -155,7 +173,7 @@ export function getLeaguePlayerInjuries(
  * case and accents. A name matches when it contains the term, and names that start with the term,
  * or a word of it, come first.
  *
- * @param leagueTeamId The selected club's league team id.
+ * @param leagueTeamId The acting club's league team id.
  * @param searchTerm The text to look for in the names, at least two characters once trimmed.
  * @param signal Aborts the request, normally from the calling hook's cleanup.
  * @returns The best five players, each with the club the player is registered at if any, the best

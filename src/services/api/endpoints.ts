@@ -39,8 +39,14 @@ export const API_ROUTES = {
     players: (id: number) => `/api/league-teams/${id}/players`,
 
     /**
+     * One league team's names and its league, by the club's id; any signed-in caller may read it.
+     */
+    profile: (id: number) => `/api/league-teams/${id}/profile`,
+
+    /**
      * One league team's squad with each player's contract, morale and condition, in the same order
-     * as `players`; only the club's current manager or an operator may read it.
+     * as `players`; only the club's current manager, a current manager of another club in its
+     * league, or an operator may read it.
      */
     squad: (id: number) => `/api/league-teams/${id}/squad`,
 

@@ -5,10 +5,10 @@ import { useInjuriesPanel } from './useInjuriesPanel'
 import type { InjuriesPanelProps } from './types'
 
 /**
- * A player's injuries recorded in the selected club's league, newest first. Each row shows the
+ * A player's injuries recorded in the acting club's league, newest first. Each row shows the
  * injury's name and its start and end dates under it, with no crest.
  *
- * @param props The selected club and the player whose injuries to show.
+ * @param props The acting club and the player whose injuries to show.
  * @returns The rendered list. While it loads, when it could not be read, or when it is empty, a
  * message shows in a live region instead.
  */

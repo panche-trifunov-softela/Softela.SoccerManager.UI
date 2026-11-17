@@ -19,7 +19,7 @@ import type { AvailableTeamRow, AvailableTeamsTableProps, AvailableTeamsTableSta
  *   be applied for.
  * - An application that settles after the table has gone still says how it went.
  * - Showing a club's squad opens it in the side panel, under the heading "Squad", through the
- *   shared squad opener. The panel fetches the squad itself, and its player names stay plain text.
+ *   shared squad opener. The panel fetches the squad itself, and its player names are plain text.
  *
  * @param rows The clubs the table shows.
  * @param onApplied Reads the clubs again once an application went through.

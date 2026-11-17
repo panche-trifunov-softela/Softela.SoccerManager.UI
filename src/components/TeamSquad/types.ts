@@ -44,7 +44,4 @@ export interface TeamSquadState {
 
   /** What shows under the table, or `null` when the table shows players. */
   message: string | null
-
-  /** Opens a row's player, or `null` when the names are plain text. */
-  openPlayer: ((row: SquadPlayerRow) => void) | null
 }

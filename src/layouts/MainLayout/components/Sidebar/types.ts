@@ -3,6 +3,9 @@ import type { RefObject } from 'react'
 
 import type { RoutePath } from '@/constants/routes'
 
+/** Who the sidebar lists an entry for: everyone who opens the club, or only its manager. */
+export type SidebarItemAccess = 'everyone' | 'manager'
+
 /** One entry of the sidebar as declared in `SIDEBAR_ITEMS`, before a club is known. */
 export interface SidebarItemDefinition {
   /** The entry's name, shown beside its icon. */
@@ -13,14 +16,21 @@ export interface SidebarItemDefinition {
 
   /** The entry's icon. */
   icon: IconDefinition
+
+  /**
+   * Who the entry is listed for. A `manager` entry also needs its route under `ManagedClubRoute`
+   * in the router, so a visitor who types its address is sent away; that guard names this field
+   * in turn.
+   */
+  access: SidebarItemAccess
 }
 
-/** One entry of the sidebar, resolved to the selected club. */
+/** One entry of the sidebar, resolved to the club in the address. */
 export interface SidebarItem {
   /** The entry's name, shown beside its icon. */
   label: string
 
-  /** The path of this entry for the selected club. */
+  /** The path of this entry for the club in the address. */
   to: string
 
   /** The entry's icon. */
@@ -29,10 +39,14 @@ export interface SidebarItem {
 
 /** What `useSidebar` hands the view. */
 export interface SidebarState {
-  /** Whether the sidebar shows: on a club page, or while the clubs are still loading. */
+  /** Whether the sidebar shows: on every page whose address names a club. */
   isVisible: boolean
 
-  /** The entries to link; empty until the URL's club is known to be one the user manages. */
+  /**
+   * The entries to link: those open to everyone, plus the manager's own when the user runs the
+   * club. Empty while the user's clubs load, and the manager's entries stay out after they failed
+   * to load.
+   */
   items: readonly SidebarItem[]
 
   /** Whether the drawer is open; from the lg breakpoint the menu is part of the page. */

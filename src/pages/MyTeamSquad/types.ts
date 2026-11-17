@@ -15,8 +15,9 @@ export interface MyTeamSquadRead {
 /** What `useMyTeamSquad` exposes to the page. */
 export interface MyTeamSquadState {
   /**
-   * The club and its game world, for example `Bayer Leverkusen – Elite Managers`, or `null` when
-   * the signed-in manager does not run the club or their clubs are not read yet.
+   * The club and its game world, for example `Bayer Leverkusen – Elite Managers`, or `null` while
+   * the manager's clubs or the visited club's profile are not read yet, and when either could not
+   * be read.
    */
   subtitle: string | null
 

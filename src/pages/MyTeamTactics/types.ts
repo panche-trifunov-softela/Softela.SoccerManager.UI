@@ -315,7 +315,10 @@ export interface LineupEditorOptions {
   /** The league team the address names, or `null` when it names none. */
   leagueTeamId: number | null
 
-  /** Whether the viewer runs the club, and so a first visit may pick the lineup for them. */
+  /**
+   * Whether the viewer is known to run the club, and so a first visit may pick the lineup for
+   * them. The route admits only the club's manager, so this holds once their clubs are read.
+   */
   canAutoPickOnFirstVisit: boolean
 
   /** The match whose lineup the board edits, or `null` when there is none. */
@@ -541,8 +544,8 @@ export type TacticsView =
 /** What `useMyTeamTactics` exposes to the page. */
 export interface MyTeamTacticsState {
   /**
-   * The club and its game world, for example `Bayer Leverkusen – Elite Managers`, or `null` when
-   * the signed-in manager does not run the club or their clubs are not read yet.
+   * The club and its game world, for example `Bayer Leverkusen – Elite Managers`, or `null` while
+   * the signed-in manager's clubs are not read yet.
    */
   subtitle: string | null
 

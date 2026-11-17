@@ -1,28 +1,28 @@
-import { LOADING_SQUAD_OPTION, NO_SWAP_OPTION } from '../constants'
+import { SWAP_PLACEHOLDER_OPTION } from '../constants'
 
 import type { BidSelectOption } from '@/components/SquadPlayerProfile/components/BidsPanel/types'
 
 import type { SwapSquadState } from '../types'
 
 /**
- * Writes the choices of one swap player field.
+ * Writes the choices of one swap player row.
  *
  * @param squad The bidding club's squad and how far its read has come.
- * @param otherChoice The squad row id chosen in the other swap player field, or an empty string
- * for none, which this field leaves out so the two never match.
- * @returns Only a loading note while the squad is being read; else the choice of no swap player,
- * then each player of the squad but the other field's choice, as the name and the position, in the
- * squad's order.
+ * @param otherChoices The squad row ids chosen in the other rows, which this row leaves out so no
+ * two rows offer the same player. Its own choice stays in, so its value always has an option.
+ * @returns The placeholder, which cannot be chosen, then each player of the squad but the other
+ * rows' choices, as the name and the position, in the squad's order.
  */
-export function toSwapOptions(squad: SwapSquadState, otherChoice: string): BidSelectOption[] {
-  if (squad.status === 'loading') return [{ value: '', label: LOADING_SQUAD_OPTION }]
-
+export function toSwapOptions(
+  squad: SwapSquadState,
+  otherChoices: readonly string[],
+): BidSelectOption[] {
   const players = squad.members
-    .filter((member) => String(member.id) !== otherChoice)
+    .filter((member) => !otherChoices.includes(String(member.id)))
     .map((member) => ({
       value: String(member.id),
       label: `${member.name} (${member.positionShortName})`,
     }))
 
-  return [{ value: '', label: NO_SWAP_OPTION }, ...players]
+  return [{ value: '', label: SWAP_PLACEHOLDER_OPTION, isDisabled: true }, ...players]
 }

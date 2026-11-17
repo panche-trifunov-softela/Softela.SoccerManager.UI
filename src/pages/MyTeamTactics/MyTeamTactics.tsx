@@ -17,9 +17,9 @@ import styles from './MyTeamTactics.module.scss'
  * edited by tapping a slot and then a slot or a player. Every change is saved at once.
  *
  * - An address with no valid id shows that the club could not be found.
- * - While the data loads, when it could not be read (a refusal to a caller who does not manage
- *   the club included), and when there is no match or no formation to edit, a short fixed
- *   sentence shows in place of the board.
+ * - While the data loads, when it could not be read (a refusal from the API included), and when
+ *   there is no match or no formation to edit, a short fixed sentence shows in place of the
+ *   board.
  * - A failure to read is also toasted.
  *
  * @returns The rendered page.

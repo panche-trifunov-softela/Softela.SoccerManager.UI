@@ -1,9 +1,12 @@
 import { useCallback, useId, useRef, useState } from 'react'
+import { generatePath, useNavigate } from 'react-router'
 
+import { ROUTES } from '@/constants/routes'
 import { useDismissOnOutsidePress } from '@/hooks/useDismissOnOutsidePress'
 import { useDrawer } from '@/hooks/useDrawer'
+import { useMyLeagueTeams } from '@/hooks/useMyLeagueTeams'
 import { useOpenPlayerProfile } from '@/hooks/useOpenPlayerProfile'
-import { useOpenTeamSquad } from '@/hooks/useOpenTeamSquad'
+import { leagueTeamProfiles } from '@/store/leagueTeamProfiles'
 
 import { INPUT_ID_SUFFIX, LISTBOX_ID_SUFFIX, MIN_TERM_LENGTH } from './constants'
 import { useKeepActiveVisible, useLeagueSearchRead, useVisibleViewportHeight } from './hooks'
@@ -47,16 +50,19 @@ import type { LeagueSearchState } from './types'
  *   reaches the drawer, which closes the bar. The browser's own clearing of a search field on
  *   `Escape` is always cancelled.
  * - Picking a result closes the bar first, which moves focus to the magnifier button, and then
- *   opens the player's profile or the team's squad, so the panel gives focus back to a control
- *   that is still there. A player with no club opens as a free agent, and a team's squad opens
- *   its players' profiles. The term stays.
+ *   opens the player's profile or goes to the team's Squad page, so the panel gives focus back to
+ *   a control that is still there. A player with no club opens as a free agent. The term stays.
+ * - Before going to a team's Squad page, the team's profile is handed to the shared profile
+ *   store, with the league of the club the search is made for, so the page names the club at once
+ *   and reads nothing.
  *
- * @param leagueTeamId The selected club's league team id.
+ * @param leagueTeamId The league team id of the club the search is made for.
  * @returns The ids, refs, text, groups and handlers the view renders from.
  */
 export function useLeagueSearch(leagueTeamId: number): LeagueSearchState {
   const { openPlayerProfile } = useOpenPlayerProfile()
-  const { openTeamSquad } = useOpenTeamSquad()
+  const { teams } = useMyLeagueTeams()
+  const navigate = useNavigate()
 
   const inputRef = useRef<HTMLInputElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -149,12 +155,20 @@ export function useLeagueSearch(leagueTeamId: number): LeagueSearchState {
   const onPickTeam = (team: LeagueSearchTeamItemDto) => {
     finishPick()
 
-    openTeamSquad({
-      leagueTeamId: team.leagueTeamId,
-      name: team.teamName,
-      logoUrl: team.teamLogoUrl,
-      onOpenPlayer: openPlayerProfile,
-    })
+    // A search is scoped to the league of its club, so the picked team plays in that league.
+    const anchor = teams.find((club) => club.leagueTeamId === leagueTeamId)
+
+    if (anchor !== undefined) {
+      leagueTeamProfiles.prime({
+        leagueTeamId: team.leagueTeamId,
+        leagueId: anchor.leagueId,
+        leagueName: anchor.leagueName,
+        teamName: team.teamName,
+        teamLogoUrl: team.teamLogoUrl,
+      })
+    }
+
+    void navigate(generatePath(ROUTES.myTeamSquad, { leagueTeamId: String(team.leagueTeamId) }))
   }
 
   const onKeyDown: LeagueSearchState['onKeyDown'] = (event) => {

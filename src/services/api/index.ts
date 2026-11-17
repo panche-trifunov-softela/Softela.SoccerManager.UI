@@ -9,6 +9,7 @@ export {
   getLeaguePlayerProfile,
   getLeaguePlayerTransfers,
   getLeagueTeamNextMatch,
+  getLeagueTeamProfile,
   getLeagueTeamSquad,
   getLeagueTeamSquadMembers,
   placeLoanBid,

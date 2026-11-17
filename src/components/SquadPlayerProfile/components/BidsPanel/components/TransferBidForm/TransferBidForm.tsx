@@ -4,13 +4,12 @@ import { BidForm } from '../BidForm'
 import { BidSelect } from '../BidSelect'
 import { UnitInput } from '../UnitInput'
 
+import { SwapPlayers } from './components/SwapPlayers'
 import {
   BUYBACK_PERIOD_LABEL,
   BUYBACK_PERIOD_OPTIONS,
   BUYBACK_VALUE_LABEL,
-  FIRST_SWAP_LABEL,
   PLACE_TRANSFER_BID_LABEL,
-  SECOND_SWAP_LABEL,
   TRANSFER_FEE_LABEL,
 } from './constants'
 import { useTransferBidForm } from './useTransferBidForm'
@@ -18,12 +17,13 @@ import { useTransferBidForm } from './useTransferBidForm'
 import type { TransferBidFormProps } from './types'
 
 /**
- * The form that places a transfer bid for a player: the fee offered, up to two players of the
- * bidding club offered in swap, and optionally a buyback value with the number of seasons it stays
- * valid.
+ * The form that places a transfer bid for a player: the fee offered, players of the bidding club
+ * offered in swap, which the reader adds one row at a time, and optionally a buyback value with
+ * the number of seasons it stays valid.
  *
  * @param props The bidding club, the player, the player's name and the player's value.
- * @returns The rendered form. The transfer fee states the player's value under it.
+ * @returns The rendered form. The transfer fee states the player's value under it, and the swap
+ * player rows come after it.
  */
 export function TransferBidForm({
   leagueTeamId,
@@ -33,10 +33,9 @@ export function TransferBidForm({
 }: TransferBidFormProps) {
   const {
     fee,
-    firstSwap,
-    firstSwapOptions,
-    secondSwap,
-    secondSwapOptions,
+    swapRows,
+    swapAdd,
+    swapRemovedMessage,
     buybackValue,
     buybackPeriod,
     isPending,
@@ -55,23 +54,7 @@ export function TransferBidForm({
         <UnitInput field={fee} unit={EURO_SIGN} />
       </BidField>
 
-      <BidField
-        id={firstSwap.id}
-        label={FIRST_SWAP_LABEL}
-        message={firstSwap.message}
-        messageId={firstSwap.messageId}
-      >
-        <BidSelect field={firstSwap} options={firstSwapOptions} />
-      </BidField>
-
-      <BidField
-        id={secondSwap.id}
-        label={SECOND_SWAP_LABEL}
-        message={secondSwap.message}
-        messageId={secondSwap.messageId}
-      >
-        <BidSelect field={secondSwap} options={secondSwapOptions} />
-      </BidField>
+      <SwapPlayers rows={swapRows} add={swapAdd} removedMessage={swapRemovedMessage} />
 
       <BidField
         id={buybackValue.id}

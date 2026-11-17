@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { toPlayerHeader } from '@/components/PlayerHeader'
+import { toFreeAgentHeader, toPlayerHeader } from '@/components/PlayerHeader'
 import { toPositionsPitch } from '@/components/PositionsPitch'
 import { getPlayerProfile, toErrorMessage } from '@/services/api'
 import { toast } from '@/store/toast'
@@ -16,11 +16,13 @@ import type { PlayerProfileRead, PlayerProfileState } from './types'
  *   counts as still loading. State is written only when a read settles.
  * - A failure to read says why in a toast, and the panel says the player could not be loaded. A
  *   read that was aborted says nothing.
+ * - For a free agent the header shows "Free agent" in place of the player's real-life club.
  *
  * @param playerId The player whose profile is read.
+ * @param isFreeAgent Whether the player is registered at no club of the league.
  * @returns The header's and the pitch's props, or the sentence to show in their place.
  */
-export function usePlayerProfile(playerId: number): PlayerProfileState {
+export function usePlayerProfile(playerId: number, isFreeAgent: boolean): PlayerProfileState {
   const [read, setRead] = useState<PlayerProfileRead | null>(null)
 
   useEffect(() => {
@@ -54,8 +56,10 @@ export function usePlayerProfile(playerId: number): PlayerProfileState {
     return { header: null, pitch: null, message: current.error }
   }
 
+  const header = toPlayerHeader(current.profile, new Date())
+
   return {
-    header: toPlayerHeader(current.profile, new Date()),
+    header: isFreeAgent ? toFreeAgentHeader(header) : header,
     pitch: toPositionsPitch(current.profile.positions),
     message: null,
   }

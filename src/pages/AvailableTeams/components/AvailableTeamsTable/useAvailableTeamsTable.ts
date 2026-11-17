@@ -1,11 +1,10 @@
-import { createElement, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
+import { useOpenTeamSquad } from '@/hooks/useOpenTeamSquad'
 import { createLeagueTeamManagerApplication, toErrorMessage } from '@/services/api'
-import { offCanvas } from '@/store/offCanvas'
 import { toast } from '@/store/toast'
 
-import { TeamSquad } from './components/TeamSquad'
-import { APPLY_FAILED_MESSAGE, APPLY_SENT_MESSAGE, SQUAD_TITLE } from './constants'
+import { APPLY_FAILED_MESSAGE, APPLY_SENT_MESSAGE } from './constants'
 
 import type { AvailableTeamRow, AvailableTeamsTableProps, AvailableTeamsTableState } from './types'
 
@@ -19,8 +18,8 @@ import type { AvailableTeamRow, AvailableTeamsTableProps, AvailableTeamsTableSta
  * - While the reader has a pending application for a club with no manager, no other club can
  *   be applied for.
  * - An application that settles after the table has gone still says how it went.
- * - Showing a club's squad opens it in the side panel, under the heading "Squad". The panel
- *   fetches the squad itself.
+ * - Showing a club's squad opens it in the side panel, under the heading "Squad", through the
+ *   shared squad opener. The panel fetches the squad itself, and its player names stay plain text.
  *
  * @param rows The clubs the table shows.
  * @param onApplied Reads the clubs again once an application went through.
@@ -31,6 +30,8 @@ export function useAvailableTeamsTable(
   rows: AvailableTeamsTableProps['rows'],
   onApplied: AvailableTeamsTableProps['onApplied'],
 ): AvailableTeamsTableState {
+  const { openTeamSquad } = useOpenTeamSquad()
+
   const [applyingId, setApplyingId] = useState<number | null>(null)
 
   const isMounted = useRef(false)
@@ -72,14 +73,7 @@ export function useAvailableTeamsTable(
   }
 
   const showSquad = (row: AvailableTeamRow) => {
-    offCanvas.open({
-      title: SQUAD_TITLE,
-      content: createElement(TeamSquad, {
-        leagueTeamId: row.id,
-        name: row.name,
-        logoUrl: row.logoUrl,
-      }),
-    })
+    openTeamSquad({ leagueTeamId: row.id, name: row.name, logoUrl: row.logoUrl })
   }
 
   return { applyingId, canApply, apply, showSquad }

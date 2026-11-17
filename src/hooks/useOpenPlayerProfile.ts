@@ -6,6 +6,7 @@ import { offCanvas } from '@/store/offCanvas'
 
 import { useSelectedClub } from './useSelectedClub'
 
+import type { ReactElement } from 'react'
 import type { PlayerProfileOpener } from '@/types/playerProfileOpener'
 import type { PlayerProfileTarget } from '@/types/playerProfileTarget'
 
@@ -14,6 +15,8 @@ import type { PlayerProfileTarget } from '@/types/playerProfileTarget'
  *
  * - With a club selected, the panel shows the player as that club's league has them.
  * - With none, it shows the player's own record.
+ * - A free agent has no registration in the league, so even with a club selected the panel shows the
+ *   player's own record, with "Free agent" where the club would be.
  * - The panel's title is the player's name.
  *
  * It is the one hook that imports the two panels from `@/components`, because it is the place that
@@ -24,15 +27,18 @@ import type { PlayerProfileTarget } from '@/types/playerProfileTarget'
 export function useOpenPlayerProfile(): PlayerProfileOpener {
   const { club } = useSelectedClub()
 
-  const openPlayerProfile = ({ playerId, name }: PlayerProfileTarget) => {
-    offCanvas.open({
-      title: name,
-      size: 'wide',
-      content:
-        club === null
-          ? createElement(PlayerProfile, { playerId })
-          : createElement(SquadPlayerProfile, { leagueTeamId: club.leagueTeamId, playerId }),
-    })
+  const openPlayerProfile = ({ playerId, name, isFreeAgent = false }: PlayerProfileTarget) => {
+    let content: ReactElement
+
+    if (isFreeAgent) {
+      content = createElement(PlayerProfile, { playerId, isFreeAgent })
+    } else if (club === null) {
+      content = createElement(PlayerProfile, { playerId })
+    } else {
+      content = createElement(SquadPlayerProfile, { leagueTeamId: club.leagueTeamId, playerId })
+    }
+
+    offCanvas.open({ title: name, size: 'wide', content })
   }
 
   return { openPlayerProfile }

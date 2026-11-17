@@ -5,4 +5,7 @@ export interface PlayerProfileTarget {
 
   /** The name of the player, which becomes the panel's title. */
   name: string
+
+  /** Whether the player is registered at no club of the league; `false` when it is left out. */
+  isFreeAgent?: boolean
 }

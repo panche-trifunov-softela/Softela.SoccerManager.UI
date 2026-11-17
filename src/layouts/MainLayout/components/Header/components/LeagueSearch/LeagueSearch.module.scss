@@ -1,0 +1,172 @@
+@use '@/styles/breakpoints' as *;
+
+/* Below lg the search is a magnifier button at the end of the header's bar; from lg it is the
+   field itself, right after the logo, and takes what room it needs up to 320px. */
+.search {
+    display: flex;
+    margin-inline-start: auto;
+
+    @include bp-up(lg) {
+        flex: 0 1 320px;
+        min-width: 200px;
+        margin-inline: 0 auto;
+    }
+}
+
+/* The magnifier is a plain 40px icon button like the burger beside it, in the same accent; from
+   lg the field takes its place. */
+.toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    font-size: 1.125rem;
+    color: var(--highlight);
+
+    @include bp-up(lg) {
+        display: none;
+    }
+}
+
+/* The dimmed page sits above the club sidebar's edge tab (35), so the club drawer cannot be
+   opened from under the bar. A class outranks the global rule's zero specificity. */
+.backdrop {
+    z-index: 36;
+}
+
+/* The shared .drawer makes the panel hidden until open; below lg it is pinned across the top of
+   the viewport, over the header, and holds the bar with the results under it, no taller than
+   what a phone's keyboard leaves visible. From lg it is the field's own box, and the popover is
+   positioned against it. */
+.panel {
+    inset-block: 0 auto;
+    inset-inline: 0;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    max-height: var(--search-viewport-height, 100dvh);
+
+    @include bp-up(lg) {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        max-height: none;
+    }
+}
+
+/* As tall as the header's own row, border included (15px, the 40px field, 15px, 1px), so the bar
+   covers the header exactly. */
+.bar {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 12px;
+    padding: 15px var(--page-gutter);
+    border-block-end: 1px solid var(--border);
+
+    @include bp-up(lg) {
+        padding: 0;
+        border: 0;
+    }
+}
+
+.field_box {
+    flex: 1;
+    min-width: 0;
+}
+
+/* The magnifier inside the field exists only from lg; below it the button is the magnifier. */
+.field_icon {
+    display: none;
+
+    @include bp-up(lg) {
+        display: block;
+        position: absolute;
+        inset-block-start: 50%;
+        inset-inline-start: 12px;
+        transform: translateY(-50%);
+        color: var(--text);
+        pointer-events: none;
+    }
+}
+
+/* 16px below lg, so a phone does not zoom the page when the field is focused. A placeholder or a
+   term wider than the field ends in an ellipsis. */
+.input {
+    font-size: 16px;
+    text-overflow: ellipsis;
+
+    @include bp-up(lg) {
+        padding-inline-start: 36px;
+        font-size: inherit;
+    }
+}
+
+.close {
+    @include bp-up(lg) {
+        display: none;
+    }
+}
+
+/* Below lg the results fill the bar's width and take what is left of the visible screen; from lg
+   they are a popover under the field, as wide as the field and no narrower. It is a column: the
+   list is its only scroller, so the footer stays below it, and the popover is as tall as its
+   content needs (both full groups and the footer are about 626px) and no taller than what is left
+   under the header's top edge (the popover starts 63px down and keeps 16px to the screen's end). */
+.results {
+    display: none;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+
+    &--open {
+        display: flex;
+    }
+
+    /* An earlier answer kept while the term's own answer is read. */
+    &--busy .scroll {
+        opacity: 0.5;
+    }
+
+    @include bp-up(lg) {
+        position: absolute;
+        inset-block-start: calc(100% + 8px);
+        inset-inline-start: 0;
+        z-index: 10;
+        width: 400px;
+        min-width: 100%;
+        max-width: calc(100vw - 2 * var(--page-gutter));
+        max-height: calc(100dvh - 79px);
+        overflow: hidden;
+        background: var(--widget);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        box-shadow: var(--widget-shadow);
+    }
+}
+
+.scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transition: opacity var(--transition);
+}
+
+.message {
+    margin: 0;
+    padding: 12px;
+    color: var(--text);
+    overflow-wrap: anywhere;
+}
+
+.footer {
+    flex: none;
+    margin: 0;
+    padding: 8px 12px;
+    border-block-start: 1px solid var(--border);
+    color: var(--text);
+    overflow-wrap: anywhere;
+}

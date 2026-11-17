@@ -1,0 +1,33 @@
+/* The look of one option row, shared by the player and the team rows so they are exactly alike:
+   48px at least and as tall as the 40px photo or crest and the padding otherwise. The including
+   module defines `.name`, which turns to the accent colour on the hovered and the active row. */
+@mixin option-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 48px;
+    padding: 6px 12px;
+    color: var(--text);
+    cursor: pointer;
+    transition: background var(--transition);
+
+    &:hover,
+    &--active {
+        background: var(--body);
+
+        .name {
+            color: var(--highlight);
+        }
+    }
+
+    /* Keyboard focus is not only the hover look: an accent bar at the row's start marks it. */
+    &--active::before {
+        content: '';
+        position: absolute;
+        inset-block: 0;
+        inset-inline-start: 0;
+        inline-size: 3px;
+        background: var(--highlight);
+    }
+}

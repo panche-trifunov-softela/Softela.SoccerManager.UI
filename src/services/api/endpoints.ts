@@ -73,16 +73,22 @@ export const API_ROUTES = {
       `/api/league-teams/${id}/league-players/${playerId}/injuries`,
 
     /**
+     * The players, registered or free agents, and the clubs of the club's league whose names
+     * contain `?searchTerm=`, the best five of each with the totals, by the club's id; only the
+     * club's current manager or an operator may read them.
+     */
+    search: (id: number) => `/api/league-teams/${id}/search`,
+
+    /**
      * The transfer bids a club places for a player registered at another club, by the bidding
-     * club's id and the player's id; takes a `POST`. PROPOSED: the backend route does not
-     * exist yet.
+     * club's id and the player's id; takes a `POST`.
      */
     leaguePlayerTransferBids: (id: number, playerId: number) =>
       `/api/league-teams/${id}/league-players/${playerId}/transfer-bids`,
 
     /**
      * The loan bids a club places for a player registered at another club, by the bidding club's
-     * id and the player's id; takes a `POST`. PROPOSED: the backend route does not exist yet.
+     * id and the player's id; takes a `POST`.
      */
     leaguePlayerLoanBids: (id: number, playerId: number) =>
       `/api/league-teams/${id}/league-players/${playerId}/loan-bids`,

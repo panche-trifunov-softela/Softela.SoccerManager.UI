@@ -13,6 +13,7 @@ export {
   getLeagueTeamSquadMembers,
   placeLoanBid,
   placeTransferBid,
+  searchLeague,
 } from './leagueTeamApi'
 export { getMyLeagueTeamManagers } from './leagueTeamManagerApi'
 export {

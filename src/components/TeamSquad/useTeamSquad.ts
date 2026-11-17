@@ -6,7 +6,9 @@ import { toast } from '@/store/toast'
 import { SQUAD_LOAD_FAILED_MESSAGE } from './constants'
 import { squadMessage, toSquadPlayerRow } from './utils'
 
-import type { TeamSquadRead, TeamSquadState } from './types'
+import type { PlayerProfileTarget } from '@/types/playerProfileTarget'
+
+import type { SquadPlayerRow, TeamSquadRead, TeamSquadState } from './types'
 
 /**
  * Reads the squad of one league team.
@@ -16,11 +18,17 @@ import type { TeamSquadRead, TeamSquadState } from './types'
  * - A failure to read says why in a toast, and the message under the table says the squad
  *   could not be loaded. A read that was aborted says nothing.
  * - The players keep the order the API returns them in.
+ * - A row can be opened only when the caller handed over what opens a player.
  *
  * @param leagueTeamId The league team whose squad is read.
- * @returns The players to show, and what shows under the table instead of players, if anything.
+ * @param onOpenPlayer What opens a player's profile, or `undefined` when the names are plain text.
+ * @returns The players to show, what shows under the table instead of players, if anything, and
+ * what opens a row's player, if anything does.
  */
-export function useTeamSquad(leagueTeamId: number): TeamSquadState {
+export function useTeamSquad(
+  leagueTeamId: number,
+  onOpenPlayer?: (target: PlayerProfileTarget) => void,
+): TeamSquadState {
   const [read, setRead] = useState<TeamSquadRead | null>(null)
 
   useEffect(() => {
@@ -48,8 +56,16 @@ export function useTeamSquad(leagueTeamId: number): TeamSquadState {
 
   const rows = (current?.players ?? []).map((player) => toSquadPlayerRow(player))
 
+  const openPlayer =
+    onOpenPlayer === undefined
+      ? null
+      : (row: SquadPlayerRow) => {
+          onOpenPlayer({ playerId: row.id, name: row.name })
+        }
+
   return {
     rows,
     message: squadMessage(current === null, current?.error ?? null, rows.length),
+    openPlayer,
   }
 }

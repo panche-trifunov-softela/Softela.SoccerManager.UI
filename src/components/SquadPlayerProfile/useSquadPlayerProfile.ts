@@ -2,14 +2,11 @@ import { useEffect, useState } from 'react'
 
 import { toSquadPlayerHeader } from '@/components/PlayerHeader'
 import { toPositionsPitch } from '@/components/PositionsPitch'
+import { CLUB_NOT_MANAGED_MESSAGE } from '@/constants/clubNotManaged'
 import { getLeaguePlayerProfile, toErrorMessage } from '@/services/api'
 import { toast } from '@/store/toast'
 
-import {
-  CLUB_NOT_MANAGED_MESSAGE,
-  PROFILE_LOAD_FAILED_MESSAGE,
-  PROFILE_LOADING_MESSAGE,
-} from './constants'
+import { PROFILE_LOAD_FAILED_MESSAGE, PROFILE_LOADING_MESSAGE } from './constants'
 import { toBidsTarget, toFailure, toPlayerStatus } from './utils'
 
 import type { SquadPlayerProfileRead, SquadPlayerProfileState } from './types'

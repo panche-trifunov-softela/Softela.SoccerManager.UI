@@ -6,7 +6,7 @@ import type { BidsTarget } from '../../types'
 
 /** What `BidsPanel` is handed. */
 export interface BidsPanelProps extends BidsTarget {
-  /** The bidding club: the selected club's league team id. */
+  /** The bidding club: the acting club's league team id. */
   leagueTeamId: number
 
   /** The player the bids are placed for. */
@@ -69,9 +69,6 @@ export interface BidSelectField {
   /** Whether the select is not valid. */
   isInvalid: boolean
 
-  /** Whether the select cannot be used for now, though it stays focusable. */
-  isDisabled: boolean
-
   /** Keeps the choice in step with the select. */
   onChange: ChangeEventHandler<HTMLSelectElement>
 }
@@ -83,6 +80,9 @@ export interface BidSelectOption {
 
   /** The words the option shows. */
   label: string
+
+  /** Whether the option is shown but cannot be chosen; `undefined` for one that can. */
+  isDisabled?: boolean
 }
 
 /** One field's id and what is wrong with it. */

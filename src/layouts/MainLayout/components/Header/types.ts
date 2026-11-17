@@ -6,10 +6,10 @@ export interface HeaderState {
   username: string
 
   /**
-   * The league team id of the club the address selects, or `null` when the page has no club the
-   * signed-in manager currently runs.
+   * The league team id of the club the signed-in manager acts as on the page, or `null` when the
+   * page has no club of theirs, such as one in a league where they run none.
    */
-  selectedClubId: number | null
+  actingClubId: number | null
 
   /** Ends the session. */
   signOut: () => void

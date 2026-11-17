@@ -8,26 +8,34 @@ import { SIDEBAR_ITEMS } from './constants'
 import type { SidebarState } from './types'
 
 /**
- * Decides whether the sidebar shows, resolves its entries to the club in the URL
- * and wires its drawer to the shared drawer behaviour. The column is kept while
- * the user's clubs load, so the page does not jump once they arrive.
+ * Decides whether the sidebar shows, picks the entries the user may see for the club in the
+ * address, resolves them to it and wires its drawer to the shared drawer behaviour.
  *
- * @returns Whether the sidebar is visible, the entries to link, and the drawer's
- * state, refs and handlers.
+ * - It shows on every page whose address names a club.
+ * - An entry open to everyone is listed for any club. A manager's entry is listed only when the
+ *   user runs the club, decided from their own clubs alone, so after those failed to load only
+ *   the entries open to everyone remain.
+ * - While the user's clubs load the column is kept with no entries, so the page does not jump
+ *   once they arrive.
+ *
+ * @returns Whether the sidebar is visible, the entries to link, and the drawer's state, refs and
+ * handlers.
  */
 export function useSidebar(): SidebarState {
-  const { club, isPending } = useSelectedClub()
+  const { leagueTeamId, club, isPending } = useSelectedClub()
 
-  const isVisible = club !== null || isPending
+  const isVisible = leagueTeamId !== null
 
   const items =
-    club === null
+    leagueTeamId === null || isPending
       ? []
-      : SIDEBAR_ITEMS.map(({ label, route, icon }) => ({
-          label,
-          icon,
-          to: generatePath(route, { leagueTeamId: String(club.leagueTeamId) }),
-        }))
+      : SIDEBAR_ITEMS.filter(({ access }) => access === 'everyone' || club !== null).map(
+          ({ label, route, icon }) => ({
+            label,
+            icon,
+            to: generatePath(route, { leagueTeamId: String(leagueTeamId) }),
+          }),
+        )
 
   const { isOpen, id, toggleRef, panelRef, toggle, close } = useDrawer({ isEnabled: items.length > 0 })
 

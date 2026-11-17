@@ -17,10 +17,11 @@ import type { MyTeamTacticsState } from './types'
  * Puts together what the tactics page shows for the club the address names.
  *
  * - The club comes from the shared selected-club hook. The subtitle names the club and its game
- *   world when the signed-in manager runs it, and is otherwise `null`.
- * - The data is read for any valid id in the address, a club the manager does not run included;
- *   the API decides who may see it. Only a manager who runs the club has an empty lineup picked
- *   for them on a first visit.
+ *   world once the signed-in manager's clubs are read.
+ * - The route is guarded to the club's manager, so the page is reached only for a club the
+ *   manager runs, or for an address with no valid id. The data is read for any valid id in the
+ *   address, and the API still decides who may see it. An empty lineup is picked for the manager
+ *   on a first visit.
  * - The lineup and the team instructions are edited through one shared save, so a request for
  *   either locks the whole board.
  * - The squad list's info buttons open a player's profile in the side panel.

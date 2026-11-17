@@ -2,7 +2,7 @@ import type { HistoryItem } from '../HistoryList'
 
 /** What `InjuriesPanel` is handed. */
 export interface InjuriesPanelProps {
-  /** The selected club: the league team whose league the injuries are read in. */
+  /** The acting club: the league team whose league the injuries are read in. */
   leagueTeamId: number
 
   /** The player whose injuries are shown. */

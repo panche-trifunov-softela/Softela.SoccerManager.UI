@@ -24,7 +24,7 @@ import type { LeagueSearchRead } from '../types'
  *   failure carries the API's reason, or the fixed sentence when it gave none. Neither is
  *   toasted, since a search reads again with every term. A read that was aborted says nothing.
  *
- * @param leagueTeamId The selected club's league team id.
+ * @param leagueTeamId The league team id of the club the search is made for.
  * @param term The trimmed term to search for.
  * @returns The latest finished read for the club, or `null` while there is none. It answers
  * `term` only when its `isCurrent` is true.

@@ -15,7 +15,7 @@ export interface SquadPlayerProfileDto {
   /** The identifier of the player. */
   playerId: number
 
-  /** The identifier of the league team the player is registered at: the selected club or a rival. */
+  /** The identifier of the league team the player is registered at: the acting club or a rival. */
   leagueTeamId: number
 
   /** The name of that club. */

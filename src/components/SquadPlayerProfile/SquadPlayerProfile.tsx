@@ -30,16 +30,16 @@ import styles from './SquadPlayerProfile.module.scss'
 import type { SquadPlayerProfileProps } from './types'
 
 /**
- * A player as the selected club's league has them, as the side panel shows it when a club is
- * selected: the header beside a pitch with the player's positions, the pitch under it on a phone,
- * and under both the player's condition, morale and suspension, then the tabs: the player's
+ * A player as the acting club's league has them, as the side panel shows it when the manager has
+ * an acting club: the header beside a pitch with the player's positions, the pitch under it on a
+ * phone, and under both the player's condition, morale and suspension, then the tabs: the player's
  * transfer history, their injury history in the club's league, their rating history, and, for a
- * player registered at another club, the bids the selected club can place for them.
+ * player registered at another club, the bids the acting club can place for them.
  *
  * A player with no registration in the club's league is shown as their own profile instead, as a
  * free agent.
  *
- * @param props The selected club and the player whose profile to show.
+ * @param props The acting club and the player whose profile to show.
  * @returns The rendered profile. While it loads, or when it could not be read, a message shows in
  * a live region instead.
  */

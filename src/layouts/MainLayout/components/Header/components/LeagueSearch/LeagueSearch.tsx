@@ -18,9 +18,9 @@ import styles from './LeagueSearch.module.scss'
 import type { LeagueSearchProps } from './types'
 
 /**
- * The header's search for the selected club: a combobox that lists the league's players and
- * teams matching what is typed, in two groups, and opens the chosen player's profile or team's
- * squad.
+ * The header's search for the club the manager acts as: a combobox that lists the league's
+ * players and teams matching what is typed, in two groups, and opens the chosen player's profile
+ * or goes to the chosen team's Squad page.
  *
  * - From the lg breakpoint it is a field in the header, with the results in a popover under it.
  * - Below it, a magnifier button opens the field as a bar across the top of the screen, over a

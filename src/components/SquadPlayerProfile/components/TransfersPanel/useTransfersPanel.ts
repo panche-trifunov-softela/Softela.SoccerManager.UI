@@ -10,7 +10,7 @@ import type { TransfersPanelState } from './types'
 /**
  * Reads one player's transfers in a club's league and works out what the panel shows.
  *
- * @param leagueTeamId The selected club's league team id.
+ * @param leagueTeamId The acting club's league team id.
  * @param playerId The player whose transfers are read.
  * @returns The rows to list, newest first as the API returns them, or the sentence to show in
  * their place: that it is loading, why it failed, or that there are none.

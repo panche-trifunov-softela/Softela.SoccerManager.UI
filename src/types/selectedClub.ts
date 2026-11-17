@@ -1,6 +1,9 @@
 import type { MyLeagueTeamManagerDto } from './myLeagueTeamManagerDto'
 
-/** The club the address selects, as `useSelectedClub` resolves it. */
+/**
+ * The club the address selects, as `useSelectedClub` resolves it. Whether the signed-in manager
+ * runs it is decided from their own clubs alone.
+ */
 export interface SelectedClub {
   /**
    * The club id in the address, or `null` when the page has none or it is not a whole number

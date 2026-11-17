@@ -11,7 +11,7 @@ import type { TeamSquadTarget } from '@/types/teamSquadTarget'
  * Gives a page the call that opens a club's squad in the side panel.
  *
  * - The panel's title is "Squad".
- * - The squad's player names are buttons only when the target carries `onOpenPlayer`.
+ * - The squad's player names are plain text.
  *
  * @returns `openTeamSquad`, which opens the panel for the club it is handed.
  */

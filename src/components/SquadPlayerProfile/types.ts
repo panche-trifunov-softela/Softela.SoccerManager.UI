@@ -6,7 +6,7 @@ import type { PlayerStatusProps } from './components/PlayerStatus'
 
 /** What `SquadPlayerProfile` is handed. */
 export interface SquadPlayerProfileProps {
-  /** The selected club: the league team whose league the player is read in. */
+  /** The acting club: the league team whose league the player is read in. */
   leagueTeamId: number
 
   /** The player whose profile is shown. */

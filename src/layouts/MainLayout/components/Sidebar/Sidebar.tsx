@@ -10,11 +10,12 @@ import styles from './Sidebar.module.scss'
 /**
  * The club menu: one column of links in two looks. Below the lg breakpoint it is
  * a drawer over the page, opened by an edge tab, so it takes no room; from lg it
- * is the icon-and-label panel beside the page. It shows only on the pages of a
- * club the user manages.
+ * is the icon-and-label panel beside the page. It shows on the pages of any club,
+ * listing the entries open to everyone, and the manager's own too on a club the
+ * user runs.
  *
  * @returns The rendered sidebar (with an empty column in place of its links while
- * the user's clubs load), or nothing when no club is selected.
+ * the user's clubs load), or nothing when the address names no club.
  */
 export function Sidebar() {
   const { isVisible, items, isOpen, navId, toggleRef, rootRef, toggle, close } = useSidebar()

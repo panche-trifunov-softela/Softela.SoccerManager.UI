@@ -4,7 +4,7 @@ import type { BidInputField, BidReadOnlyField, BidSelectField } from '../../type
 
 /** What `LoanBidForm` is handed. */
 export interface LoanBidFormProps {
-  /** The bidding club: the selected club's league team id. */
+  /** The bidding club: the acting club's league team id. */
   leagueTeamId: number
 
   /** The player the bid is for. */

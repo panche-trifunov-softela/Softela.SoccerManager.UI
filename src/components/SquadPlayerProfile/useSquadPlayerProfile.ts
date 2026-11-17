@@ -22,10 +22,10 @@ import type { SquadPlayerProfileRead, SquadPlayerProfileState } from './types'
  * - Any other failure says why in a toast, and the panel says the player could not be loaded. A
  *   read that was aborted says nothing.
  *
- * @param leagueTeamId The selected club's league team id.
+ * @param leagueTeamId The acting club's league team id.
  * @param playerId The player whose profile is read.
  * @returns The props of the header, the pitch and the status section, the player a bid can be
- * placed for (`null` for a player at the selected club itself), or the sentence to show in their
+ * placed for (`null` for a player at the acting club itself), or the sentence to show in their
  * place.
  */
 export function useSquadPlayerProfile(

@@ -14,16 +14,16 @@ import { useHeader } from './useHeader'
 import styles from './Header.module.scss'
 
 /**
- * The layout's top bar: the brand, the league search of the selected club when there is one,
- * and the user's actions, inline from the md breakpoint and in a slide-in drawer behind a burger
- * below it.
+ * The layout's top bar: the brand, the league search of the club the manager acts as when there
+ * is one, and the user's actions, inline from the md breakpoint and in a slide-in drawer behind a
+ * burger below it.
  *
  * @returns The rendered header.
  */
 export function Header() {
   const {
     username,
-    selectedClubId,
+    actingClubId,
     signOut,
     isMenuOpen,
     menuId,
@@ -46,7 +46,7 @@ export function Header() {
     <header className={styles.header}>
       <Logo size="sm" />
 
-      {selectedClubId !== null && <LeagueSearch key={selectedClubId} leagueTeamId={selectedClubId} />}
+      {actingClubId !== null && <LeagueSearch key={actingClubId} leagueTeamId={actingClubId} />}
 
       <MenuToggle ref={toggleRef} isOpen={isMenuOpen} controls={menuId} onToggle={toggleMenu} />
 

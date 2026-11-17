@@ -9,9 +9,9 @@ import styles from './MainLayout.module.scss'
 
 /**
  * The shell every routed page renders inside: the header on top, then a row
- * with the club sidebar (on club pages, beside the page from the lg breakpoint
- * and over it below) and an outlet for the active page, all wrapped in the host
- * of the right off-canvas panel.
+ * with the club sidebar (on the pages of any club, beside the page from the lg
+ * breakpoint and over it below) and an outlet for the active page, all wrapped
+ * in the host of the right off-canvas panel.
  *
  * @returns The rendered layout with the current route's page in its outlet.
  */

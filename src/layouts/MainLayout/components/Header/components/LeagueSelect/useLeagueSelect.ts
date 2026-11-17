@@ -12,7 +12,8 @@ import type { LeagueSelectState } from './types'
  * Drives the club switcher: lists the league teams the shared my-teams store holds, marks the
  * one the URL names, and opens another club's squad page when the user picks it.
  *
- * - The selected club is the one in the URL, never a locally remembered choice.
+ * - The selected club is the one in the URL, never a locally remembered choice. A club the user
+ *   only visits is not one of the listed clubs, so nothing is marked on its pages.
  * - Picking the selected club does nothing.
  * - Picking another club always opens its squad page, whichever page is open now.
  *

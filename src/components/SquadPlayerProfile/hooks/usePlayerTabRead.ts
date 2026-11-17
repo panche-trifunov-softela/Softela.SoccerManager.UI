@@ -22,7 +22,7 @@ import type {
  * - Any other failure, a 404 included, says why in a toast, and the tab says the list could not be
  *   loaded. A read that was aborted says nothing.
  *
- * @param leagueTeamId The selected club's league team id.
+ * @param leagueTeamId The acting club's league team id.
  * @param playerId The player whose list is read.
  * @param read What reads the list.
  * @param messages The sentences for loading and for a failed read; pass a stable object.

@@ -1,3 +1,5 @@
+export { toBidKey } from './toBidKey'
+export { toBidMeta } from './toBidMeta'
 export { toBidsView } from './toBidsView'
 export { toFailure } from './toFailure'
 export { toFeeText } from './toFeeText'

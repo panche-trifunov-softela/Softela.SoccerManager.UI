@@ -1,7 +1,5 @@
-import { toFeeText } from '@/components/SquadPlayerProfile/utils'
+import { toBidKey, toBidMeta, toFeeText } from '@/components/SquadPlayerProfile/utils'
 
-import { toBidKey } from './toBidKey'
-import { toBidMeta } from './toBidMeta'
 import { toBuybackText } from './toBuybackText'
 import { toSwapPlayersText } from './toSwapPlayersText'
 

@@ -7,6 +7,7 @@ export {
   answerLoanBid,
   answerTransferBid,
   getAvailableLeagueTeams,
+  getLeaguePlayerBidders,
   getLeaguePlayerBids,
   getLeaguePlayerInjuries,
   getLeaguePlayerProfile,

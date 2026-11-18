@@ -1,3 +1,4 @@
+export { toCurrentBidItem } from './toCurrentBidItem'
 export { toDigits } from './toDigits'
 export { toFieldClass } from './toFieldClass'
 export { toFieldMessage } from './toFieldMessage'

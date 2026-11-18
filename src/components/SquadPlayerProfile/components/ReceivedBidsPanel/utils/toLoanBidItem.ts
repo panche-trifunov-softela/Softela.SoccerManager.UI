@@ -1,10 +1,13 @@
-import { toFeeText, toSeasonsText } from '@/components/SquadPlayerProfile/utils'
+import { DOT_SEPARATOR } from '@/components/SquadPlayerProfile/constants'
+import {
+  toBidKey,
+  toBidMeta,
+  toFeeText,
+  toSeasonsText,
+} from '@/components/SquadPlayerProfile/utils'
 import { formatEuros } from '@/utils/formatEuros'
 
-import { BUY_OPTION_LABEL, DOT_SEPARATOR } from '../constants'
-
-import { toBidKey } from './toBidKey'
-import { toBidMeta } from './toBidMeta'
+import { BUY_OPTION_LABEL } from '../constants'
 
 import type { LeaguePlayerLoanBidDto } from '@/types/leaguePlayerLoanBidDto'
 

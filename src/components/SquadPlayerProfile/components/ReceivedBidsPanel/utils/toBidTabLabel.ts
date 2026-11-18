@@ -1,4 +1,4 @@
-import { DOT_SEPARATOR } from '../constants'
+import { DOT_SEPARATOR } from '@/components/SquadPlayerProfile/constants'
 
 /**
  * Writes a tab's label with the number of bids under it.

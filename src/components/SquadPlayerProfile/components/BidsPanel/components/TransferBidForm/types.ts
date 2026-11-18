@@ -20,8 +20,11 @@ export interface TransferBidFormProps {
   /** The player's name, which the toasts say. */
   playerName: string
 
-  /** The player's transfer value in this league, in euros. */
-  value: number
+  /**
+   * Runs once a bid went through and the form was emptied, so the panel can read the current bids
+   * again.
+   */
+  onSent: () => void
 }
 
 /** What the reader has typed into the transfer bid form. */

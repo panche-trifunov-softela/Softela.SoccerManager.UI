@@ -1,8 +1,9 @@
+import { toBidKey } from '@/components/SquadPlayerProfile/utils'
 import { useAnswerFlow } from '@/hooks/useAnswerFlow'
 import { answerLoanBid, answerTransferBid } from '@/services/api'
 
 import { BID_ANSWERS } from '../constants'
-import { toBidKey, toBidSubject } from '../utils'
+import { toBidSubject } from '../utils'
 
 import type { BidAnswersState, ReceivedBid } from '../types'
 

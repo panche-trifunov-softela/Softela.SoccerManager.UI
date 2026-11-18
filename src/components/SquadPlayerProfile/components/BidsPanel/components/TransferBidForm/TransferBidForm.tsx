@@ -21,15 +21,15 @@ import type { TransferBidFormProps } from './types'
  * offered in swap, which the reader adds one row at a time, and optionally a buyback value with
  * the number of seasons it stays valid.
  *
- * @param props The bidding club, the player, the player's name and the player's value.
- * @returns The rendered form. The transfer fee states the player's value under it, and the swap
- * player rows come after it.
+ * @param props The bidding club, the player, the player's name, and what to do once a bid went
+ * through.
+ * @returns The rendered form. The swap player rows come after the transfer fee.
  */
 export function TransferBidForm({
   leagueTeamId,
   playerId,
   playerName,
-  value,
+  onSent,
 }: TransferBidFormProps) {
   const {
     fee,
@@ -40,7 +40,7 @@ export function TransferBidForm({
     buybackPeriod,
     isPending,
     onSubmit,
-  } = useTransferBidForm(leagueTeamId, playerId, playerName, value)
+  } = useTransferBidForm(leagueTeamId, playerId, playerName, onSent)
 
   return (
     <BidForm submitLabel={PLACE_TRANSFER_BID_LABEL} isPending={isPending} onSubmit={onSubmit}>

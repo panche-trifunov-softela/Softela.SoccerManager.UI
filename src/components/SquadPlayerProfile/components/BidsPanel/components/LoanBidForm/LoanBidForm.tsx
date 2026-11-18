@@ -20,15 +20,23 @@ import type { LoanBidFormProps } from './types'
  * The form that places a loan bid for a player: the fee offered, how long the loan lasts, an
  * optional buy option, and the player's weekly salary, which stays the same.
  *
- * @param props The bidding club, the player, the player's name and the player's weekly wage.
+ * @param props The bidding club, the player, the player's name, the player's weekly wage, and what
+ * to do once a bid went through.
  * @returns The rendered form. The salary shows the wage in a field that cannot be edited.
  */
-export function LoanBidForm({ leagueTeamId, playerId, playerName, wage }: LoanBidFormProps) {
+export function LoanBidForm({
+  leagueTeamId,
+  playerId,
+  playerName,
+  wage,
+  onSent,
+}: LoanBidFormProps) {
   const { fee, length, buyOption, salary, isPending, onSubmit } = useLoanBidForm(
     leagueTeamId,
     playerId,
     playerName,
     wage,
+    onSent,
   )
 
   return (

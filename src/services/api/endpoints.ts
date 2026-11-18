@@ -94,6 +94,14 @@ export const API_ROUTES = {
       `/api/league-teams/${id}/league-players/${playerId}/bids`,
 
     /**
+     * The clubs with a bid on one player, accepted deals first and then newest first, by the
+     * ACTING club's id and the player's id; any manager of that league may read them. It says who
+     * has bid, never the terms.
+     */
+    leaguePlayerBidders: (id: number, playerId: number) =>
+      `/api/league-teams/${id}/league-players/${playerId}/bidders`,
+
+    /**
      * The transfer bids a club places for a player registered at another club, by the BIDDING
      * club's id and the player's id; takes a `POST`.
      */

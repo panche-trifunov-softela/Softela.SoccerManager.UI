@@ -1,14 +1,14 @@
-import { Tabs } from '../Tabs'
-
-import { LoanBidForm } from './components/LoanBidForm'
-import { TransferBidForm } from './components/TransferBidForm'
 import {
   BID_TYPE_TABS_LABEL,
   LOAN_BID_TAB_ID,
   LOAN_BID_TAB_LABEL,
   TRANSFER_BID_TAB_ID,
   TRANSFER_BID_TAB_LABEL,
-} from './constants'
+} from '../../constants'
+import { Tabs } from '../Tabs'
+
+import { LoanBidForm } from './components/LoanBidForm'
+import { TransferBidForm } from './components/TransferBidForm'
 
 import type { BidsPanelProps } from './types'
 

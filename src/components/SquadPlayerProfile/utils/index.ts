@@ -1,3 +1,5 @@
-export { toBidsTarget } from './toBidsTarget'
+export { toBidsView } from './toBidsView'
 export { toFailure } from './toFailure'
+export { toFeeText } from './toFeeText'
 export { toPlayerStatus } from './toPlayerStatus'
+export { toSeasonsText } from './toSeasonsText'

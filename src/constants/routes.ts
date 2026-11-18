@@ -24,6 +24,18 @@ export const ROUTES = {
   /** The tactics of one team the signed-in user manages, in one league; managers only. */
   myTeamTactics: '/league-teams/:leagueTeamId/tactics',
 
+  /** The transfer bids of one team the signed-in user manages, in one league; managers only. */
+  myTeamMarketTransferBids: '/league-teams/:leagueTeamId/market/transfer-bids',
+
+  /** The loan bids of one team the signed-in user manages, in one league; managers only. */
+  myTeamMarketLoanBids: '/league-teams/:leagueTeamId/market/loan-bids',
+
+  /** The shortlist of one team the signed-in user manages, in one league; managers only. */
+  myTeamMarketShortlist: '/league-teams/:leagueTeamId/market/shortlist',
+
+  /** The player search of one team the signed-in user manages, in one league; managers only. */
+  myTeamMarketSearch: '/league-teams/:leagueTeamId/market/search',
+
   /** Adding a team for the signed-in user to manage. */
   addTeam: '/add-team',
 

@@ -49,3 +49,24 @@ export const BIDS_TAB_LABEL = 'Bids'
 
 /** The icon of the bids tab. */
 export const BIDS_TAB_ICON = faHandHoldingDollar
+
+/** The accessible name of the strip that switches between the transfer and the loan kind of bid. */
+export const BID_TYPE_TABS_LABEL = 'Bid type'
+
+/** The id of the transfer sub-tab of the bids tab. */
+export const TRANSFER_BID_TAB_ID = 'transfer'
+
+/** The label of the transfer sub-tab of the bids tab. */
+export const TRANSFER_BID_TAB_LABEL = 'Transfer'
+
+/** The id of the loan sub-tab of the bids tab. */
+export const LOAN_BID_TAB_ID = 'loan'
+
+/** The label of the loan sub-tab of the bids tab. */
+export const LOAN_BID_TAB_LABEL = 'Loan'
+
+/** What a fee of zero reads as. */
+export const FREE_TRANSFER_TEXT = 'Free'
+
+/** The word before a season's number, as in `Season 3`. */
+export const SEASON_LABEL = 'Season'

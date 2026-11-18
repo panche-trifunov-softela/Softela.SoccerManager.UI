@@ -1,4 +1,5 @@
 @use '@/styles/breakpoints' as *;
+@use './row' as *;
 
 /*
  * The club menu is one column of links in two looks:
@@ -7,9 +8,10 @@
  *   page, so the sidebar takes no width. An edge tab at the bottom opens it.
  * - From lg it is the template's 250px panel beside the page.
  *
- * Both show the icon and its label in a row. Row recipe, from the Liga template:
- * 40px tall rows with a 4px radius, an 18px icon centred in a 20px box, a 12px gap,
- * the h4 label, and the active row on the --border colour.
+ * Both show the icon and its label in a row. Row recipe, from the Liga template and
+ * shared with a group's toggle in _row.scss: 40px tall rows with a 4px radius, an
+ * 18px icon centred in a 20px box, a 12px gap, the h4 label, and the active row on
+ * the --border colour.
  */
 .sidebar {
     /* Below lg the root has no box: the drawer, tab and backdrop are all fixed. */
@@ -83,38 +85,16 @@
     gap: 8px;
 }
 
-/* The row reaches 10px into the column's side padding, as in the template, so the
-   highlight is wider than the icon and label. */
 .link {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    height: 40px;
-    padding-inline: 10px;
-    margin-inline: -10px;
-    border-radius: 4px;
-    color: var(--text);
-    transition: background-color var(--transition), color var(--transition);
-
-    &:hover,
-    &:focus-visible {
-        color: var(--header);
-    }
+    @include sidebar-row;
 
     &[aria-current='page'] {
-        background: var(--border);
-        color: var(--header);
+        @include sidebar-row-current;
     }
+
+    @include sidebar-row-label;
 }
 
 .icon {
-    flex: none;
-    width: 20px;
-    font-size: 1.125rem;
-}
-
-/* Nested under .link so it outranks the global .h4 colour; the label follows the
-   link's own colour. */
-.link .label {
-    color: inherit;
+    @include sidebar-row-icon;
 }

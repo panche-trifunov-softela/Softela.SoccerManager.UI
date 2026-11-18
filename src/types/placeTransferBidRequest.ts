@@ -1,5 +1,5 @@
 /**
- * The body of the proposed `POST /api/league-teams/{id}/league-players/{playerId}/transfer-bids`.
+ * The body of `POST /api/league-teams/{id}/league-players/{playerId}/transfer-bids`.
  * The bidding club is the route's club, and the selling club, the season and the Pending status
  * are set by the server, so none of them is in the body. Money is in whole euros.
  */

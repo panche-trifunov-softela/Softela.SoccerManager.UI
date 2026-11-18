@@ -75,6 +75,9 @@ export interface PlayerTabReadState<T> {
 
   /** What shows instead of the data: that it is loading or why it could not be read, else `null`. */
   message: string | null
+
+  /** Reads the list again, keeping what was read on screen until the new read settles. */
+  reload: () => void
 }
 
 /** A player a bid can be placed for, with the player's transfer value and weekly wage. */
@@ -88,6 +91,23 @@ export interface BidsTarget {
   /** The player's contract wage at their club, in euros per week. */
   wage: number
 }
+
+/**
+ * What the Bids tab shows: the forms to place a bid for a player of another club, or the bids
+ * received for a player of the acting club itself.
+ */
+export type BidsView =
+  | {
+      /** The player is at another club, so the acting club can place bids for them. */
+      kind: 'place'
+
+      /** The player the bids are placed for. */
+      target: BidsTarget
+    }
+  | {
+      /** The player is at the acting club, so the bids other clubs placed for them are answered. */
+      kind: 'answer'
+    }
 
 /** What `useSquadPlayerProfile` exposes to the panel. */
 export interface SquadPlayerProfileState {
@@ -107,10 +127,10 @@ export interface SquadPlayerProfileState {
   isNotFound: boolean
 
   /**
-   * The player a bid can be placed for, or `null` when the player is at the panel's own club, so
-   * there is nothing to bid on.
+   * What the Bids tab shows, or `null` while the profile is not there to show: the forms to bid
+   * for a player of another club, or the bids received for a player of the panel's own club.
    */
-  bids: BidsTarget | null
+  bids: BidsView | null
 
   /** What shows instead of the profile: that it is loading or why it could not be read. */
   message: string | null

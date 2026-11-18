@@ -6,12 +6,13 @@ import type { HistoryListProps } from './types'
 
 /**
  * A list of a player's history: each row has a title over a smaller line and optionally a second
- * one, optionally a crest at its start and optionally a value over a note at the right edge.
+ * one, optionally a crest at its start and optionally a value over a note at the right edge. A
+ * row can also carry actions, drawn on a line of their own under its text and value.
  *
- * @param props The rows, every text already written.
+ * @param props The rows, every text already written, and what draws a row's actions.
  * @returns The rendered list.
  */
-export function HistoryList({ items }: HistoryListProps) {
+export function HistoryList({ items, renderActions }: HistoryListProps) {
   return (
     <ul className={styles.list}>
       {items.map((item) => (
@@ -31,6 +32,10 @@ export function HistoryList({ items }: HistoryListProps) {
 
             {item.note !== null && <p className={`${styles.note} text-12`}>{item.note}</p>}
           </div>
+
+          {renderActions !== undefined && (
+            <div className={styles.actions}>{renderActions(item.key)}</div>
+          )}
         </li>
       ))}
     </ul>

@@ -9,17 +9,11 @@ export const TRANSFERS_READ_MESSAGES: PlayerTabReadMessages = {
 /** What shows when the player has no transfers in the club's league. */
 export const NO_TRANSFERS_MESSAGE = 'No transfers recorded.'
 
-/** What a fee of zero reads as. */
-export const FREE_TRANSFER_TEXT = 'Free'
-
 /** The note under the fee of a loan. */
 export const LOAN_NOTE = 'Loan'
 
 /** What a swap reads as: the note under its fee, or the fee itself when none was paid. */
 export const SWAP_TEXT = 'Swap'
-
-/** The word before a season's number, as in `Season 3`. */
-export const SEASON_LABEL = 'Season'
 
 /** The sign between the player sold and the players swapped for him. */
 export const SWAP_ARROW = '⇄'

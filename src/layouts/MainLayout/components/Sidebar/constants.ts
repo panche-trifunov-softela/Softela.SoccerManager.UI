@@ -1,4 +1,4 @@
-import { faUsers, faChalkboardUser } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faChalkboardUser, faStore } from '@fortawesome/free-solid-svg-icons'
 
 import { ROUTES } from '@/constants/routes'
 
@@ -8,12 +8,31 @@ import type { SidebarItemDefinition } from './types'
 export const SIDEBAR_LABEL = 'Club'
 
 /**
- * The sidebar's entries, in the order they show. A `manager` entry is listed only for a club the
- * user runs, and its route belongs under `ManagedClubRoute` in the router.
+ * The sidebar's entries, in the order they show: a link, or a group that opens a list of links. A
+ * `manager` entry is listed only for a club the user runs, and its route, or the routes of its
+ * links, belong under `ManagedClubRoute` in the router.
  */
 export const SIDEBAR_ITEMS: readonly SidebarItemDefinition[] = [
-  { label: 'Squad', route: ROUTES.myTeamSquad, icon: faUsers, access: 'everyone' },
-  { label: 'Tactics', route: ROUTES.myTeamTactics, icon: faChalkboardUser, access: 'manager' },
+  { kind: 'link', label: 'Squad', route: ROUTES.myTeamSquad, icon: faUsers, access: 'everyone' },
+  {
+    kind: 'link',
+    label: 'Tactics',
+    route: ROUTES.myTeamTactics,
+    icon: faChalkboardUser,
+    access: 'manager',
+  },
+  {
+    kind: 'group',
+    label: 'Market',
+    icon: faStore,
+    access: 'manager',
+    links: [
+      { label: 'Transfer bids', route: ROUTES.myTeamMarketTransferBids },
+      { label: 'Loan bids', route: ROUTES.myTeamMarketLoanBids },
+      { label: 'Shortlisted players', route: ROUTES.myTeamMarketShortlist },
+      { label: 'Search players', route: ROUTES.myTeamMarketSearch },
+    ],
+  },
 ]
 
 /** The edge tab's name, open or closed; its `aria-expanded` carries the state. */

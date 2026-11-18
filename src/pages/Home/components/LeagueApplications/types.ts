@@ -1,7 +1,6 @@
+import type { AnswerButtonsProps } from '@/components/AnswerButtons'
 import type { ApplicationStatus } from '@/types/applicationStatus'
 import type { IncomingLeagueTeamManagerApplicationDto } from '@/types/incomingLeagueTeamManagerApplicationDto'
-
-import type { AnswerButtonsProps, ApplicationAnswer } from './components/AnswerButtons'
 
 /** One finished read of the applications made for clubs in the signed-in manager's leagues. */
 export interface LeagueApplicationsRead {
@@ -32,20 +31,11 @@ export interface ApplicationAnswerSpec {
   /** What shows, after the club's name, when the answer went through. */
   answeredMessage: string
 
-  /** What shows, after the club's name, when the answer never got a reply from the API. */
+  /**
+   * The sentence a toast shows, after the club's name, when the failure itself says nothing more;
+   * it is the fallback of `toErrorMessage`.
+   */
   failedMessage: string
-}
-
-/** An answer sent from one card, kept while it is under way. */
-export interface SentApplicationAnswer {
-  /** The id of the application answered. */
-  applicationId: number
-
-  /** The answer sent. */
-  answer: ApplicationAnswer
-
-  /** Whether the API took the answer, so only reading the applications again is left. */
-  hasGoneThrough: boolean
 }
 
 /** What `useApplicationAnswers` exposes to the view. */

@@ -1,6 +1,7 @@
+import { AnswerButtons } from '@/components/AnswerButtons'
+
 import { HomeSection } from '../HomeSection'
 
-import { AnswerButtons } from './components/AnswerButtons'
 import { LeagueApplicationCard } from './components/LeagueApplicationCard'
 import { useApplicationAnswers } from './hooks'
 import { useLeagueApplications } from './useLeagueApplications'

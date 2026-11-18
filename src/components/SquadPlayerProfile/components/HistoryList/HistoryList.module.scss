@@ -55,3 +55,13 @@
 .note {
     margin: 2px 0 0;
 }
+
+/* A row's actions take a second line under its text and end columns, past the crest's column. */
+.actions {
+    grid-column: 2 / -1;
+}
+
+/* Without a crest the text is the first column, so the actions start there. */
+.plain .actions {
+    grid-column: 1 / -1;
+}

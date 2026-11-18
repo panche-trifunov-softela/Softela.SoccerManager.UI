@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 /** What every row of a history list has, whether or not it has a crest. */
 interface HistoryItemBase {
   /** What tells the row from the others; unique in the list. */
@@ -41,4 +43,10 @@ export type HistoryItem = CrestedHistoryItem | PlainHistoryItem
 export interface HistoryListProps {
   /** The rows, in the order to show them. */
   items: HistoryItem[]
+
+  /**
+   * Draws what the reader can do with one row, below its text and value, or `undefined` for a
+   * list whose rows have nothing to do. Called with the row's `key`.
+   */
+  renderActions?: (key: string) => ReactNode
 }

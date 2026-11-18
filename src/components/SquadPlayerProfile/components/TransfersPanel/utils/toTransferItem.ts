@@ -1,6 +1,8 @@
-import { LOAN_NOTE, SEASON_LABEL, SWAP_TEXT } from '../constants'
+import { SEASON_LABEL } from '@/components/SquadPlayerProfile/constants'
+import { toFeeText } from '@/components/SquadPlayerProfile/utils'
 
-import { toFeeText } from './toFeeText'
+import { LOAN_NOTE, SWAP_TEXT } from '../constants'
+
 import { toSwapLine } from './toSwapLine'
 
 import type { PlayerTransferDto } from '@/types/playerTransferDto'

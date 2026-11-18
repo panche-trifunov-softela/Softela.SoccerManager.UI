@@ -7,7 +7,7 @@ import { getLeaguePlayerProfile, toErrorMessage } from '@/services/api'
 import { toast } from '@/store/toast'
 
 import { PROFILE_LOAD_FAILED_MESSAGE, PROFILE_LOADING_MESSAGE } from './constants'
-import { toBidsTarget, toFailure, toPlayerStatus } from './utils'
+import { toBidsView, toFailure, toPlayerStatus } from './utils'
 
 import type { SquadPlayerProfileRead, SquadPlayerProfileState } from './types'
 
@@ -24,9 +24,9 @@ import type { SquadPlayerProfileRead, SquadPlayerProfileState } from './types'
  *
  * @param leagueTeamId The acting club's league team id.
  * @param playerId The player whose profile is read.
- * @returns The props of the header, the pitch and the status section, the player a bid can be
- * placed for (`null` for a player at the acting club itself), or the sentence to show in their
- * place.
+ * @returns The props of the header, the pitch and the status section, what the Bids tab shows
+ * (the forms to bid for another club's player, or the bids received for the acting club's own
+ * player), or the sentence to show in their place.
  */
 export function useSquadPlayerProfile(
   leagueTeamId: number,
@@ -78,7 +78,7 @@ export function useSquadPlayerProfile(
     header: toSquadPlayerHeader(current.profile, new Date()),
     pitch: toPositionsPitch(current.profile.positions),
     status: toPlayerStatus(current.profile),
-    bids: toBidsTarget(current.profile, leagueTeamId),
+    bids: toBidsView(current.profile, leagueTeamId),
     isNotFound: false,
     message: null,
   }

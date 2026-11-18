@@ -21,12 +21,15 @@ import type {
  * - A caller who does not manage the club (a 403) gets a fixed sentence and no toast.
  * - Any other failure, a 404 included, says why in a toast, and the tab says the list could not be
  *   loaded. A read that was aborted says nothing.
+ * - `reload` reads the list again. What was read stays on screen until the new read settles, and
+ *   a read still under way is aborted.
  *
  * @param leagueTeamId The acting club's league team id.
  * @param playerId The player whose list is read.
  * @param read What reads the list.
  * @param messages The sentences for loading and for a failed read; pass a stable object.
- * @returns What was read, or the sentence to show in its place.
+ * @returns What was read, or the sentence to show in its place, and the function that reads it
+ * again.
  */
 export function usePlayerTabRead<T>(
   leagueTeamId: number,
@@ -35,6 +38,8 @@ export function usePlayerTabRead<T>(
   messages: PlayerTabReadMessages,
 ): PlayerTabReadState<T> {
   const [settled, setSettled] = useState<PlayerTabSettledRead<T> | null>(null)
+
+  const [reloads, setReloads] = useState(0)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -61,14 +66,18 @@ export function usePlayerTabRead<T>(
     return () => {
       controller.abort()
     }
-  }, [leagueTeamId, playerId, read, messages])
+  }, [leagueTeamId, playerId, read, messages, reloads])
+
+  const reload = () => {
+    setReloads((count) => count + 1)
+  }
 
   const current =
     settled !== null && settled.leagueTeamId === leagueTeamId && settled.playerId === playerId
       ? settled
       : null
 
-  if (current === null) return { data: null, message: messages.loading }
+  if (current === null) return { data: null, message: messages.loading, reload }
 
-  return { data: current.data, message: current.message }
+  return { data: current.data, message: current.message, reload }
 }

@@ -7,6 +7,10 @@ import { MainLayout } from '@/layouts/MainLayout'
 import { AddTeam } from '@/pages/AddTeam'
 import { AvailableTeams } from '@/pages/AvailableTeams'
 import { Home } from '@/pages/Home'
+import { MyTeamMarketLoanBids } from '@/pages/MyTeamMarketLoanBids'
+import { MyTeamMarketSearch } from '@/pages/MyTeamMarketSearch'
+import { MyTeamMarketShortlist } from '@/pages/MyTeamMarketShortlist'
+import { MyTeamMarketTransferBids } from '@/pages/MyTeamMarketTransferBids'
 import { MyTeamNewsFeed } from '@/pages/MyTeamNewsFeed'
 import { MyTeamSquad } from '@/pages/MyTeamSquad'
 import { MyTeamTactics } from '@/pages/MyTeamTactics'
@@ -33,12 +37,17 @@ export const router = createBrowserRouter([
           { index: true, Component: Home },
           { path: ROUTES.profile, Component: Profile },
           { path: ROUTES.settings, Component: Settings },
-          // The club pages only its manager may open; each is a `manager` entry in the sidebar.
+          // The club pages only its manager may open. Each is reached from a `manager` sidebar
+          // entry or a `manager` group's sub-link; the news feed has none yet.
           {
             Component: ManagedClubRoute,
             children: [
               { path: ROUTES.myTeamNewsFeed, Component: MyTeamNewsFeed },
               { path: ROUTES.myTeamTactics, Component: MyTeamTactics },
+              { path: ROUTES.myTeamMarketTransferBids, Component: MyTeamMarketTransferBids },
+              { path: ROUTES.myTeamMarketLoanBids, Component: MyTeamMarketLoanBids },
+              { path: ROUTES.myTeamMarketShortlist, Component: MyTeamMarketShortlist },
+              { path: ROUTES.myTeamMarketSearch, Component: MyTeamMarketSearch },
             ],
           },
           { path: ROUTES.myTeamSquad, Component: MyTeamSquad },

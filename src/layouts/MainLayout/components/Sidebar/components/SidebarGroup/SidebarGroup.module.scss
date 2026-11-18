@@ -1,0 +1,80 @@
+@use '../../row' as *;
+
+/*
+ * A group is a row that only opens and closes its list of links. The row is a button, so it
+ * is as wide as its content unless told otherwise; the shared row mixin sizes it like a link.
+ */
+.row {
+    @include sidebar-row;
+
+    /* The same look as a current link while the page is one of the group's links. */
+    &--current {
+        @include sidebar-row-current;
+    }
+
+    @include sidebar-row-label;
+}
+
+.icon {
+    @include sidebar-row-icon;
+}
+
+/* The chevron sits at the row's end and turns over while the list is open. */
+.chevron {
+    flex: none;
+    margin-inline-start: auto;
+    font-size: 0.625rem;
+    color: var(--text);
+    transition: transform var(--transition), color var(--transition);
+
+    .row[aria-expanded='true'] & {
+        transform: rotate(180deg);
+        color: var(--header);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+/*
+ * The links are hidden with the hidden attribute; the list's own display is set only while it
+ * shows, so it cannot override that.
+ */
+.links {
+    padding-block: 8px 4px;
+
+    &:not([hidden]) {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    &[hidden] {
+        display: none;
+    }
+}
+
+/*
+ * A link is a full-width block, so its whole row is the target. Its text starts where the
+ * group's label does: the row's 10px padding, the 20px icon and the 12px gap, less the 10px the
+ * row reaches outside the column.
+ */
+.link {
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+    padding-inline-start: 32px;
+    font-family: var(--heading-font);
+    font-weight: 500;
+    font-size: 0.75rem;
+    color: var(--text);
+    transition: color var(--transition), text-shadow var(--transition);
+
+    &:hover,
+    &:focus-visible,
+    &[aria-current='page'] {
+        color: var(--header);
+        text-shadow: 0 0 0 var(--header);
+    }
+}

@@ -86,18 +86,42 @@ export const API_ROUTES = {
     search: (id: number) => `/api/league-teams/${id}/search`,
 
     /**
-     * The transfer bids a club places for a player registered at another club, by the bidding
+     * The pending transfer and loan bids for one player, newest first, by the id of the club
+     * holding the player and the player's id; only that club's current manager or an operator may
+     * read them.
+     */
+    leaguePlayerBids: (id: number, playerId: number) =>
+      `/api/league-teams/${id}/league-players/${playerId}/bids`,
+
+    /**
+     * The transfer bids a club places for a player registered at another club, by the BIDDING
      * club's id and the player's id; takes a `POST`.
      */
     leaguePlayerTransferBids: (id: number, playerId: number) =>
       `/api/league-teams/${id}/league-players/${playerId}/transfer-bids`,
 
     /**
-     * The loan bids a club places for a player registered at another club, by the bidding club's
+     * One transfer bid for a player, by the id of the club holding the player, the player's id and
+     * the bid's id; a `PUT` answers it, accepting or rejecting it, when the caller manages the
+     * club holding the player or is an operator.
+     */
+    leaguePlayerTransferBidById: (id: number, playerId: number, bidId: number) =>
+      `/api/league-teams/${id}/league-players/${playerId}/transfer-bids/${bidId}`,
+
+    /**
+     * The loan bids a club places for a player registered at another club, by the BIDDING club's
      * id and the player's id; takes a `POST`.
      */
     leaguePlayerLoanBids: (id: number, playerId: number) =>
       `/api/league-teams/${id}/league-players/${playerId}/loan-bids`,
+
+    /**
+     * One loan bid for a player, by the id of the club holding the player, the player's id and the
+     * bid's id; a `PUT` answers it, accepting or rejecting it, when the caller manages the club
+     * holding the player or is an operator.
+     */
+    leaguePlayerLoanBidById: (id: number, playerId: number, bidId: number) =>
+      `/api/league-teams/${id}/league-players/${playerId}/loan-bids/${bidId}`,
   },
   leagues: {
     /** The leagues the signed-in caller does not manage a club in; `?searchTerm=` narrows them by name. */

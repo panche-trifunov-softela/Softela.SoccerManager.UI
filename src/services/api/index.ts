@@ -4,7 +4,10 @@ export { toErrorMessage } from './toErrorMessage'
 export { getFormations } from './formationApi'
 export { getLeague, getLeagues } from './leagueApi'
 export {
+  answerLoanBid,
+  answerTransferBid,
   getAvailableLeagueTeams,
+  getLeaguePlayerBids,
   getLeaguePlayerInjuries,
   getLeaguePlayerProfile,
   getLeaguePlayerTransfers,

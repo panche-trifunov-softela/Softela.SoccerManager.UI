@@ -1,0 +1,42 @@
+// The look of one sidebar row, shared by a link and by a group's toggle so they are exactly alike:
+// 40px tall with a 4px radius. The row reaches 10px into the column's side padding, as in the
+// template, so the highlight is wider than the icon and label. The including module defines
+// `.icon` and `.label` inside the row.
+@mixin sidebar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    inline-size: calc(100% + 20px);
+    height: 40px;
+    padding-inline: 10px;
+    margin-inline: -10px;
+    border-radius: 4px;
+    color: var(--text);
+    transition: background-color var(--transition), color var(--transition);
+
+    &:hover,
+    &:focus-visible {
+        color: var(--header);
+    }
+}
+
+// The look of the row the user is on, or a group's row while the page is one of its links.
+@mixin sidebar-row-current {
+    background: var(--border);
+    color: var(--header);
+}
+
+// An 18px icon centred in a 20px box.
+@mixin sidebar-row-icon {
+    flex: none;
+    width: 20px;
+    font-size: 1.125rem;
+}
+
+// Nested under the row so it outranks the global .h4 colour; the label follows the row's own
+// colour.
+@mixin sidebar-row-label {
+    .label {
+        color: inherit;
+    }
+}

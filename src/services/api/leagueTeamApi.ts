@@ -2,8 +2,10 @@ import { API_ROUTES } from './endpoints'
 import { request } from './http'
 import { toQueryString } from './utils'
 
+import type { AnswerBidRequest } from '@/types/answerBidRequest'
 import type { AvailableLeagueTeamDto } from '@/types/availableLeagueTeamDto'
 import type { CreatedResourceDto } from '@/types/createdResourceDto'
+import type { LeaguePlayerBidsDto } from '@/types/leaguePlayerBidsDto'
 import type { LeagueSearchResultDto } from '@/types/leagueSearchResultDto'
 import type { LeagueTeamProfileDto } from '@/types/leagueTeamProfileDto'
 import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
@@ -14,6 +16,7 @@ import type { PlaceTransferBidRequest } from '@/types/placeTransferBidRequest'
 import type { PlayerInjuryDto } from '@/types/playerInjuryDto'
 import type { PlayerTransferDto } from '@/types/playerTransferDto'
 import type { SquadPlayerProfileDto } from '@/types/squadPlayerProfileDto'
+import type { SuccessResultDto } from '@/types/successResultDto'
 
 /**
  * Reads every club on one league's roster, with whether each has a current manager and whether
@@ -169,6 +172,27 @@ export function getLeaguePlayerInjuries(
 }
 
 /**
+ * Reads the pending transfer and loan bids for one player of a club, newest first. The club is the
+ * one holding the player, which is the club that answers the bids.
+ *
+ * @param leagueTeamId The league team id of the club holding the player.
+ * @param playerId The player's id.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The pending transfer bids and loan bids; each list is empty when there are none.
+ * @throws {ApiError} When the API answers with an error status: 403 for a caller who does not
+ * manage the club, or 404 for a player with no squad row at the club.
+ */
+export function getLeaguePlayerBids(
+  leagueTeamId: number,
+  playerId: number,
+  signal?: AbortSignal,
+): Promise<LeaguePlayerBidsDto> {
+  const path = API_ROUTES.leagueTeams.leaguePlayerBids(leagueTeamId, playerId)
+
+  return request<LeaguePlayerBidsDto>(path, { signal })
+}
+
+/**
  * Searches a club's league by name for players, registered or free agents, and for clubs, ignoring
  * case and accents. A name matches when it contains the term, and names that start with the term,
  * or a word of it, come first.
@@ -231,4 +255,54 @@ export function placeLoanBid(
   const path = API_ROUTES.leagueTeams.leaguePlayerLoanBids(leagueTeamId, playerId)
 
   return request<CreatedResourceDto>(path, { method: 'POST', body: bid })
+}
+
+/**
+ * Answers one pending transfer bid for a player of a club, by accepting or rejecting it. Only the
+ * answer is recorded: the player stays at the club. Accepting also rejects every other pending bid
+ * that involves the players of the deal.
+ *
+ * @param leagueTeamId The league team id of the club holding the player.
+ * @param playerId The player's id.
+ * @param bidId The bid's id.
+ * @param answer The answer: `2` to accept, `3` to reject.
+ * @returns The API's answer, which says the bid was answered.
+ * @throws {ApiError} When the API answers with an error status: 400 for a bid that is no longer
+ * available or an answer other than accept or reject, or 403 for a caller who does not manage the
+ * club.
+ */
+export function answerTransferBid(
+  leagueTeamId: number,
+  playerId: number,
+  bidId: number,
+  answer: AnswerBidRequest,
+): Promise<SuccessResultDto> {
+  const path = API_ROUTES.leagueTeams.leaguePlayerTransferBidById(leagueTeamId, playerId, bidId)
+
+  return request<SuccessResultDto>(path, { method: 'PUT', body: answer })
+}
+
+/**
+ * Answers one pending loan bid for a player of a club, by accepting or rejecting it. Only the
+ * answer is recorded: the player stays at the club. Accepting also rejects every other pending bid
+ * that involves the player.
+ *
+ * @param leagueTeamId The league team id of the club holding the player.
+ * @param playerId The player's id.
+ * @param bidId The bid's id.
+ * @param answer The answer: `2` to accept, `3` to reject.
+ * @returns The API's answer, which says the bid was answered.
+ * @throws {ApiError} When the API answers with an error status: 400 for a bid that is no longer
+ * available or an answer other than accept or reject, or 403 for a caller who does not manage the
+ * club.
+ */
+export function answerLoanBid(
+  leagueTeamId: number,
+  playerId: number,
+  bidId: number,
+  answer: AnswerBidRequest,
+): Promise<SuccessResultDto> {
+  const path = API_ROUTES.leagueTeams.leaguePlayerLoanBidById(leagueTeamId, playerId, bidId)
+
+  return request<SuccessResultDto>(path, { method: 'PUT', body: answer })
 }

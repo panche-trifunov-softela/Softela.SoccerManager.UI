@@ -1,4 +1,4 @@
-import { toSeasonsText } from './toSeasonsText'
+import { toSeasonsText } from '@/components/SquadPlayerProfile/utils'
 
 import type { BidSelectOption } from '../types'
 

@@ -1,18 +1,3 @@
-/** The accessible name of the strip that switches between the two kinds of bid. */
-export const BID_TYPE_TABS_LABEL = 'Bid type'
-
-/** The id of the transfer bid tab. */
-export const TRANSFER_BID_TAB_ID = 'transfer'
-
-/** The label of the transfer bid tab. */
-export const TRANSFER_BID_TAB_LABEL = 'Transfer'
-
-/** The id of the loan bid tab. */
-export const LOAN_BID_TAB_ID = 'loan'
-
-/** The label of the loan bid tab. */
-export const LOAN_BID_TAB_LABEL = 'Loan'
-
 /** The sign drawn at the start of an amount of money. */
 export const EURO_SIGN = '€'
 

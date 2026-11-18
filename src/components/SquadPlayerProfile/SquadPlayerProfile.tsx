@@ -6,6 +6,7 @@ import { BidsPanel } from './components/BidsPanel'
 import { InjuriesPanel } from './components/InjuriesPanel'
 import { PlayerStatus } from './components/PlayerStatus'
 import { RatingHistoryPanel } from './components/RatingHistoryPanel'
+import { ReceivedBidsPanel } from './components/ReceivedBidsPanel'
 import { Tabs } from './components/Tabs'
 import { TransfersPanel } from './components/TransfersPanel'
 import {
@@ -33,8 +34,10 @@ import type { SquadPlayerProfileProps } from './types'
  * A player as the acting club's league has them, as the side panel shows it when the manager has
  * an acting club: the header beside a pitch with the player's positions, the pitch under it on a
  * phone, and under both the player's condition, morale and suspension, then the tabs: the player's
- * transfer history, their injury history in the club's league, their rating history, and, for a
- * player registered at another club, the bids the acting club can place for them.
+ * transfer history, their injury history in the club's league, their rating history, and their
+ * bids: for a player registered at another club, the bids the acting club can place for them, and
+ * for a player of the acting club itself, the bids other clubs placed for them, to accept or
+ * reject.
  *
  * A player with no registration in the club's league is shown as their own profile instead, as a
  * free agent.
@@ -53,7 +56,7 @@ export function SquadPlayerProfile({ leagueTeamId, playerId }: SquadPlayerProfil
 
   return (
     <div>
-      {header !== null && pitch !== null && status !== null && (
+      {header !== null && pitch !== null && status !== null && bids !== null && (
         <>
           <div className={styles.top}>
             <PlayerHeader {...header} />
@@ -85,18 +88,17 @@ export function SquadPlayerProfile({ leagueTeamId, playerId }: SquadPlayerProfil
                   icon: RATINGS_TAB_ICON,
                   panel: <RatingHistoryPanel />,
                 },
-                ...(bids === null
-                  ? []
-                  : [
-                      {
-                        id: BIDS_TAB_ID,
-                        label: BIDS_TAB_LABEL,
-                        icon: BIDS_TAB_ICON,
-                        panel: (
-                          <BidsPanel leagueTeamId={leagueTeamId} playerId={playerId} {...bids} />
-                        ),
-                      },
-                    ]),
+                {
+                  id: BIDS_TAB_ID,
+                  label: BIDS_TAB_LABEL,
+                  icon: BIDS_TAB_ICON,
+                  panel:
+                    bids.kind === 'place' ? (
+                      <BidsPanel leagueTeamId={leagueTeamId} playerId={playerId} {...bids.target} />
+                    ) : (
+                      <ReceivedBidsPanel leagueTeamId={leagueTeamId} playerId={playerId} />
+                    ),
+                },
               ]}
             />
           </div>

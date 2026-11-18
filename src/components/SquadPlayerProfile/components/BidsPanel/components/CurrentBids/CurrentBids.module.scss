@@ -1,0 +1,16 @@
+/* The section sits under the Transfer/Loan strip; the list brings its own row spacing. */
+.section {
+    margin-block-start: 24px;
+}
+
+/*
+ * The heading is written like the form's field labels (the global `label` and `text-10` classes);
+ * this only takes back what a heading brings of its own, and sets its margins.
+ */
+.heading {
+    margin: 0;
+    margin-block-end: 4px;
+    font-family: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+}

@@ -5,6 +5,7 @@ import { toQueryString } from './utils'
 import type { AnswerBidRequest } from '@/types/answerBidRequest'
 import type { AvailableLeagueTeamDto } from '@/types/availableLeagueTeamDto'
 import type { CreatedResourceDto } from '@/types/createdResourceDto'
+import type { LeaguePlayerBidderDto } from '@/types/leaguePlayerBidderDto'
 import type { LeaguePlayerBidsDto } from '@/types/leaguePlayerBidsDto'
 import type { LeagueSearchResultDto } from '@/types/leagueSearchResultDto'
 import type { LeagueTeamProfileDto } from '@/types/leagueTeamProfileDto'
@@ -190,6 +191,28 @@ export function getLeaguePlayerBids(
   const path = API_ROUTES.leagueTeams.leaguePlayerBids(leagueTeamId, playerId)
 
   return request<LeaguePlayerBidsDto>(path, { signal })
+}
+
+/**
+ * Reads which clubs have a bid on one player of a club's league, accepted deals first and then
+ * newest first. The club is the acting one, not the one holding the player, and the terms of a bid
+ * are never part of the answer.
+ *
+ * @param leagueTeamId The acting club's league team id.
+ * @param playerId The player's id.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The bids, accepted deals first and then newest first; an empty list when there are none.
+ * @throws {ApiError} When the API answers with an error status: 403 for a caller who does not
+ * manage the club, or 404 for a player registered at no club of the club's league.
+ */
+export function getLeaguePlayerBidders(
+  leagueTeamId: number,
+  playerId: number,
+  signal?: AbortSignal,
+): Promise<LeaguePlayerBidderDto[]> {
+  const path = API_ROUTES.leagueTeams.leaguePlayerBidders(leagueTeamId, playerId)
+
+  return request<LeaguePlayerBidderDto[]>(path, { signal })
 }
 
 /**

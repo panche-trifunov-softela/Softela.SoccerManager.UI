@@ -14,7 +14,7 @@ import {
   TRANSFER_BID_SENT_MESSAGE,
 } from './constants'
 import { useSwapRows } from './useSwapRows'
-import { toTransferBidErrors, toTransferBidRequest, toValueHint } from './utils'
+import { toTransferBidErrors, toTransferBidRequest } from './utils'
 
 import type { TransferBidFormProps, TransferBidFormState } from './types'
 
@@ -24,17 +24,16 @@ import type { TransferBidFormProps, TransferBidFormState } from './types'
  *
  * - Errors show only once a submit was attempted, and changing a field drops its own error. The
  *   buyback value and period are checked as a pair, so changing either drops the errors of both.
- *   While the transfer fee has no error, a hint states the player's value.
  * - The swap player rows come from `useSwapRows`: added one at a time, each offering the bidding
  *   club's squad, read once when the form appears. A row with no player chosen is not valid, and is
  *   checked between the transfer fee and the buyback.
  * - A submit follows `useBidSubmit`: the bid is sent only once the form is valid, and a bid that
- *   went through empties the form and removes the swap player rows.
+ *   went through empties the form, removes the swap player rows and then runs `onSent`.
  *
  * @param leagueTeamId The bidding club's league team id.
  * @param playerId The player the bid is for.
  * @param playerName The player's name, which the toasts say.
- * @param value The player's transfer value, in euros.
+ * @param onSent What to do once a bid went through and the form was emptied.
  * @returns The fields, the swap player rows with their add button and removal message, whether a
  * bid is being sent, and the submit handler.
  */
@@ -42,7 +41,7 @@ export function useTransferBidForm(
   leagueTeamId: TransferBidFormProps['leagueTeamId'],
   playerId: TransferBidFormProps['playerId'],
   playerName: TransferBidFormProps['playerName'],
-  value: TransferBidFormProps['value'],
+  onSent: TransferBidFormProps['onSent'],
 ): TransferBidFormState {
   const baseId = useId()
 
@@ -103,10 +102,11 @@ export function useTransferBidForm(
 
       setBuybackSeasons('')
     },
+    onSent,
   })
 
   return {
-    fee: toInputField(feeId, fee, toFieldMessage(errors.fee, toValueHint(value)), () => {
+    fee: toInputField(feeId, fee, toFieldMessage(errors.fee, null), () => {
       clearError('fee')
     }),
     swapRows: swaps.rows,

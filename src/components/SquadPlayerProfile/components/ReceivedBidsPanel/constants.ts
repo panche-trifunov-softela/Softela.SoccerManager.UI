@@ -1,8 +1,8 @@
 import type { AnswerChoice } from '@/types/answerChoice'
 
-import type { PlayerTabReadMessages } from '../../types'
+import type { BidKind, PlayerTabReadMessages } from '../../types'
 
-import type { BidAnswerSpec, BidKind } from './types'
+import type { BidAnswerSpec } from './types'
 
 /** What the bids read says while it loads and, when no better reason is known, when it fails. */
 export const BIDS_READ_MESSAGES: PlayerTabReadMessages = {
@@ -15,9 +15,6 @@ export const NO_TRANSFER_BIDS_MESSAGE = 'No transfer bids received.'
 
 /** What shows under the loan tab when no loan bid was received. */
 export const NO_LOAN_BIDS_MESSAGE = 'No loan bids received.'
-
-/** What sits between a tab's label and its number of bids, and between the parts of a line. */
-export const DOT_SEPARATOR = ' · '
 
 /** What sits between the names of the swapped players. */
 export const SWAP_PLAYER_SEPARATOR = ', '

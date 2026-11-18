@@ -15,6 +15,12 @@ export interface LoanBidFormProps {
 
   /** The player's contract wage at their club, in euros per week. */
   wage: number
+
+  /**
+   * Runs once a bid went through and the form was emptied, so the panel can read the current bids
+   * again.
+   */
+  onSent: () => void
 }
 
 /** What the reader has typed into the loan bid form. */

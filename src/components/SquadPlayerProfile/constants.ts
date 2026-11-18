@@ -5,6 +5,8 @@ import {
   faRightLeft,
 } from '@fortawesome/free-solid-svg-icons'
 
+import type { TransferStatus } from '@/types/transferStatus'
+
 /** What shows while the profile is being read. */
 export const PROFILE_LOADING_MESSAGE = 'Loading the player…'
 
@@ -70,3 +72,9 @@ export const FREE_TRANSFER_TEXT = 'Free'
 
 /** The word before a season's number, as in `Season 3`. */
 export const SEASON_LABEL = 'Season'
+
+/** What sits between a tab's label and its number of bids, and between the parts of a line. */
+export const DOT_SEPARATOR = ' · '
+
+/** The status of a bid its holder accepted, whose deal is agreed but not completed yet. */
+export const ACCEPTED_BID_STATUS: TransferStatus = 2

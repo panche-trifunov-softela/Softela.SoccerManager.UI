@@ -4,6 +4,8 @@ import type { CreatedResourceDto } from '@/types/createdResourceDto'
 
 import type { BidsTarget } from '../../types'
 
+import type { CurrentBidsProps } from './components/CurrentBids'
+
 /** What `BidsPanel` is handed. */
 export interface BidsPanelProps extends BidsTarget {
   /** The bidding club: the acting club's league team id. */
@@ -11,6 +13,15 @@ export interface BidsPanelProps extends BidsTarget {
 
   /** The player the bids are placed for. */
   playerId: number
+}
+
+/** What `useBidsPanel` exposes to the view. */
+export interface BidsPanelState {
+  /** The current bids' props: the rows, and what shows under them. */
+  currentBids: CurrentBidsProps
+
+  /** Reads the current bids again; the forms run it once a bid went through. */
+  onSent: () => void
 }
 
 /** The line under a bid field's control: a hint, or why the field is not valid. */
@@ -149,6 +160,12 @@ export interface BidSubmitOptions {
 
   /** Empties the form once a bid went through. */
   reset: () => void
+
+  /**
+   * Runs once a bid went through and the form was emptied, so the panel can read the current bids
+   * again.
+   */
+  onSent: () => void
 }
 
 /** What `useBidSubmit` exposes to a form's hook. */

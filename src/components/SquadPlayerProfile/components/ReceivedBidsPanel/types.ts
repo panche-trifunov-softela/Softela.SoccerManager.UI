@@ -5,9 +5,6 @@ import type { TransferStatus } from '@/types/transferStatus'
 
 import type { HistoryItem } from '../HistoryList'
 
-/** The two kinds of bid a player can receive. */
-export type BidKind = 'transfer' | 'loan'
-
 /** What `ReceivedBidsPanel` is handed. */
 export interface ReceivedBidsPanelProps {
   /** The acting club, which holds the player: the league team whose manager answers the bids. */

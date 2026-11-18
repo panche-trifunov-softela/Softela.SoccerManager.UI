@@ -32,12 +32,13 @@ import type { LoanBidFormProps, LoanBidFormState } from './types'
  * - The salary is the player's wage at their club, shown as it is and never edited: the player
  *   keeps the same salary at the bidding club.
  * - A submit follows `useBidSubmit`: the bid is sent only once the form is valid, and a bid that
- *   went through empties the form.
+ *   went through empties the form and then runs `onSent`.
  *
  * @param leagueTeamId The bidding club's league team id.
  * @param playerId The player the bid is for.
  * @param playerName The player's name, which the toasts say.
  * @param wage The player's contract wage, in euros per week.
+ * @param onSent What to do once a bid went through and the form was emptied.
  * @returns The four fields, whether a bid is being sent, and the submit handler.
  */
 export function useLoanBidForm(
@@ -45,6 +46,7 @@ export function useLoanBidForm(
   playerId: LoanBidFormProps['playerId'],
   playerName: LoanBidFormProps['playerName'],
   wage: LoanBidFormProps['wage'],
+  onSent: LoanBidFormProps['onSent'],
 ): LoanBidFormState {
   const baseId = useId()
 
@@ -85,6 +87,7 @@ export function useLoanBidForm(
 
       setSeasons(DEFAULT_LOAN_LENGTH)
     },
+    onSent,
   })
 
   return {

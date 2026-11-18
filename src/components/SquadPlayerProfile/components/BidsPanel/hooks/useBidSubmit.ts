@@ -15,11 +15,13 @@ import type { BidSubmitOptions, BidSubmitState } from '../types'
  * - A submit while a bid is being sent does nothing.
  * - An invalid form shows its errors, then sends the focus to its first invalid control, which by
  *   then is marked invalid and described by its error.
- * - A bid that went through says so in a toast naming the player, then empties the form.
+ * - A bid that went through says so in a toast naming the player, empties the form, then runs
+ *   `onSent` so the panel can read the current bids again.
  * - A failed one says why in a toast naming the player, and the form keeps what was typed.
  * - A bid that settles after the form has gone still says how it went, and writes no state.
  *
- * @param options The player, the toasts' words, and what checks, sends and empties the form.
+ * @param options The player, the toasts' words, what checks, sends and empties the form, and what
+ * runs once a bid went through.
  * @returns Whether a bid is being sent, and the form's submit handler.
  */
 export function useBidSubmit({
@@ -29,6 +31,7 @@ export function useBidSubmit({
   validate,
   send,
   reset,
+  onSent,
 }: BidSubmitOptions): BidSubmitState {
   const [isPending, setIsPending] = useState(false)
 
@@ -68,6 +71,8 @@ export function useBidSubmit({
       setIsPending(false)
 
       reset()
+
+      onSent()
     }
 
     const onFailed = (cause: unknown) => {

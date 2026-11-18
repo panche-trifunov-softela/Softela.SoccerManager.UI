@@ -80,17 +80,17 @@ export interface PlayerTabReadState<T> {
   reload: () => void
 }
 
-/** A player a bid can be placed for, with the player's transfer value and weekly wage. */
+/** A player a bid can be placed for, with the player's weekly wage. */
 export interface BidsTarget {
   /** The player's name. */
   playerName: string
 
-  /** The player's transfer value in this league, in euros. */
-  value: number
-
   /** The player's contract wage at their club, in euros per week. */
   wage: number
 }
+
+/** The two kinds of bid a player can receive. */
+export type BidKind = 'transfer' | 'loan'
 
 /**
  * What the Bids tab shows: the forms to place a bid for a player of another club, or the bids

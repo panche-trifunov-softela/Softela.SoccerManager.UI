@@ -5,19 +5,27 @@ interface HistoryItemBase {
   /** What tells the row from the others; unique in the list. */
   key: string
 
-  /** The row's headline, beside the crest when there is one. */
+  /** The row's headline, beside the crest and the photo when there are any. */
   title: string
 
   /** The line under the headline. */
   meta: string
 
-  /** The line under `meta`, or `null` when the row has none. */
+  /**
+   * The second line, or `null` when the row has none: under `meta` from md, under the value
+   * below md.
+   */
   detail: string | null
 
-  /** The text at the right edge, or `null` when the row has none. */
+  /**
+   * The text at the row's end from md, on its own line under `meta` below md, or `null` when the
+   * row has none.
+   */
   value: string | null
 
-  /** The small line under the value, or `null` when the row has none. */
+  /**
+   * The small line under the value from md, beside it below md, or `null` when the row has none.
+   */
   note: string | null
 }
 
@@ -28,6 +36,12 @@ export interface CrestedHistoryItem extends HistoryItemBase {
 
   /** The address of the club's crest, or `null` to show the football in its place. */
   logoUrl: string | null
+
+  /**
+   * The address of the player's photo, drawn after the crest; `null` draws the person icon in its
+   * place. Left out, the row has no photo.
+   */
+  photoUrl?: string | null
 }
 
 /** A row with no crest at all: its text starts where a crest would. */

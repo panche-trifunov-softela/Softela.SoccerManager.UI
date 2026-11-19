@@ -26,6 +26,9 @@ export interface LeagueTeamTransferBidDto {
   /** The name of the player the bid is for. */
   playerName: string
 
+  /** The URL of the player's photo, or `null` when he has none. */
+  playerImageUrl: string | null
+
   /**
    * The identifier of the other club's league team: the bidder for a received bid, the selling
    * club for a placed one.

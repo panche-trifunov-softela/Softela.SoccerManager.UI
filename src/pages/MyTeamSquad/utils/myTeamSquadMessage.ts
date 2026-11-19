@@ -1,4 +1,4 @@
-import { CLUB_NOT_FOUND_MESSAGE } from '../constants'
+import { CLUB_NOT_FOUND_MESSAGE } from '@/constants/clubNotFound'
 
 /**
  * Says what shows instead of the squad table, if anything.

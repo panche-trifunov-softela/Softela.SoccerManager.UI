@@ -2,9 +2,6 @@ import type { InstructionField } from '@/types/instructionField'
 import type { PositionFit } from '@/types/positionFit'
 import type { SubstitutionDirection } from '@/types/substitutionDirection'
 
-/** What shows when the address names no valid league team id. */
-export const CLUB_NOT_FOUND_MESSAGE = 'This club could not be found.'
-
 /** What shows while the tactics are read. */
 export const TACTICS_LOADING_MESSAGE = 'Loading the tactics…'
 

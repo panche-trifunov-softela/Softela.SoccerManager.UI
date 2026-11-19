@@ -1,9 +1,6 @@
-import {
-  CLUB_NOT_FOUND_MESSAGE,
-  NO_FORMATION_MESSAGE,
-  NO_NEXT_MATCH_MESSAGE,
-  TACTICS_LOADING_MESSAGE,
-} from '../constants'
+import { CLUB_NOT_FOUND_MESSAGE } from '@/constants/clubNotFound'
+
+import { NO_FORMATION_MESSAGE, NO_NEXT_MATCH_MESSAGE, TACTICS_LOADING_MESSAGE } from '../constants'
 
 import { toTacticsBoard } from './toTacticsBoard'
 

@@ -1,11 +1,11 @@
-import { toBidKey, toBidMeta, toFeeText } from '@/components/SquadPlayerProfile/utils'
+import { toBidKey } from '@/utils/toBidKey'
+import { toBidMeta } from '@/utils/toBidMeta'
+import { toBuybackText } from '@/utils/toBuybackText'
+import { toFeeText } from '@/utils/toFeeText'
+import { toSwapPlayersText } from '@/utils/toSwapPlayersText'
 
-import { toBuybackText } from './toBuybackText'
-import { toSwapPlayersText } from './toSwapPlayersText'
-
+import type { HistoryItem } from '@/components/HistoryList'
 import type { LeaguePlayerTransferBidDto } from '@/types/leaguePlayerTransferBidDto'
-
-import type { HistoryItem } from '../../HistoryList'
 
 /**
  * Turns one transfer bid into a row of the history list.

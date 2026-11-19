@@ -32,6 +32,3 @@ export const CURRENT_BIDS_READ_MESSAGES: PlayerTabReadMessages = {
 
 /** What shows under the heading when no club has a bid on the player. */
 export const NO_CURRENT_BIDS_MESSAGE = 'No bids for this player yet.'
-
-/** What a row says, at the right edge, of a bid whose deal is agreed but not completed yet. */
-export const ACCEPTED_BID_LABEL = 'Accepted'

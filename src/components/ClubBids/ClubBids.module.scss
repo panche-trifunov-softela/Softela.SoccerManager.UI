@@ -1,0 +1,22 @@
+/* A section is a card with its heading over its list, or over the line saying it has no bids. */
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    h2 {
+        margin: 0;
+    }
+}
+
+/*
+ * The status tags are named after the status the API sends. The plain tag's text is already dark,
+ * so these only set the background.
+ */
+.status--2 {
+    background: var(--accent);
+}
+
+.status--4 {
+    background: var(--grass-deep);
+}

@@ -89,9 +89,6 @@ export interface BidsTarget {
   wage: number
 }
 
-/** The two kinds of bid a player can receive. */
-export type BidKind = 'transfer' | 'loan'
-
 /**
  * What the Bids tab shows: the forms to place a bid for a player of another club, or the bids
  * received for a player of the acting club itself.

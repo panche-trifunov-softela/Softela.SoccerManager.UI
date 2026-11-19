@@ -1,7 +1,6 @@
-import { toSeasonsText } from '@/components/SquadPlayerProfile/utils'
+import { BUYBACK_LINE_LABEL, BUYBACK_WITHIN_TEXT } from '@/constants/bidText'
 import { formatEuros } from '@/utils/formatEuros'
-
-import { BUYBACK_LINE_LABEL, BUYBACK_WITHIN_TEXT } from '../constants'
+import { toSeasonsText } from '@/utils/toSeasonsText'
 
 import type { LeaguePlayerTransferBidDto } from '@/types/leaguePlayerTransferBidDto'
 

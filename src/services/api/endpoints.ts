@@ -65,6 +65,18 @@ export const API_ROUTES = {
       `/api/league-teams/${id}/league-players/${playerId}`,
 
     /**
+     * The transfer bids of one club, placed and received, pending then completed, by the id of
+     * the club whose bids they are; only the club's current manager or an operator may read them.
+     */
+    transferBids: (id: number) => `/api/league-teams/${id}/transfer-bids`,
+
+    /**
+     * The loan bids of one club, placed and received, pending then completed, by the id of the
+     * club whose bids they are; only the club's current manager or an operator may read them.
+     */
+    loanBids: (id: number) => `/api/league-teams/${id}/loan-bids`,
+
+    /**
      * One player's transfers into clubs of the club's league, newest first, by the club's id and
      * the player's id; only the club's current manager or an operator may read them.
      */

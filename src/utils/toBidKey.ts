@@ -1,4 +1,4 @@
-import type { BidKind } from '../types'
+import type { BidKind } from '@/types/bidKind'
 
 /**
  * Names one bid so it can be told from every other in the panel. A transfer bid and a loan bid can

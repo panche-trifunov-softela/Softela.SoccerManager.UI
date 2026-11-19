@@ -1,16 +1,14 @@
 import {
-  ACCEPTED_BID_STATUS,
-  DOT_SEPARATOR,
   LOAN_BID_TAB_LABEL,
   TRANSFER_BID_TAB_LABEL,
 } from '@/components/SquadPlayerProfile/constants'
-import { toBidKey, toBidMeta } from '@/components/SquadPlayerProfile/utils'
+import { ACCEPTED_BID_STATUS } from '@/constants/bidStatus'
+import { ACCEPTED_BID_LABEL, DOT_SEPARATOR } from '@/constants/bidText'
+import { toBidKey } from '@/utils/toBidKey'
+import { toBidMeta } from '@/utils/toBidMeta'
 
-import { ACCEPTED_BID_LABEL } from '../constants'
-
+import type { HistoryItem } from '@/components/HistoryList'
 import type { LeaguePlayerBidderDto } from '@/types/leaguePlayerBidderDto'
-
-import type { HistoryItem } from '../../HistoryList'
 
 /**
  * Turns one club's bid on a player into a row of the history list. The terms of the bid are not

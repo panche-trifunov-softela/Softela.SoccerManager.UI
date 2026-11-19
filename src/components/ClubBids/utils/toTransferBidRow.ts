@@ -16,9 +16,10 @@ import type { ClubBidRow } from '../types'
  * Turns one transfer bid of a club into a list row.
  *
  * @param bid A transfer bid as the API returns it.
- * @returns The row: the other club's crest, the player's name, whether the bid was received or
- * placed with the other club, the season, the day and the manager, the swap line, the fee and the
- * buyback. The bid can be answered only when the club received it and it is still pending.
+ * @returns The row: the other club's crest, the player's photo, the player's name, whether the bid
+ * was received or placed with the other club, the season, the day and the manager, the swap line,
+ * the fee and the buyback. The bid can be answered only when the club received it and it is still
+ * pending.
  */
 export function toTransferBidRow(bid: LeagueTeamTransferBidDto): ClubBidRow {
   const isAnswerable = bid.isReceived && bid.status === PENDING_BID_STATUS
@@ -28,6 +29,7 @@ export function toTransferBidRow(bid: LeagueTeamTransferBidDto): ClubBidRow {
       key: toBidKey('transfer', bid.id),
       hasCrest: true,
       logoUrl: bid.teamLogoUrl,
+      photoUrl: bid.playerImageUrl,
       title: bid.playerName,
       meta: [bid.isReceived ? RECEIVED_LABEL : PLACED_LABEL, bid.teamName, toBidMeta(bid)].join(
         DOT_SEPARATOR,

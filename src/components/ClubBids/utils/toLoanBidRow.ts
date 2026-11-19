@@ -15,9 +15,10 @@ import type { ClubBidRow } from '../types'
  * Turns one loan bid of a club into a list row.
  *
  * @param bid A loan bid as the API returns it.
- * @returns The row: the other club's crest, the player's name, whether the bid was received or
- * placed with the other club, the season, the day and the manager, the loan's terms and the fee.
- * The bid can be answered only when the club received it and it is still pending.
+ * @returns The row: the other club's crest, the player's photo, the player's name, whether the bid
+ * was received or placed with the other club, the season, the day and the manager, the loan's
+ * terms and the fee. The bid can be answered only when the club received it and it is still
+ * pending.
  */
 export function toLoanBidRow(bid: LeagueTeamLoanBidDto): ClubBidRow {
   const isAnswerable = bid.isReceived && bid.status === PENDING_BID_STATUS
@@ -27,6 +28,7 @@ export function toLoanBidRow(bid: LeagueTeamLoanBidDto): ClubBidRow {
       key: toBidKey('loan', bid.id),
       hasCrest: true,
       logoUrl: bid.teamLogoUrl,
+      photoUrl: bid.playerImageUrl,
       title: bid.playerName,
       meta: [bid.isReceived ? RECEIVED_LABEL : PLACED_LABEL, bid.teamName, toBidMeta(bid)].join(
         DOT_SEPARATOR,

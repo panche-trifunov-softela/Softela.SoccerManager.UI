@@ -1,3 +1,5 @@
+@use '@/styles/breakpoints' as *;
+
 /* No bullets and no padding; the rows are set apart by a line between them. */
 .list {
     margin: 0;
@@ -5,30 +7,77 @@
     list-style: none;
 }
 
-/* The crest and the end column keep their width; the text takes what is left, and wraps. */
+/*
+ * A row is stacked on a phone and in columns from md. On a phone every part takes a line across
+ * the whole row, top to bottom: the crest and the photo beside the title, the line under it, the
+ * value with its note, the second line, the actions. A phone cannot spare the width of a value
+ * column and still show a long title.
+ * There is no row gap: a part a row lacks leaves an empty track of no height, so the space
+ * between lines is margins on the lines themselves.
+ * From md the row is three columns: the crest and the photo; the text, which takes what is left
+ * and wraps; and the end column. The actions take a line under the text and the end column.
+ */
 .row {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+        'images title'
+        'meta meta'
+        'end end'
+        'detail detail'
+        'actions actions';
     align-items: center;
-    gap: 12px;
+    column-gap: 12px;
     padding-block: 12px;
+
+    @include bp-up(md) {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-areas: none;
+        gap: 12px;
+    }
 
     & + & {
         border-top: 1px solid var(--border);
     }
 }
 
-/* A row with no crest has two columns: the text, which takes what is left, and the end column. */
+/* A row with no crest has one column on a phone, and from md the text and the end column. */
 .plain {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+        'title'
+        'meta'
+        'end'
+        'detail'
+        'actions';
+
+    @include bp-up(md) {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas: none;
+    }
 }
 
+/* The crest and the photo sit side by side in the first column. */
+.images {
+    grid-area: images;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* On a phone the text's lines are grid items of the row, so each takes its own area. */
 .text {
-    min-width: 0;
+    display: contents;
+
+    @include bp-up(md) {
+        display: block;
+        min-width: 0;
+    }
 }
 
 /* The title is in the header colour, like the club's name in the panel's header, so it reads darker than the line under it. */
 .title {
+    grid-area: title;
     margin: 0;
     color: var(--header);
     font-weight: 600;
@@ -56,31 +105,82 @@
 
 /* The line under the title is smaller and in the body text colour. */
 .meta {
-    margin: 2px 0 0;
+    grid-area: meta;
+    margin: 6px 0 0;
     color: var(--text);
+
+    @include bp-up(md) {
+        margin: 2px 0 0;
+    }
 }
 
-/* The value and its note are right-aligned and green, the note the smaller. */
+/* The second line is as the first; on a phone it is under the value, from md under the first. */
+.detail {
+    grid-area: detail;
+    margin: 4px 0 0;
+    color: var(--text);
+
+    @include bp-up(md) {
+        margin: 2px 0 0;
+    }
+}
+
+/* The value and its note are green: on one line on a phone, right-aligned and stacked from md. */
 .end {
-    text-align: end;
+    grid-area: end;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 8px;
     color: var(--success);
+
+    @include bp-up(md) {
+        display: block;
+        text-align: end;
+    }
 }
 
+/* The space above sits on the value and the note: the end block is drawn even without them. */
 .value {
-    margin: 0;
+    margin: 4px 0 0;
     font-weight: 600;
+
+    @include bp-up(md) {
+        margin: 0;
+    }
 }
 
 .note {
-    margin: 2px 0 0;
+    margin: 4px 0 0;
+
+    @include bp-up(md) {
+        margin: 2px 0 0;
+    }
 }
 
-/* A row's actions take a second line under its text and end columns, past the crest's column. */
+/* The actions take the last line on a phone, and a line under the text and the end from md. */
 .actions {
-    grid-column: 2 / -1;
+    grid-area: actions;
+    margin-top: 12px;
+
+    @include bp-up(md) {
+        grid-area: auto;
+        grid-column: 2 / -1;
+        margin-top: 0;
+    }
 }
 
 /* Without a crest the text is the first column, so the actions start there. */
 .plain .actions {
-    grid-column: 1 / -1;
+    @include bp-up(md) {
+        grid-column: 1 / -1;
+    }
+}
+
+/* From md the grid places the crest and the end column in order, as the text is one block again. */
+@include bp-up(md) {
+    .images,
+    .end {
+        grid-area: auto;
+    }
 }

@@ -1,4 +1,4 @@
-import { HistoryList } from '../HistoryList'
+import { HistoryList } from '@/components/HistoryList'
 
 import { useInjuriesPanel } from './useInjuriesPanel'
 

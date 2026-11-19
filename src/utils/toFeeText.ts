@@ -1,6 +1,5 @@
+import { FREE_TRANSFER_TEXT } from '@/constants/bidText'
 import { formatEuros } from '@/utils/formatEuros'
-
-import { FREE_TRANSFER_TEXT } from '../constants'
 
 /**
  * Writes a transfer or loan fee.

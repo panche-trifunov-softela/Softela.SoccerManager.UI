@@ -1,7 +1,7 @@
 import { AnswerButtons } from '@/components/AnswerButtons'
+import { HistoryList } from '@/components/HistoryList'
 
 import { BID_TYPE_TABS_LABEL } from '../../constants'
-import { HistoryList } from '../HistoryList'
 import { Tabs } from '../Tabs'
 
 import { useReceivedBidsPanel } from './useReceivedBidsPanel'

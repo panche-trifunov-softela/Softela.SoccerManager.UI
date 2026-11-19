@@ -1,4 +1,4 @@
-import type { HistoryItem } from '../HistoryList'
+import type { HistoryItem } from '@/components/HistoryList'
 
 /** What `InjuriesPanel` is handed. */
 export interface InjuriesPanelProps {

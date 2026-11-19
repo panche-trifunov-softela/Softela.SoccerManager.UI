@@ -1,6 +1,5 @@
+import { DOT_SEPARATOR, SEASON_LABEL } from '@/constants/bidText'
 import { formatCreatedAt } from '@/utils/formatCreatedAt'
-
-import { DOT_SEPARATOR, SEASON_LABEL } from '../constants'
 
 import type { LeaguePlayerTransferBidDto } from '@/types/leaguePlayerTransferBidDto'
 

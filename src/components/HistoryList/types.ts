@@ -46,7 +46,14 @@ export interface HistoryListProps {
 
   /**
    * Draws what the reader can do with one row, below its text and value, or `undefined` for a
-   * list whose rows have nothing to do. Called with the row's `key`.
+   * list whose rows have nothing to do. Called with the row's `key`; a row whose result is
+   * `null`, `undefined` or `false` gets no actions line.
    */
   renderActions?: (key: string) => ReactNode
+
+  /**
+   * Opens what a row's title names, by the row's `key`. When set, each title is a button; when
+   * not, a title is plain text.
+   */
+  onTitleClick?: (key: string) => void
 }

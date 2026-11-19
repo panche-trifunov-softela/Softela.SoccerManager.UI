@@ -1,8 +1,7 @@
 import { toInjuryDates } from './toInjuryDates'
 
+import type { HistoryItem } from '@/components/HistoryList'
 import type { PlayerInjuryDto } from '@/types/playerInjuryDto'
-
-import type { HistoryItem } from '../../HistoryList'
 
 /**
  * Turns one injury into a row of the history list.

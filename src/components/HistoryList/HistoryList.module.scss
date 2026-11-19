@@ -35,6 +35,25 @@
     overflow-wrap: anywhere;
 }
 
+/* A title that opens what it names looks like the plain title, wraps like it, and underlines on hover. */
+.titleButton {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    padding: 0;
+    color: var(--header);
+    font-weight: 600;
+    line-height: inherit;
+    text-align: start;
+    overflow-wrap: anywhere;
+    background: none;
+    border: 0;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
 /* The line under the title is smaller and in the body text colour. */
 .meta {
     margin: 2px 0 0;

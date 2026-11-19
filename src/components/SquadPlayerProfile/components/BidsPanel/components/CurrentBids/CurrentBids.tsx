@@ -1,4 +1,4 @@
-import { HistoryList } from '@/components/SquadPlayerProfile/components/HistoryList'
+import { HistoryList } from '@/components/HistoryList'
 
 import { CURRENT_BIDS_HEADING } from '../../constants'
 

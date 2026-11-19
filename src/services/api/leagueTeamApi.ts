@@ -8,9 +8,11 @@ import type { CreatedResourceDto } from '@/types/createdResourceDto'
 import type { LeaguePlayerBidderDto } from '@/types/leaguePlayerBidderDto'
 import type { LeaguePlayerBidsDto } from '@/types/leaguePlayerBidsDto'
 import type { LeagueSearchResultDto } from '@/types/leagueSearchResultDto'
+import type { LeagueTeamLoanBidsDto } from '@/types/leagueTeamLoanBidsDto'
 import type { LeagueTeamProfileDto } from '@/types/leagueTeamProfileDto'
 import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
 import type { LeagueTeamSquadPlayerDto } from '@/types/leagueTeamSquadPlayerDto'
+import type { LeagueTeamTransferBidsDto } from '@/types/leagueTeamTransferBidsDto'
 import type { NextMatchDto } from '@/types/nextMatchDto'
 import type { PlaceLoanBidRequest } from '@/types/placeLoanBidRequest'
 import type { PlaceTransferBidRequest } from '@/types/placeTransferBidRequest'
@@ -130,6 +132,46 @@ export function getLeaguePlayerProfile(
   const path = API_ROUTES.leagueTeams.leaguePlayer(leagueTeamId, playerId)
 
   return request<SquadPlayerProfileDto>(path, { signal })
+}
+
+/**
+ * Reads one league team's transfer bids, those it placed and those it received for its players,
+ * pending first and then completed, each newest first.
+ *
+ * @param leagueTeamId The league team's id: the club whose bids they are.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The pending bids and the completed ones (accepted or carried out); each list is empty
+ * when there are none.
+ * @throws {ApiError} When the API answers with an error status, such as 403 for a caller who does
+ * not manage the club.
+ */
+export function getLeagueTeamTransferBids(
+  leagueTeamId: number,
+  signal?: AbortSignal,
+): Promise<LeagueTeamTransferBidsDto> {
+  const path = API_ROUTES.leagueTeams.transferBids(leagueTeamId)
+
+  return request<LeagueTeamTransferBidsDto>(path, { signal })
+}
+
+/**
+ * Reads one league team's loan bids, those it placed and those it received for its players,
+ * pending first and then completed, each newest first.
+ *
+ * @param leagueTeamId The league team's id: the club whose bids they are.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The pending bids and the completed ones (accepted or carried out); each list is empty
+ * when there are none.
+ * @throws {ApiError} When the API answers with an error status, such as 403 for a caller who does
+ * not manage the club.
+ */
+export function getLeagueTeamLoanBids(
+  leagueTeamId: number,
+  signal?: AbortSignal,
+): Promise<LeagueTeamLoanBidsDto> {
+  const path = API_ROUTES.leagueTeams.loanBids(leagueTeamId)
+
+  return request<LeagueTeamLoanBidsDto>(path, { signal })
 }
 
 /**

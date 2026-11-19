@@ -1,4 +1,4 @@
-import { SWAP_LINE_LABEL, SWAP_PLAYER_SEPARATOR } from '../constants'
+import { SWAP_LINE_LABEL, SWAP_PLAYER_SEPARATOR } from '@/constants/bidText'
 
 import { toSwapPlayerText } from './toSwapPlayerText'
 

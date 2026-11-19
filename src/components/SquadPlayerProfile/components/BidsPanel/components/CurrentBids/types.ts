@@ -1,4 +1,4 @@
-import type { HistoryItem } from '@/components/SquadPlayerProfile/components/HistoryList'
+import type { HistoryItem } from '@/components/HistoryList'
 
 /** What `CurrentBids` is handed. */
 export interface CurrentBidsProps {

@@ -1,11 +1,11 @@
-import { ClubPlaceholderPage } from '@/components/ClubPlaceholderPage'
+import { ClubBids } from '@/components/ClubBids'
 
 /**
- * The loan bids of one team the signed-in user manages. A placeholder until the page has content
- * to show.
+ * The loan bids of one team the signed-in user manages, placed and received: the pending ones
+ * first, then the completed ones.
  *
  * @returns The rendered page.
  */
 export function MyTeamMarketLoanBids() {
-  return <ClubPlaceholderPage title="Loan bids" />
+  return <ClubBids kind="loan" />
 }

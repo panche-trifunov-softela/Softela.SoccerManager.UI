@@ -1,13 +1,12 @@
-import { SEASON_LABEL } from '@/components/SquadPlayerProfile/constants'
-import { toFeeText } from '@/components/SquadPlayerProfile/utils'
+import { SEASON_LABEL } from '@/constants/bidText'
+import { toFeeText } from '@/utils/toFeeText'
 
 import { LOAN_NOTE, SWAP_TEXT } from '../constants'
 
 import { toSwapLine } from './toSwapLine'
 
+import type { HistoryItem } from '@/components/HistoryList'
 import type { PlayerTransferDto } from '@/types/playerTransferDto'
-
-import type { HistoryItem } from '../../HistoryList'
 
 /**
  * Turns one transfer, swap or loan into a row of the history list.

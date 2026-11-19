@@ -1,4 +1,4 @@
-import { faUsers, faChalkboardUser, faStore } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faChalkboardUser, faPeopleArrows } from '@fortawesome/free-solid-svg-icons'
 
 import { ROUTES } from '@/constants/routes'
 
@@ -24,12 +24,12 @@ export const SIDEBAR_ITEMS: readonly SidebarItemDefinition[] = [
   {
     kind: 'group',
     label: 'Market',
-    icon: faStore,
+    icon: faPeopleArrows,
     access: 'manager',
     links: [
-      { label: 'Transfer bids', route: ROUTES.myTeamMarketTransferBids },
-      { label: 'Loan bids', route: ROUTES.myTeamMarketLoanBids },
-      { label: 'Shortlisted players', route: ROUTES.myTeamMarketShortlist },
+      { label: 'Transfers', route: ROUTES.myTeamMarketTransferBids },
+      { label: 'Loans', route: ROUTES.myTeamMarketLoanBids },
+      { label: 'Shortlist', route: ROUTES.myTeamMarketShortlist },
       { label: 'Search players', route: ROUTES.myTeamMarketSearch },
     ],
   },

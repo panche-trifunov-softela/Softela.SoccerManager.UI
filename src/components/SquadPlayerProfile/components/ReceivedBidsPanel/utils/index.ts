@@ -1,8 +1,4 @@
-export { toBidSubject } from './toBidSubject'
 export { toBidTabLabel } from './toBidTabLabel'
-export { toBuybackText } from './toBuybackText'
 export { toLoanBidItem } from './toLoanBidItem'
 export { toReceivedBids } from './toReceivedBids'
-export { toSwapPlayerText } from './toSwapPlayerText'
-export { toSwapPlayersText } from './toSwapPlayersText'
 export { toTransferBidItem } from './toTransferBidItem'

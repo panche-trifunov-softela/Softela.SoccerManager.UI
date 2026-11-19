@@ -1,3 +1,4 @@
+import { useBidAnswers } from '@/hooks/useBidAnswers'
 import { getLeaguePlayerBids } from '@/services/api'
 
 import {
@@ -9,7 +10,6 @@ import {
 import { usePlayerTabRead } from '../../hooks/usePlayerTabRead'
 
 import { BIDS_READ_MESSAGES, NO_LOAN_BIDS_MESSAGE, NO_TRANSFER_BIDS_MESSAGE } from './constants'
-import { useBidAnswers } from './hooks/useBidAnswers'
 import { toBidTabLabel, toLoanBidItem, toReceivedBids, toTransferBidItem } from './utils'
 
 import type { ReceivedBidsPanelState } from './types'
@@ -40,9 +40,9 @@ export function useReceivedBidsPanel(
     BIDS_READ_MESSAGES,
   )
 
-  const bids = data === null ? [] : toReceivedBids(data)
+  const bids = data === null ? [] : toReceivedBids(data, playerId)
 
-  const { answerButtonsFor } = useBidAnswers(leagueTeamId, playerId, bids, reload)
+  const { answerButtonsFor } = useBidAnswers(leagueTeamId, bids, reload)
 
   if (data === null) return { tabs: [], message, answerButtonsFor }
 

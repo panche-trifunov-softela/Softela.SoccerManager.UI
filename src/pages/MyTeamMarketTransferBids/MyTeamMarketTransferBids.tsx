@@ -1,11 +1,11 @@
-import { ClubPlaceholderPage } from '@/components/ClubPlaceholderPage'
+import { ClubBids } from '@/components/ClubBids'
 
 /**
- * The transfer bids of one team the signed-in user manages. A placeholder until the page has
- * content to show.
+ * The transfer bids of one team the signed-in user manages, placed and received: the pending ones
+ * first, then the completed ones.
  *
  * @returns The rendered page.
  */
 export function MyTeamMarketTransferBids() {
-  return <ClubPlaceholderPage title="Transfer bids" />
+  return <ClubBids kind="transfer" />
 }

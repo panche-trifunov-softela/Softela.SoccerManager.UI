@@ -1,6 +1,31 @@
 @use '@/styles/breakpoints' as *;
 @use '@/styles/player-name' as *;
 
+/* Shows Position, Nationality and Wage, and takes the position from under the name. */
+@mixin wide-columns {
+    .position,
+    .nationality,
+    .wage {
+        display: table-cell;
+    }
+
+    .position_inline {
+        display: none;
+    }
+
+    .position {
+        width: 140px;
+    }
+
+    .nationality {
+        width: 150px;
+    }
+
+    .wage {
+        width: 120px;
+    }
+}
+
 /*
  * Column rules for the players table. Everything here nests under the module's
  * own .table so it outranks the global .table th / .table td rules. Widths are
@@ -8,9 +33,10 @@
  * first column's start and the last column's end, which take the card padding.
  * The player column has no width and takes whatever is left.
  *
- * Below md only the photo, Player, Rating and the vote buttons show, with the
- * position under the name. md adds Age, Club and Value; lg adds Position,
- * Nationality and Wage, and takes the position from under the name.
+ * Below md only the photo, Player and Rating show, with the position under the
+ * name, and the actions column when there is one. md adds Age, Club and Value;
+ * lg adds Position, Nationality and Wage, and takes the position from under the
+ * name. A table that shares the row with the docked club menu waits for xl.
  */
 .table {
     /* The photo is the first column, so the card padding is its start. Its end
@@ -41,10 +67,16 @@
         width: 80px;
     }
 
-    /* The two 32px vote buttons and the 8px between them. The DOM's last child, so
-       the global .table gives it the card padding at its end. */
-    .vote {
-        width: calc(12px + 72px + var(--card-padding));
+    /* With no actions column Rating is the last cell, which the global .table rule
+       pads with the card padding at its end, so it keeps its 56px of content. */
+    .rating:last-child {
+        width: calc(12px + 56px + var(--card-padding));
+    }
+
+    /* The consumer's class sizes this column; the declaration keeps the class in the module,
+       as Sass drops an empty rule. */
+    .actions {
+        text-align: start;
     }
 
     .position_inline {
@@ -76,27 +108,15 @@
         }
     }
 
-    @include bp-up(lg) {
-        .position,
-        .nationality,
-        .wage {
-            display: table-cell;
+    &:not(.late) {
+        @include bp-up(lg) {
+            @include wide-columns;
         }
+    }
 
-        .position_inline {
-            display: none;
-        }
-
-        .position {
-            width: 140px;
-        }
-
-        .nationality {
-            width: 150px;
-        }
-
-        .wage {
-            width: 120px;
+    &.late {
+        @include bp-up(xl) {
+            @include wide-columns;
         }
     }
 }

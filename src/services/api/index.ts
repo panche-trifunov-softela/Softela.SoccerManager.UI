@@ -21,6 +21,7 @@ export {
   placeLoanBid,
   placeTransferBid,
   searchLeague,
+  searchPlayersInLeague,
 } from './leagueTeamApi'
 export { getMyLeagueTeamManagers } from './leagueTeamManagerApi'
 export {

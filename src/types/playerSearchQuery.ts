@@ -1,10 +1,9 @@
 import type { PlayerSortBy } from './playerSortBy'
 
 /**
- * The query parameters of `GET /api/players/search`. Every one is optional;
- * the API applies its own default to each one left out.
- *
- * Mirrors the query of `GET /api/players/search`.
+ * The query parameters of both player searches, `GET /api/players/search` and
+ * `GET /api/league-teams/{id}/league-players`. Every one is optional; the API applies its
+ * own default to each one left out.
  */
 export interface PlayerSearchQuery {
   /** Keeps only the players whose name contains it; at most 100 characters. */
@@ -13,7 +12,11 @@ export interface PlayerSearchQuery {
   /** Keeps only the players whose main position this is. */
   positionId?: number
 
-  /** Keeps only the players of this team. */
+  /**
+   * Keeps only the players at this club: the real-life club for the players search; for the
+   * league player search, the club of the registration shown for him in the league (the searching
+   * club's own first, else his lowest), which a free agent never matches.
+   */
   teamId?: number
 
   /** Keeps only the players of this national team. */

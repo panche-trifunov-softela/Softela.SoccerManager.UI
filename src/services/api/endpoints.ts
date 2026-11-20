@@ -98,6 +98,12 @@ export const API_ROUTES = {
     search: (id: number) => `/api/league-teams/${id}/search`,
 
     /**
+     * One page of the players of the club's league, registered or free agents, filtered, sorted
+     * and paged, by the club's id; only the club's current manager or an operator may read them.
+     */
+    playersInLeague: (id: number) => `/api/league-teams/${id}/league-players`,
+
+    /**
      * The pending transfer and loan bids for one player, newest first, by the id of the club
      * holding the player and the player's id; only that club's current manager or an operator may
      * read them.

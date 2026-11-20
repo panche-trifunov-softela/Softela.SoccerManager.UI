@@ -19,7 +19,7 @@ import {
 import { replaceCastVote } from '../utils'
 
 import type { VoteButtonsProps, VoteDirection } from '../components/VoteButtons'
-import type { CastVote, CastVotes, PlayerRow, PlayerVotesState } from '../types'
+import type { CastVote, CastVotes, PlayerVotesState, RatingsRow } from '../types'
 
 /**
  * Casts, changes and removes the reader's votes on the players' current ratings. A change shows on
@@ -43,13 +43,13 @@ export function usePlayerVotes(): PlayerVotesState {
   // The players with a request in flight. Nothing renders from it, so it is a ref, not state.
   const sendingIds = useRef(new Set<number>())
 
-  const castOf = (row: PlayerRow): CastVote | undefined => {
+  const castOf = (row: RatingsRow): CastVote | undefined => {
     const cast = castVotes[row.id]
 
     return cast?.rating === row.rating ? cast : undefined
   }
 
-  const myVoteOf = (row: PlayerRow): Pick<PlayerRow, 'myVote' | 'myVoteId'> => {
+  const myVoteOf = (row: RatingsRow): Pick<RatingsRow, 'myVote' | 'myVoteId'> => {
     const cast = castOf(row)
 
     return cast === undefined
@@ -57,7 +57,7 @@ export function usePlayerVotes(): PlayerVotesState {
       : { myVote: cast.direction, myVoteId: cast.id }
   }
 
-  const castVote = (row: PlayerRow, direction: VoteDirection) => {
+  const castVote = (row: RatingsRow, direction: VoteDirection) => {
     const sending: CastVote = { direction, id: null, rating: row.rating }
     const previous = castVotes[row.id]
 
@@ -83,7 +83,7 @@ export function usePlayerVotes(): PlayerVotesState {
       })
   }
 
-  const changeVote = (row: PlayerRow, direction: VoteDirection, id: number) => {
+  const changeVote = (row: RatingsRow, direction: VoteDirection, id: number) => {
     // The vote keeps its id: the update only turns its direction.
     const sending: CastVote = { direction, id, rating: row.rating }
     const previous = castVotes[row.id]
@@ -107,7 +107,7 @@ export function usePlayerVotes(): PlayerVotesState {
       })
   }
 
-  const removeVote = (row: PlayerRow, id: number) => {
+  const removeVote = (row: RatingsRow, id: number) => {
     const removing: CastVote = { direction: null, id: null, rating: row.rating }
     const previous = castVotes[row.id]
 
@@ -130,7 +130,7 @@ export function usePlayerVotes(): PlayerVotesState {
       })
   }
 
-  const vote = (row: PlayerRow, direction: VoteDirection) => {
+  const vote = (row: RatingsRow, direction: VoteDirection) => {
     if (sendingIds.current.has(row.id)) return
 
     const { myVote, myVoteId } = myVoteOf(row)
@@ -154,7 +154,7 @@ export function usePlayerVotes(): PlayerVotesState {
     changeVote(row, direction, myVoteId)
   }
 
-  const voteButtonsFor = (row: PlayerRow): VoteButtonsProps => ({
+  const voteButtonsFor = (row: RatingsRow): VoteButtonsProps => ({
     playerName: row.name,
     vote: myVoteOf(row).myVote,
     onVote: (direction) => {

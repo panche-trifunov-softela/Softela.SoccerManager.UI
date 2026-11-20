@@ -17,7 +17,9 @@ import type { NextMatchDto } from '@/types/nextMatchDto'
 import type { PlaceLoanBidRequest } from '@/types/placeLoanBidRequest'
 import type { PlaceTransferBidRequest } from '@/types/placeTransferBidRequest'
 import type { PlayerInjuryDto } from '@/types/playerInjuryDto'
+import type { PlayerSearchQuery } from '@/types/playerSearchQuery'
 import type { PlayerTransferDto } from '@/types/playerTransferDto'
+import type { PlayersInLeagueResultDto } from '@/types/playersInLeagueResultDto'
 import type { SquadPlayerProfileDto } from '@/types/squadPlayerProfileDto'
 import type { SuccessResultDto } from '@/types/successResultDto'
 
@@ -278,6 +280,27 @@ export function searchLeague(
   const path = API_ROUTES.leagueTeams.search(leagueTeamId) + toQueryString({ searchTerm })
 
   return request<LeagueSearchResultDto>(path, { signal })
+}
+
+/**
+ * Searches the players of a club's league, registered or free agents, filtered, sorted and paged
+ * by the API. A registered player shows the club he is registered at in the league.
+ *
+ * @param leagueTeamId The acting club's league team id.
+ * @param query The search, filters, sort and page; a member left out takes the API's default.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns One page of the matching players, with the count of all of them.
+ * @throws {ApiError} When the API answers with an error status, such as 403 for a caller who does
+ * not manage the club.
+ */
+export function searchPlayersInLeague(
+  leagueTeamId: number,
+  query: PlayerSearchQuery,
+  signal?: AbortSignal,
+): Promise<PlayersInLeagueResultDto> {
+  const path = API_ROUTES.leagueTeams.playersInLeague(leagueTeamId) + toQueryString({ ...query })
+
+  return request<PlayersInLeagueResultDto>(path, { signal })
 }
 
 /**

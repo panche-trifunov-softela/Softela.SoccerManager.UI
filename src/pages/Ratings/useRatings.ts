@@ -1,55 +1,49 @@
-import { useState } from 'react'
+import { useMemo } from 'react'
 
-import { DESCENDING_FIRST, INITIAL_QUERY } from './constants'
+import { useOpenPlayerProfile } from '@/hooks/useOpenPlayerProfile'
+import { usePlayerSearchQuery } from '@/hooks/usePlayerSearchQuery'
+import { usePlayerSearchRead } from '@/hooks/usePlayerSearchRead'
+import { searchPlayers } from '@/services/api'
 
-import type { PlayerSearchQuery } from '@/types/playerSearchQuery'
-import type { PlayerSortBy } from '@/types/playerSortBy'
+import { usePlayerVotes } from './hooks'
+import { toRatingsRow } from './utils'
 
-import type { PlayerFilterChange } from './components/PlayerFilters'
-import type { RatingsState } from './types'
+import type { RatingsRow, RatingsState } from './types'
 
 /**
- * Holds the search the Ratings page shows, and the ways to change it.
+ * Holds the search the Ratings page shows, reads its page of players, and works out the rows and
+ * the vote buttons.
  *
- * - Any search, filter or sort change returns to page 1, since the page the
- *   reader was on may not exist in the new results.
- * - A repeated click on the sorted column flips its direction.
- * - A newly sorted column starts in the direction `DESCENDING_FIRST` gives it.
- * - Every change makes a new query object, which is what lets a repeated
- *   search read again.
+ * - The search and the read behave as `usePlayerSearchQuery` and `usePlayerSearchRead` say.
+ * - A row's name opens the player's profile.
  *
- * @returns The query, and the handlers that change it.
+ * @returns The query and its handlers, what the players table is handed, and the vote buttons'
+ * props for a row.
  */
 export function useRatings(): RatingsState {
-  const [query, setQuery] = useState<PlayerSearchQuery>(INITIAL_QUERY)
+  const { query, search, filter, sort, goToPage } = usePlayerSearchQuery()
 
-  const search = (value: string) => {
-    const trimmed = value.trim()
+  const { result, isLoading, error } = usePlayerSearchRead(searchPlayers, query)
 
-    setQuery((current) => ({
-      ...current,
-      searchTerm: trimmed === '' ? undefined : trimmed,
-      page: 1,
-    }))
+  const rows = useMemo(() => {
+    const today = new Date()
+
+    return (result?.items ?? []).map((item) => toRatingsRow(item, today))
+  }, [result])
+
+  const { voteButtonsFor } = usePlayerVotes()
+
+  const { openPlayerProfile } = useOpenPlayerProfile()
+
+  const onOpen = (row: RatingsRow) => {
+    openPlayerProfile({ playerId: row.id, name: row.name })
   }
 
-  const filter = (change: PlayerFilterChange) => {
-    setQuery((current) => ({ ...current, ...change, page: 1 }))
+  return {
+    query,
+    search,
+    filter,
+    table: { query, rows, result, isLoading, error, onSort: sort, onPageChange: goToPage, onOpen },
+    voteButtonsFor,
   }
-
-  const sort = (sortBy: PlayerSortBy) => {
-    setQuery((current) => ({
-      ...current,
-      sortBy,
-      sortDescending:
-        current.sortBy === sortBy ? !current.sortDescending : DESCENDING_FIRST.includes(sortBy),
-      page: 1,
-    }))
-  }
-
-  const goToPage = (page: number) => {
-    setQuery((current) => ({ ...current, page }))
-  }
-
-  return { query, search, filter, sort, goToPage }
 }

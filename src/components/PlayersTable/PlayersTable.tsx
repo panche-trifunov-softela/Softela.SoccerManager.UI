@@ -1,31 +1,28 @@
 import { PlayerPhoto } from '@/components/PlayerPhoto'
+import { MISSING } from '@/constants/missing'
 
 import { Pager } from './components/Pager'
 import { SortableHeader } from './components/SortableHeader'
-import { VoteButtons } from './components/VoteButtons'
-import { usePlayerVotes } from './hooks'
 import { usePlayersTable } from './usePlayersTable'
 
 import styles from './PlayersTable.module.scss'
 
-import type { PlayersTableProps } from './types'
+import type { PlayerRow, PlayersTableProps } from './types'
 
 /**
- * The players the query finds: one row per player, from their photo to the
- * buttons that vote on their rating, with the headings that sort and a pager
- * under them.
+ * A page of players: one row per player, from their photo to their rating and an optional extra
+ * column, with the headings that sort and a pager under them.
  *
- * @param props The query being shown, and what to call when the reader sorts
- * or changes page.
- * @returns The rendered table and pager. The table, its headings and the pager
- * always render: a loading, error or empty state shows as a message under the
- * headings, in a live region. How a vote went is put into words in a toast. A player's name is a
- * button that opens their profile.
+ * @param props The query and the page being shown, whether it is loading, what to call when the
+ * reader sorts, changes page or opens a player, and the extra column if there is one.
+ * @returns The rendered table and pager. The table, its headings and the pager always render: a
+ * loading, error or empty state shows as a message under the headings, in a live region. A
+ * player's name is a button that opens their profile.
  */
-export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps) {
+export function PlayersTable<TRow extends PlayerRow>(props: PlayersTableProps<TRow>) {
+  const { rows, isLoading, onSort, onOpen, actions, lateColumns } = props
+
   const {
-    rows,
-    isLoading,
     message,
     sortBy,
     sortDescending,
@@ -34,14 +31,15 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
     canGoForward,
     goToPrevious,
     goToNext,
-    showProfile,
-  } = usePlayersTable(query, onPageChange)
-
-  const { voteButtonsFor } = usePlayerVotes()
+  } = usePlayersTable(props)
 
   return (
     <div className="card">
-      <table className={`table ${styles.table}`} aria-label="Players" aria-busy={isLoading}>
+      <table
+        className={`table ${styles.table}${lateColumns === true ? ` ${styles.late}` : ''}`}
+        aria-label="Players"
+        aria-busy={isLoading}
+      >
         <thead>
           <tr>
             <th scope="col" className={styles.photo}>
@@ -104,9 +102,11 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
               onSort={onSort}
             />
 
-            <th scope="col" className={styles.vote}>
-              <span className="visually-hidden">Vote</span>
-            </th>
+            {actions !== undefined && (
+              <th scope="col" className={`${styles.actions} ${actions.className}`}>
+                <span className="visually-hidden">{actions.label}</span>
+              </th>
+            )}
           </tr>
         </thead>
 
@@ -123,7 +123,7 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
                   className={`h4 text-overflow d-block focus-ring ${styles.name}`}
                   aria-haspopup="dialog"
                   onClick={() => {
-                    showProfile(row)
+                    onOpen(row)
                   }}
                 >
                   {row.name}
@@ -149,12 +149,16 @@ export function PlayersTable({ query, onSort, onPageChange }: PlayersTableProps)
               <td className={`text-12 ${styles.wage}`}>{row.wage}</td>
 
               <td className={styles.rating}>
-                <span className="tag tag--accent tag--inline">{row.rating}</span>
+                {row.rating === null ? (
+                  MISSING
+                ) : (
+                  <span className="tag tag--accent tag--inline">{row.rating}</span>
+                )}
               </td>
 
-              <td className={styles.vote}>
-                <VoteButtons {...voteButtonsFor(row)} />
-              </td>
+              {actions !== undefined && (
+                <td className={`${styles.actions} ${actions.className}`}>{actions.render(row)}</td>
+              )}
             </tr>
           ))}
         </tbody>

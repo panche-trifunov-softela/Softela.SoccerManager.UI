@@ -1,0 +1,5 @@
+/* The two 32px vote buttons and the 8px between them, plus the 12px cell padding and the card
+   padding the last cell gets at its end. */
+.vote {
+    width: calc(12px + 72px + var(--card-padding));
+}

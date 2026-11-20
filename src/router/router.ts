@@ -12,6 +12,7 @@ import { MyTeamMarketSearch } from '@/pages/MyTeamMarketSearch'
 import { MyTeamMarketShortlist } from '@/pages/MyTeamMarketShortlist'
 import { MyTeamMarketTransferBids } from '@/pages/MyTeamMarketTransferBids'
 import { MyTeamNewsFeed } from '@/pages/MyTeamNewsFeed'
+import { MyTeamSchedule } from '@/pages/MyTeamSchedule'
 import { MyTeamSquad } from '@/pages/MyTeamSquad'
 import { MyTeamTactics } from '@/pages/MyTeamTactics'
 import { NotFound } from '@/pages/NotFound'
@@ -51,6 +52,7 @@ export const router = createBrowserRouter([
             ],
           },
           { path: ROUTES.myTeamSquad, Component: MyTeamSquad },
+          { path: ROUTES.myTeamSchedule, Component: MyTeamSchedule },
           { path: ROUTES.addTeam, Component: AddTeam },
           { path: ROUTES.availableTeams, Component: AvailableTeams },
           { path: ROUTES.ratings, Component: Ratings },

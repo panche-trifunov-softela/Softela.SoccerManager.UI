@@ -44,15 +44,6 @@ export const SITUATION_DELETE_REFRESH_MESSAGE =
 /** Joins a situation's minute and its situation in its name, for example `60 · Losing`. */
 export const SITUATION_LABEL_SEPARATOR = ' · '
 
-/** Names the opponent of a match that has no second participant yet. */
-export const OPPONENT_TO_BE_DECIDED = 'Opponent to be decided'
-
-/** The venue label of a match the club plays at home. */
-export const HOME_VENUE_LABEL = 'Home'
-
-/** The venue label of a match the club plays away. */
-export const AWAY_VENUE_LABEL = 'Away'
-
 /** Names a lineup player the squad does not list. */
 export const UNKNOWN_PLAYER_NAME = 'Unknown player'
 

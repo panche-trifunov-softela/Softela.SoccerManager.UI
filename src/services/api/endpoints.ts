@@ -57,6 +57,12 @@ export const API_ROUTES = {
     nextMatch: (id: number) => `/api/league-teams/${id}/next-match`,
 
     /**
+     * Every match of one league team in its League's latest season, earliest first, each with its
+     * score once finished; any signed-in caller may read it, and it is empty for an unknown club.
+     */
+    schedule: (id: number) => `/api/league-teams/${id}/schedule`,
+
+    /**
      * One player as the club's league has them, by the club's id and the player's id: the
      * club's own registration, or else one at another club of the same league; only the club's
      * current manager or an operator may read it.

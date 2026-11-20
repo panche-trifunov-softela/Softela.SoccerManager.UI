@@ -1,4 +1,3 @@
-export { formatKickOff } from './formatKickOff'
 export { isSameSituation } from './isSameSituation'
 export { resolveTap } from './resolveTap'
 export { toLineupIndex } from './toLineupIndex'

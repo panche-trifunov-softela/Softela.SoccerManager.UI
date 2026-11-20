@@ -1,6 +1,6 @@
-import { AWAY_VENUE_LABEL, HOME_VENUE_LABEL, OPPONENT_TO_BE_DECIDED } from '../constants'
-
-import { formatKickOff } from './formatKickOff'
+import { OPPONENT_TO_BE_DECIDED } from '@/constants/opponentToBeDecided'
+import { AWAY_VENUE_LABEL, HOME_VENUE_LABEL } from '@/constants/venueLabels'
+import { formatKickOff } from '@/utils/formatKickOff'
 
 import type { NextMatchDto } from '@/types/nextMatchDto'
 

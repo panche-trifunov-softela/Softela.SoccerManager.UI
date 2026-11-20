@@ -21,6 +21,12 @@ export const ROUTES = {
    */
   myTeamSquad: '/league-teams/:leagueTeamId/squad',
 
+  /**
+   * The schedule of one club, in one league: every match of its League's latest season. Every
+   * signed-in user may open it.
+   */
+  myTeamSchedule: '/league-teams/:leagueTeamId/schedule',
+
   /** The tactics of one team the signed-in user manages, in one league; managers only. */
   myTeamTactics: '/league-teams/:leagueTeamId/tactics',
 

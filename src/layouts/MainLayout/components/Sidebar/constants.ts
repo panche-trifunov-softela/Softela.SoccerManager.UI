@@ -1,4 +1,9 @@
-import { faUsers, faChalkboardUser, faPeopleArrows } from '@fortawesome/free-solid-svg-icons'
+import {
+  faUsers,
+  faCalendarDays,
+  faChalkboardUser,
+  faPeopleArrows,
+} from '@fortawesome/free-solid-svg-icons'
 
 import { ROUTES } from '@/constants/routes'
 
@@ -14,6 +19,13 @@ export const SIDEBAR_LABEL = 'Club'
  */
 export const SIDEBAR_ITEMS: readonly SidebarItemDefinition[] = [
   { kind: 'link', label: 'Squad', route: ROUTES.myTeamSquad, icon: faUsers, access: 'everyone' },
+  {
+    kind: 'link',
+    label: 'Schedule',
+    route: ROUTES.myTeamSchedule,
+    icon: faCalendarDays,
+    access: 'everyone',
+  },
   {
     kind: 'link',
     label: 'Tactics',

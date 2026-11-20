@@ -1,0 +1,73 @@
+@use '@/styles/breakpoints' as *;
+
+/*
+ * Column rules for the schedule table. Everything here nests under the module's own
+ * .table so it outranks the global .table th / .table td rules. Widths are
+ * border-box, so each one includes the cell's padding: 12px a side, except the
+ * first column's start and the last column's end, which take the card padding.
+ * The opponent column has no width and takes whatever is left.
+ *
+ * Below md only Kick-off, Opponent and Result show. md adds Competition and widens the two
+ * fixed columns.
+ */
+.table {
+    /* The first column, so its start is the card padding. Below md the kick-off wraps to two
+       lines (the date, then the time) in 84px, which leaves the opponent's name about 95px
+       at 393. */
+    .kick_off {
+        width: calc(var(--card-padding) + 84px);
+    }
+
+    .competition {
+        display: none;
+    }
+
+    /* 56px of content still holds a score such as 10–12 and "4–3 pens".
+       The DOM's last child, so the global .table gives it the card padding at its end. */
+    .result {
+        width: calc(12px + 56px + var(--card-padding));
+        text-align: center;
+    }
+
+    @include bp-up(md) {
+        .kick_off {
+            width: calc(var(--card-padding) + 108px);
+        }
+
+        .result {
+            width: calc(12px + 72px + var(--card-padding));
+        }
+
+        .competition {
+            display: table-cell;
+            width: 220px;
+        }
+    }
+}
+
+/* Lets the opponent's name ellipsize inside the flex row instead of stretching it. */
+.opponent {
+    min-width: 0;
+}
+
+/* A shoot-out score sits under the pill. */
+.shootout {
+    margin-block-start: 4px;
+}
+
+/* Fixed tones like .level-pill's: --header-dark is WHITE and --header-light is DARK, named
+   for the theme they serve. The class comes straight from the API's outcome number. */
+.outcome--1 {
+    background: var(--green);
+    color: var(--header-dark);
+}
+
+.outcome--2 {
+    background: var(--accent);
+    color: var(--header-light);
+}
+
+.outcome--3 {
+    background: var(--red);
+    color: var(--header-dark);
+}

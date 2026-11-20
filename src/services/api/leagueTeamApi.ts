@@ -10,6 +10,7 @@ import type { LeaguePlayerBidsDto } from '@/types/leaguePlayerBidsDto'
 import type { LeagueSearchResultDto } from '@/types/leagueSearchResultDto'
 import type { LeagueTeamLoanBidsDto } from '@/types/leagueTeamLoanBidsDto'
 import type { LeagueTeamProfileDto } from '@/types/leagueTeamProfileDto'
+import type { LeagueTeamScheduleMatchDto } from '@/types/leagueTeamScheduleMatchDto'
 import type { LeagueTeamSquadMemberDto } from '@/types/leagueTeamSquadMemberDto'
 import type { LeagueTeamSquadPlayerDto } from '@/types/leagueTeamSquadPlayerDto'
 import type { LeagueTeamTransferBidsDto } from '@/types/leagueTeamTransferBidsDto'
@@ -113,6 +114,25 @@ export async function getLeagueTeamNextMatch(
   const nextMatch = await request<NextMatchDto | undefined>(path, { signal })
 
   return nextMatch ?? null
+}
+
+/**
+ * Reads one league team's schedule: every match of the club in its League's latest season, with
+ * the score of each finished one, the same for every signed-in caller.
+ *
+ * @param leagueTeamId The league team's id.
+ * @param signal Aborts the request, normally from the calling hook's cleanup.
+ * @returns The matches, earliest first; an empty list for an unknown club or a League with no
+ * season.
+ * @throws {ApiError} When the API answers with an error status.
+ */
+export function getLeagueTeamSchedule(
+  leagueTeamId: number,
+  signal?: AbortSignal,
+): Promise<LeagueTeamScheduleMatchDto[]> {
+  const path = API_ROUTES.leagueTeams.schedule(leagueTeamId)
+
+  return request<LeagueTeamScheduleMatchDto[]>(path, { signal })
 }
 
 /**

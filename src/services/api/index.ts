@@ -15,6 +15,7 @@ export {
   getLeagueTeamLoanBids,
   getLeagueTeamNextMatch,
   getLeagueTeamProfile,
+  getLeagueTeamSchedule,
   getLeagueTeamSquad,
   getLeagueTeamSquadMembers,
   getLeagueTeamTransferBids,
